@@ -1,0 +1,90 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+const { User, Status, Church } = require('./');
+
+const Member = sequelize.define('Member', {
+  rut: {
+    type: DataTypes.STRING(12),
+    allowNull: false,
+    unique: true,
+    primaryKey: true,
+  },
+  names: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastNameDad: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastNameMom: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  dateOfBirth: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  telephone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  mobile: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  maritalStatus: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  probationStartDate: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  fullMembershipDate: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  churchId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Church,
+      table: 'Churches',
+      key: 'id',
+    },
+  },
+  statusId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Status,
+      table: 'Statuses',
+      key: 'id',
+    },
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: User,
+      table: 'Users',
+      key: 'id',
+    },
+  },
+});
+
+module.exports = Member;
+
+Member.sync({ force: false }).then(async () => {
+  console.log('Tabla Miembro sincronizada');
+});
