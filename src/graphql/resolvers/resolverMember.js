@@ -24,6 +24,7 @@ const resolversMember = {
 
   MemberMutation: {
     create: async (args, context) => {
+
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
@@ -66,7 +67,7 @@ const resolversMember = {
           email,
           maritalStatus,
           probationStartDate,
-          fullMembershipDate: '2000-01-01',
+          fullMembershipDate,
           churchId,
           statusId,
           userId,
