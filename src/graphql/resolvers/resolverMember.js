@@ -110,7 +110,6 @@ const resolversMember = {
       try {
         await Member.update(
           {
-            rut,
             names,
             lastNameDad,
             lastNameMom,
