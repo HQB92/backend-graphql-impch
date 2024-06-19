@@ -19,7 +19,6 @@ app.use('/auth', authRouter);
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
-    console.log('authHeadera', authHeader);
     const token = authHeader.split(' ')[1];
     const decoded = verifyToken(token);
     const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
