@@ -48,11 +48,11 @@ const Member = sequelize.define('Member', {
   },
   probationStartDate: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   fullMembershipDate: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   churchId: {
     type: DataTypes.INTEGER,
