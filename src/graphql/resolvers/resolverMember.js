@@ -9,13 +9,16 @@ const resolversMember = {
       return Member.findAll();
     },
     getByRut: async (args, context) => {
-      console.log('args', args);
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
-      const data = await Member.findOne({ where: { rut: args.rut } });
-      console.log('data', data);
       return await Member.findOne({ where: { rut: args.rut } });
+    },
+    count: async (args, context) => {
+      if (!context.user) {
+        throw new Error('You are not authenticated!');
+      }
+      return Member.count();
     },
   },
 
@@ -40,10 +43,10 @@ const resolversMember = {
         churchId,
         statusId,
         userId,
+        sexo,
       } = args.member;
-      console.log('args', args);
+      console.log(args.member);
       const data = await Member.findOne({ where: { rut } });
-      console.log('data', data);
       try {
         if (data) {
           return {
@@ -63,17 +66,18 @@ const resolversMember = {
           email,
           maritalStatus,
           probationStartDate,
-          fullMembershipDate,
+          fullMembershipDate: '2000-01-01',
           churchId,
           statusId,
           userId,
+          sexo,
         });
         return {
           code: 200,
           message: 'Miembro creado Exitosamente',
         };
       } catch (e) {
-        console.log('e', e);
+        console.log('errro', e);
         return {
           code: 500,
           message: 'Error al crear miembro',
@@ -100,6 +104,7 @@ const resolversMember = {
         churchId,
         statusId,
         userId,
+        sexo,
       } = args.member;
       try {
         await Member.update(
@@ -119,6 +124,7 @@ const resolversMember = {
             churchId,
             statusId,
             userId,
+            sexo,
           },
           { where: { rut: rut } }
         );
@@ -138,7 +144,7 @@ const resolversMember = {
         throw new Error('You are not authenticated!');
       }
       try {
-        const response = await Member.destroy({ where: { id: args.id } });
+        const response = await Member.destroy({ where: { rut: args.rut } });
         try {
           if (response === 0) {
             return {
@@ -147,6 +153,7 @@ const resolversMember = {
             };
           }
         } catch (e) {
+          console.log('errror 1', e);
           return {
             code: 500,
             message: 'Error al eliminar miembro',
@@ -157,6 +164,7 @@ const resolversMember = {
           message: 'Miembro eliminado Exitosamente',
         };
       } catch (e) {
+        console.log('errror 2', e);
         return {
           code: 500,
           message: 'Error al eliminar miembro',

@@ -81,6 +81,10 @@ const Member = sequelize.define('Member', {
       key: 'id',
     },
   },
+  sexo: {
+    type: DataTypes.STRING(10),
+    allowNull: false,
+  },
 });
 
 module.exports = Member;
