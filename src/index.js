@@ -5,6 +5,7 @@ const authRouter = require('./auth/auth.router');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const cors = require('cors');
+import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache';
 
 require('dotenv').config();
 
@@ -34,7 +35,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
-  introspection: true,
+  cache: new InMemoryLRUCache(),
 });
 
 server.start().then(() => {
