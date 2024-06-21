@@ -11,6 +11,8 @@ const dataTypesUser = gql`
     create(username: String!, email: String!, password: String! rut:ID!): Response
     update(id: ID!, username: String, email: String, password:String, rut:ID! ): Response
     delete(id: ID!): Response
+    changePassword(id: ID!, password: String!): Response
+    
   }
   type User {
     id: ID

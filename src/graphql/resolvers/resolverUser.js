@@ -1,4 +1,4 @@
-const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername} = require('../../services/users');
+const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword} = require('../../services/users');
 
 const resolversUser = {
     UserQuery: {
@@ -45,6 +45,13 @@ const resolversUser = {
             }
             return await deleteUser(context.user.id);
         },
+        changePassword: async (args, context) => {
+            if (!context.user) {
+                throw new Error('You are not authenticated!');
+            }
+            const { id, password } = args;
+            return await changePassword(id, password);
+        }
     },
 };
 
