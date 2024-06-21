@@ -107,6 +107,7 @@ const resolversMember = {
         userId,
         sexo,
       } = args.member;
+      console.log(args.member);
       try {
         const response =await Member.update(
           {
