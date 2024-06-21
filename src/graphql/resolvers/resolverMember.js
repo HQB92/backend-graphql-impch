@@ -14,6 +14,12 @@ const resolversMember = {
       }
       return await Member.findOne({ where: { rut: args.rut } });
     },
+    GetAllMemberProbation: async (args, context) => {
+        if (!context.user) {
+            throw new Error('You are not authenticated!');
+        }
+        return Member.findAll({ where: { probationStartDate:'23-06-2024' } });
+    },
     count: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
@@ -46,7 +52,6 @@ const resolversMember = {
         userId,
         sexo,
       } = args.member;
-      console.log(args.member);
       const data = await Member.findOne({ where: { rut } });
       try {
         if (data) {

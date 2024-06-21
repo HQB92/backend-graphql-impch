@@ -4,6 +4,7 @@ const dataTypesMember = gql`
   type MemberQuery {
     getAll: [Member]
     getByRut(rut: ID!): Member
+    GetAllMemberProbation: [Member]
     count: Int
   }
   type MemberMutation {
