@@ -108,7 +108,7 @@ const resolversMember = {
         sexo,
       } = args.member;
       try {
-        await Member.update(
+        const response =await Member.update(
           {
             names,
             lastNameDad,
@@ -128,6 +128,7 @@ const resolversMember = {
           },
           { where: { rut: rut } }
         );
+        console.log('response', response);
         return {
           code: 200,
           message: 'Miembro actualizado Exitosamente',
