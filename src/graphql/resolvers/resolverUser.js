@@ -29,7 +29,7 @@ const resolversUser = {
                 throw new Error('You are not authenticated!');
             }
             const { username, email, password, rut } = args;
-            return await createUser(username, email, password);
+            return await createUser(username, email, password, rut);
         },
         update: async ( args, context) => {
             if (!context.user) {
