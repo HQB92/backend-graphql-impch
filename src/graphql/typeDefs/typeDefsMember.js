@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const dataTypesMember = gql`
   type MemberQuery {
-    getAll: [Member]
+    getAll(churchId: Int , typeMember: Int): [Member]
     getByRut(rut: ID!): Member
     GetAllMemberProbation: [Member]
     count: Int

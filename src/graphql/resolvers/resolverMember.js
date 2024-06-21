@@ -1,4 +1,5 @@
 const Member = require('../../models/member');
+const {Op} = require("sequelize");
 
 const resolversMember = {
   MemberQuery: {
@@ -6,7 +7,30 @@ const resolversMember = {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
-      return Member.findAll();
+      let filterChurch = {};
+      let filterType = {};
+        if (args.churchId && args.churchId !== 0) {
+            filterChurch = { churchId: args.churchId };
+        }
+        if (args.typeMember && args.typeMember !== 0) {
+            if (args.typeMember === 1) {
+                filterType = { probationStartDate: '2024-06-23 00:00:00+00', fullMembershipDate: null };
+            }
+            if (args.typeMember === 2) {
+              filterType = {
+                probationStartDate: { [Op.ne]: null },
+                fullMembershipDate: { [Op.ne]: null }
+              };
+            }
+            if (args.typeMember === 3) {
+                filterType = {
+                    dateOfBirth: { [Op.gte]: new Date(new Date().setFullYear(new Date().getFullYear() - 13)) }
+                };
+            }
+        }
+
+
+        return await Member.findAll({ where: { ...filterChurch, ...filterType } });
     },
     getByRut: async (args, context) => {
       if (!context.user) {
