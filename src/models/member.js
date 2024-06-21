@@ -40,7 +40,6 @@ const Member = sequelize.define('Member', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   maritalStatus: {
     type: DataTypes.STRING,
