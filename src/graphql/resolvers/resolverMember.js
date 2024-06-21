@@ -28,9 +28,7 @@ const resolversMember = {
                 };
             }
         }
-
-
-        return await Member.findAll({ where: { ...filterChurch, ...filterType } });
+        return await Member.findAll({ where: { ...filterChurch, ...filterType }, order: [['names', 'ASC']] });
     },
     getByRut: async (args, context) => {
       if (!context.user) {
