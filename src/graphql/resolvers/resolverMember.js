@@ -134,6 +134,7 @@ const resolversMember = {
           message: 'Miembro actualizado Exitosamente',
         };
       } catch (e) {
+        console.log('errro', e);
         return {
           code: 500,
           message: 'Error al actualizar miembro',
