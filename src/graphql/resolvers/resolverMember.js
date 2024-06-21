@@ -18,7 +18,7 @@ const resolversMember = {
         if (!context.user) {
             throw new Error('You are not authenticated!');
         }
-        return Member.findAll({ where: { probationStartDate:'23-06-2024' } });
+        return Member.findAll({ where: { probationStartDate:'2024-06-23 00:00:00+00' } });
     },
     count: async (args, context) => {
       if (!context.user) {
