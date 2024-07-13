@@ -21,12 +21,12 @@ jobs:
             git clean -f
             git pull origin main
             npm install 
-            export SECRET_KEY=${{ secrets.SECRET_KEY }}
-            export PORT=${{ secrets.PORT }}
-            export PGHOST=${{ secrets.PGHOST }}
-            export PGDATABASE=${{ secrets.PGDATABASE }}
-            export PGUSER=${{ secrets.PGUSER }}
-            export PGPASSWORD=${{ secrets.PGPASSWORD }}
+            export SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            export PORT=${{ secrets.PORT }} >> .env
+            export PGHOST=${{ secrets.PGHOST }} >> .env
+            export PGDATABASE=${{ secrets.PGDATABASE }} >> .env
+            export PGUSER=${{ secrets.PGUSER }} >> .env
+            export PGPASSWORD=${{ secrets.PGPASSWORD }} >> .env
             pm2 delete graphql-impch
             pm2 list
             pm2 start npm --name "graphql-impch" -- start
