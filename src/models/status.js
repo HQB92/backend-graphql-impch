@@ -31,7 +31,7 @@ Status.sync({ force: false}).then(async () => {
     await Status.create({
         name: 'Inactivo',
         description: 'Miembro inactivo'
-    });
+    });*/
     await Status.create({
         name: 'Fallecido',
         description: 'Miembro fallecido'
@@ -43,5 +43,5 @@ Status.sync({ force: false}).then(async () => {
     await Status.create({
         name: 'Expulsado',
         description: 'Miembro expulsado de la iglesia'
-    });*/
+    });
 });
