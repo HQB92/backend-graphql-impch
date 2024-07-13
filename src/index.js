@@ -17,6 +17,30 @@ app.use(cors());
 app.use(express.json());
 app.use('/auth', authRouter);
 
+const removeTypenameMiddleware = {
+  requestDidStart() {
+    return {
+      willSendResponse(requestContext) {
+        function removeTypename(obj) {
+          if (Array.isArray(obj)) {
+            return obj.map(removeTypename);
+          } else if (obj !== null && typeof obj === 'object') {
+            const newObj = {};
+            for (const key in obj) {
+              if (key !== '__typename') {
+                newObj[key] = removeTypename(obj[key]);
+              }
+            }
+            return newObj;
+          }
+          return obj;
+        }
+        requestContext.response.data = removeTypename(requestContext.response.data);
+      },
+    };
+  },
+};
+
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
@@ -36,6 +60,7 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
   introspection: true,
+  plugins: [removeTypenameMiddleware],
 });
 
 server.start().then(() => {
