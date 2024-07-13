@@ -109,4 +109,6 @@ Member.belongsTo(Church, {
 Member.sync({ force: false }).then(async () => {
     console.log('Tabla Member sincronizada');
 });
-
+Member.sync({ force: false }).then(async () => {
+    console.log('Tabla Member sincronizada');
+});

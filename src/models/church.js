@@ -20,3 +20,6 @@ const Church = sequelize.define('Church', {
 
 module.exports = Church
 
+Church.sync({ force: false }).then(() => {
+    console.log('Tabla Church sincronizada');
+});
