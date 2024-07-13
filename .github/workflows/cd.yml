@@ -20,13 +20,13 @@ jobs:
             cd /home/bitnami/htdocs/backend-graphql-impch
             git clean -f
             git pull origin main
-            npm install 
-            export SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-            export PORT=${{ secrets.PORT }} >> .env
-            export PGHOST=${{ secrets.PGHOST }} >> .env
-            export PGDATABASE=${{ secrets.PGDATABASE }} >> .env
-            export PGUSER=${{ secrets.PGUSER }} >> .env
-            export PGPASSWORD=${{ secrets.PGPASSWORD }} >> .env
+            npm install --only=prod
+            SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            PORT=${{ secrets.PORT }} \
+            PGHOST=${{ secrets.PGHOST }} \
+            PGDATABASE=${{ secrets.PGDATABASE }} \
+            PGUSER=${{ secrets.PGUSER }} \
+            PGPASSWORD=${{ secrets.PGPASSWORD }} \
             pm2 delete graphql-impch
             pm2 list
             pm2 start npm --name "graphql-impch" -- start
