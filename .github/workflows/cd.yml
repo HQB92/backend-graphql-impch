@@ -29,4 +29,6 @@ jobs:
             cd /home/bitnami/htdocs/backend-graphql-impch
             git pull origin main
             npm install 
-            pm2 restart src/index.js
+            pm2 stop 0
+            pm2 list
+            pm2 start npm --name "backend-graphql-impch" -- start
