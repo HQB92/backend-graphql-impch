@@ -88,3 +88,25 @@ const Member = sequelize.define('Member', {
 
 module.exports = Member;
 
+//relacionar con user
+Member.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'user',
+});
+
+//relacionar con status
+Member.belongsTo(Status, {
+  foreignKey: 'statusId',
+  as: 'status',
+});
+
+//relacionar con church
+Member.belongsTo(Church, {
+  foreignKey: 'churchId',
+  as: 'church',
+});
+
+Member.sync({ force: false }).then(async () => {
+    console.log('Tabla Member sincronizada');
+});
+
