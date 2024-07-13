@@ -23,9 +23,10 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
+          key_type: pem
           port: 22
           script: |
-            cd ~/home/bitnami/htdocs
+            cd ~/home/bitnami/htdocs/backend-graphql-impch
             git pull origin main
             git status
             npm install --only=prod
