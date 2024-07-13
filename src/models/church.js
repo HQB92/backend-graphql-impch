@@ -20,10 +20,3 @@ const Church = sequelize.define('Church', {
 
 module.exports = Church
 
-Church.sync({ force: false }).then(async() => {
-    console.log('Tabla Church sincronizada');
-    /*await Church.create({
-        name: 'Zañartu',
-        address: 'Calle Ñuble 142'
-    })*/
-});

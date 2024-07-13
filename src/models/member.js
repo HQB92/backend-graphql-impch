@@ -88,6 +88,3 @@ const Member = sequelize.define('Member', {
 
 module.exports = Member;
 
-Member.sync({ force: false }).then(async () => {
-  console.log('Tabla Miembro sincronizada');
-});
