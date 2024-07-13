@@ -55,7 +55,7 @@ const Member = sequelize.define('Member', {
   },
   churchId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Church,
       table: 'Churches',
@@ -64,7 +64,7 @@ const Member = sequelize.define('Member', {
   },
   statusId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     references: {
       model: Status,
       table: 'Statuses',
