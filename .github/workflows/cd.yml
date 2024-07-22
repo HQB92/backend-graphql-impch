@@ -17,14 +17,15 @@ jobs:
           key_type: pem
           port: 22
           script: |
-            cd /home/bitnami/htdocs/backend-graphql-impch
+            cd /home/bitnami/paginas/backend-graphql-impch
             git clean -f
             git pull origin main
             npm install --only=prod
-            SECRET_KEY=${{ secrets.SECRET_KEY }} \
-            PORT=${{ secrets.PORT }} \
-            PGHOST=${{ secrets.PGHOST }} \
-            PGDATABASE=${{ secrets.PGDATABASE }} \
-            PGUSER=${{ secrets.PGUSER }} \
-            PGPASSWORD=${{ secrets.PGPASSWORD }} \
+            echo NEXT_PUBLIC_URL=https://app.impchzanartu.online > .env
+            echo SECRET_KEY=${{ secrets.SECRET_KEY }} > .env
+            echo PORT=${{ secrets.PORT }} >> .env
+            echo PGHOST=${{ secrets.PGHOST }} >> .env
+            echo PGDATABASE=${{ secrets.PGDATABASE }} >> .env
+            echo PGUSER=${{ secrets.PGUSER }} >> .env
+            echo PGPASSWORD=${{ secrets.PGPASSWORD }} >> .env
             pm2 restart backend-graphql-impch
