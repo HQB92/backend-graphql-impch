@@ -9,6 +9,7 @@ const resolversBaptismRecord = {
       return await BaptismRecord.findAll({ order: [['baptismDate', 'ASC']] });
     },
     getByChildRut: async (args, context) => {
+      console.log('args', args);
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
