@@ -30,6 +30,6 @@ const User = sequelize.define('User', {
 
 module.exports = User;
 
-/*User.sync({ force: false }).then(() => {
+User.sync({ force: false }).then(() => {
     console.log('Tabla User sincronizada');
-});*/
+});
