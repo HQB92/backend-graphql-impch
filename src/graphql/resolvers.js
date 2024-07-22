@@ -1,4 +1,8 @@
-const {resolverUser, resolverChurch, resolverMember, resolverStatus} = require("./resolvers/index");
+const {resolverUser,
+       resolverChurch,
+       resolverMember,
+       resolverStatus,
+       resolverBaptismRecord} = require("./resolvers/index");
 
 const resolvers = {
     Query: {
@@ -14,6 +18,9 @@ const resolvers = {
         Status: (_,parent, args, context) => ({
             ...resolverStatus.StatusQuery
         }),
+        BaptismRecord: (_,parent, args, context) => ({
+            ...resolverBaptismRecord.BaptismRecordQuery
+        }),
     },
     Mutation: {
         User: (parent, args, context) => ({
@@ -27,6 +34,9 @@ const resolvers = {
         }),
         Status: (parent, args, context) => ({
             ...resolverStatus.StatusMutation
+        }),
+        BaptismRecord: (parent, args, context) => ({
+            ...resolverBaptismRecord.BaptismRecordMutation
         }),
     },
 };

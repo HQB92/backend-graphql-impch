@@ -19,7 +19,7 @@ const BaptismRecord = sequelize.define('BaptismRecord', {
     },
     fatherRUT: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     fatherFullName: {
         type: DataTypes.STRING,

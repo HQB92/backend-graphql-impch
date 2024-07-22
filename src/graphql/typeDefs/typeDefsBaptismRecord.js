@@ -38,10 +38,5 @@ const dataTypesBaptismRecord = gql`
     registrationNumber: String
     registrationDate: Date
   }
-
-  type Response {
-    success: Boolean!
-    message: String
-  }
 `;
 module.exports = dataTypesBaptismRecord;

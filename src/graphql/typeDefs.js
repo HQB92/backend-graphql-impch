@@ -1,8 +1,9 @@
 const { gql } = require('apollo-server-express');
-const {dataTypesUser,
-       dataTypesIglesia,
-       dataTypesMember,
-       dataTypesStatus}  = require('./typeDefs/index');
+const { dataTypesUser,
+        dataTypesIglesia,
+        dataTypesMember,
+        dataTypesStatus,
+        datatypesBaptismRecord}  = require('./typeDefs/index');
 
 const typeDefs = gql`
     scalar Date
@@ -10,12 +11,14 @@ const typeDefs = gql`
     ${dataTypesIglesia}
     ${dataTypesMember}
     ${dataTypesStatus}
+    ${datatypesBaptismRecord}
     
     type Query {
         User: UserQuery
         Church: ChurchQuery
         Member: MemberQuery
         Status: StatusQuery
+        BaptismRecord: BaptismRecordQuery
     }
     
     type Mutation {
@@ -23,6 +26,7 @@ const typeDefs = gql`
         Church: ChurchMutation
         Member: MemberMutation
         Status: StatusMutation
+        BaptismRecord: BaptismRecordMutation
     }
     
     type Response {
