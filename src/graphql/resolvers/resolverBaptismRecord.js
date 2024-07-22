@@ -12,7 +12,7 @@ const resolversBaptismRecord = {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
-      return await BaptismRecord.findOne({ where: { childRut: args.childRUT } });
+      return await BaptismRecord.findOne({ where: { childRUT: args.childRUT } });
     },
     count: async (args, context) => {
       if (!context.user) {
