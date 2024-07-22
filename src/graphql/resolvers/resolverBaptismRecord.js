@@ -1,4 +1,4 @@
-const BaptismRecord = require('../../models/baptismRecord'); // Asegúrate de que el modelo está correctamente definido y importado
+const BaptismRecord = require('../../models'); // Asegúrate de que el modelo está correctamente definido y importado
 const { Op } = require("sequelize");
 
 const resolversBaptismRecord = {
