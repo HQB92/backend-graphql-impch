@@ -26,12 +26,12 @@ const dataTypesBaptismRecord = gql`
   }
 
   input BaptismRecordInput {
-    childRut: ID
+    childRUT: ID
     childFullName: String
     childDateOfBirth: Date
-    fatherRut: ID
+    fatherRU: ID
     fatherFullName: String
-    motherRut: ID
+    motherRUT: ID
     motherFullName: String
     placeOfRegistration: String
     baptismDate: Date
