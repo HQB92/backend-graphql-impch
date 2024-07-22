@@ -2,7 +2,8 @@ name: Deploy to server LightSail
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,7 +21,7 @@ jobs:
             cd /home/bitnami/paginas/backend-graphql-impch
             git clean -f
             git pull origin main
-            npm install --only=prod
+            npm ci
             echo NEXT_PUBLIC_URL=https://app.impchzanartu.online > .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} > .env
             echo PORT=${{ secrets.PORT }} >> .env
