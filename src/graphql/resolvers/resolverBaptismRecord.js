@@ -28,12 +28,12 @@ const resolversBaptismRecord = {
         throw new Error('You are not authenticated!');
       }
       const {
-        childRut,
+        childRUT,
         childFullName,
         childDateOfBirth,
-        fatherRut,
+        fatherRUT,
         fatherFullName,
-        motherRut,
+        motherRUT,
         motherFullName,
         placeOfRegistration,
         baptismDate,
@@ -41,7 +41,7 @@ const resolversBaptismRecord = {
         registrationDate
       } = args.baptismRecord;
 
-      const data = await BaptismRecord.findOne({ where: { childRut } });
+      const data = await BaptismRecord.findOne({ where: { childRUT } });
       try {
         if (data) {
           return {
@@ -50,12 +50,12 @@ const resolversBaptismRecord = {
           };
         }
         await BaptismRecord.create({
-          childRut,
+          childRUT,
           childFullName,
           childDateOfBirth,
-          fatherRut,
+          fatherRUT,
           fatherFullName,
-          motherRut,
+          motherRUT,
           motherFullName,
           placeOfRegistration,
           baptismDate,
@@ -79,12 +79,12 @@ const resolversBaptismRecord = {
         throw new Error('You are not authenticated!');
       }
       const {
-        childRut,
+        childRUT,
         childFullName,
         childDateOfBirth,
-        fatherRut,
+        fatherRUT,
         fatherFullName,
-        motherRut,
+        motherRUT,
         motherFullName,
         placeOfRegistration,
         baptismDate,
@@ -95,15 +95,15 @@ const resolversBaptismRecord = {
         const response = await BaptismRecord.update({
           childFullName,
           childDateOfBirth,
-          fatherRut,
+          fatherRUT,
           fatherFullName,
-          motherRut,
+          motherRUT,
           motherFullName,
           placeOfRegistration,
           baptismDate,
           registrationNumber,
           registrationDate
-        }, { where: { childRut } });
+        }, { where: { childRUT } });
         return {
           success: true,
           message: 'Baptism record updated successfully',

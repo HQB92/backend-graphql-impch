@@ -29,3 +29,4 @@ jobs:
             echo PGUSER=${{ secrets.PGUSER }} >> .env
             echo PGPASSWORD=${{ secrets.PGPASSWORD }} >> .env
             pm2 restart backend-graphql-impch
+            pm2 watching 

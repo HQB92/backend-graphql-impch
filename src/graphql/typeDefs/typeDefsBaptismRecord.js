@@ -12,12 +12,12 @@ const dataTypesBaptismRecord = gql`
     delete(childRut: ID!): Response
   }
   type BaptismRecord {
-    childRut: ID!
+    childRUT: ID!
     childFullName: String!
     childDateOfBirth: Date!
-    fatherRut: ID
+    fatherRUT: ID
     fatherFullName: String
-    motherRut: ID!
+    motherRUT: ID!
     motherFullName: String!
     placeOfRegistration: String!
     baptismDate: Date!
