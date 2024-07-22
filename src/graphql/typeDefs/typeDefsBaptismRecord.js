@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express');
 const dataTypesBaptismRecord = gql`
   type BaptismRecordQuery {
     getAll: [BaptismRecord]
-    getByChildRut(childRut: String!): BaptismRecord
+    getByChildRut(childRUT: ID!): BaptismRecord
     count: Int
   }
   type BaptismRecordMutation {
@@ -29,7 +29,7 @@ const dataTypesBaptismRecord = gql`
     childRUT: ID
     childFullName: String
     childDateOfBirth: Date
-    fatherRU: ID
+    fatherRUT: ID
     fatherFullName: String
     motherRUT: ID
     motherFullName: String
