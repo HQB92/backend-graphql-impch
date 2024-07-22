@@ -27,6 +27,4 @@ jobs:
             PGDATABASE=${{ secrets.PGDATABASE }} \
             PGUSER=${{ secrets.PGUSER }} \
             PGPASSWORD=${{ secrets.PGPASSWORD }} \
-            pm2 delete graphql-impch
-            pm2 list
-            pm2 start npm --name "graphql-impch" -- start
+            pm2 restart backend-graphql-impch
