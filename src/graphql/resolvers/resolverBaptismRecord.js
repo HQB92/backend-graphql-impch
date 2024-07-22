@@ -23,7 +23,7 @@ const resolversBaptismRecord = {
   },
 
   BaptismRecordMutation: {
-    createBaptismRecord: async (args, context) => {
+    create: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
@@ -74,7 +74,7 @@ const resolversBaptismRecord = {
         };
       }
     },
-    updateBaptismRecord: async (args, context) => {
+    update: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
@@ -116,7 +116,7 @@ const resolversBaptismRecord = {
         };
       }
     },
-    deleteBaptismRecord: async (args, context) => {
+    delete: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
