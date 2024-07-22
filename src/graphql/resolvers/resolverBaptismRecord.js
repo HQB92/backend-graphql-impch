@@ -46,7 +46,7 @@ const resolversBaptismRecord = {
       try {
         if (data) {
           return {
-            success: false,
+            success: 400,
             message: 'Baptism record already exists',
           };
         }
@@ -64,13 +64,13 @@ const resolversBaptismRecord = {
           registrationDate
         });
         return {
-          success: true,
+          success: 200,
           message: 'Baptism record created successfully',
         };
       } catch (e) {
         console.log('Error', e);
         return {
-          success: false,
+          success: 400,
           message: 'Error creating baptism record',
         };
       }
@@ -106,13 +106,13 @@ const resolversBaptismRecord = {
           registrationDate
         }, { where: { childRUT } });
         return {
-          success: true,
+          success: 200,
           message: 'Baptism record updated successfully',
         };
       } catch (e) {
         console.log('Error', e);
         return {
-          success: false,
+          success: 400,
           message: 'Error updating baptism record',
         };
       }
@@ -125,18 +125,18 @@ const resolversBaptismRecord = {
         const response = await BaptismRecord.destroy({ where: { childRut: args.childRut } });
         if (response === 0) {
           return {
-            success: false,
+            success: 500,
             message: 'Baptism record does not exist',
           };
         }
         return {
-          success: true,
+          success: 200,
           message: 'Baptism record deleted successfully',
         };
       } catch (e) {
         console.log('Error', e);
         return {
-          success: false,
+          success: 400,
           message: 'Error deleting baptism record',
         };
       }
