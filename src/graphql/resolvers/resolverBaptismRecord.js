@@ -1,21 +1,20 @@
-const BaptismRecord = require('../../models'); // Asegúrate de que el modelo está correctamente definido y importado
-const { Op } = require("sequelize");
+const BaptismRecord = require('../../models/baptismRecord');
 
 const resolversBaptismRecord = {
   BaptismRecordQuery: {
-    getAllBaptismRecords: async (args, context) => {
+    getAll: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
       return await BaptismRecord.findAll({ order: [['childFullName', 'ASC']] });
     },
-    getBaptismRecordByChildRut: async (args, context) => {
+    getByChildRut: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
       return await BaptismRecord.findOne({ where: { childRut: args.childRut } });
     },
-    countBaptismRecords: async (args, context) => {
+    count: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
