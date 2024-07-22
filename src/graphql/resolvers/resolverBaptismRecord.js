@@ -6,13 +6,13 @@ const resolversBaptismRecord = {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
-      return await BaptismRecord.findAll({ order: [['childFullName', 'ASC']] });
+      return await BaptismRecord.findAll({ order: [['baptismDate', 'ASC']] });
     },
     getByChildRut: async (args, context) => {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
-      return await BaptismRecord.findOne({ where: { childRut: args.childRut } });
+      return await BaptismRecord.findOne({ where: { childRut: args.childRUT } });
     },
     count: async (args, context) => {
       if (!context.user) {

@@ -9,7 +9,7 @@ const dataTypesBaptismRecord = gql`
   type BaptismRecordMutation {
     create(baptismRecord: BaptismRecordInput!): Response
     update(baptismRecord: BaptismRecordInput): Response
-    delete(childRut: ID!): Response
+    delete(childRUT: ID!): Response
   }
   type BaptismRecord {
     childRUT: ID!
