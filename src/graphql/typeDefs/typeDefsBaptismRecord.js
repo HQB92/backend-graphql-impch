@@ -2,21 +2,21 @@ const { gql } = require('apollo-server-express');
 
 const dataTypesBaptismRecord = gql`
   type BaptismRecordQuery {
-    getAllBaptismRecords: [BaptismRecord]
-    getBaptismRecordByChildRut(childRut: ID!): BaptismRecord
-    countBaptismRecords: Int
+    getAll: [BaptismRecord]
+    getByChildRut(childRut: ID!): BaptismRecord
+    count: Int
   }
   type BaptismRecordMutation {
-    createBaptismRecord(baptismRecord: BaptismRecordInput!): Response
-    updateBaptismRecord(baptismRecord: BaptismRecordInput): Response
-    deleteBaptismRecord(childRut: ID!): Response
+    create(baptismRecord: BaptismRecordInput!): Response
+    update(baptismRecord: BaptismRecordInput): Response
+    delete(childRut: ID!): Response
   }
   type BaptismRecord {
     childRut: ID!
     childFullName: String!
     childDateOfBirth: Date!
-    fatherRut: ID!
-    fatherFullName: String!
+    fatherRut: ID
+    fatherFullName: String
     motherRut: ID!
     motherFullName: String!
     placeOfRegistration: String!
