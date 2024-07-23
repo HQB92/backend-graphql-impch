@@ -43,6 +43,11 @@ const authMiddleware = ({ req }) => {
   throw new Error('Authorization header must be provided');
 };
 
+app.use((req, res, next) => {
+  console.log('Request Headers:', req.headers);
+  next();
+});
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
