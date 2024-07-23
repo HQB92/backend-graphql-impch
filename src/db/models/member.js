@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const { User, Status, Church } = require('./');
+const sequelize = require('../../config/database');
+const { User, Status, Church } = require('./index');
 
 const Member = sequelize.define('Member', {
   rut: {
@@ -104,8 +104,4 @@ Member.belongsTo(Status, {
 Member.belongsTo(Church, {
   foreignKey: 'churchId',
   as: 'church',
-});
-
-Member.sync({ force: false }).then(async () => {
-    console.log('Tabla Member sincronizada');
 });

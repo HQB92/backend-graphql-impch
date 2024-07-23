@@ -1,6 +1,6 @@
 // src/models/iglesia/iglesiaModel.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 const BaptismRecord = sequelize.define('BaptismRecord', {
     childRUT: {
@@ -52,7 +52,3 @@ const BaptismRecord = sequelize.define('BaptismRecord', {
 });
 
 module.exports = BaptismRecord;
-
-BaptismRecord.sync({ force: false }).then(() => {
-    console.log('Tabla BaptismRecord sincronizada');
-});

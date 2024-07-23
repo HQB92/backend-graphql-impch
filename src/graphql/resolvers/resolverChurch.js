@@ -1,4 +1,4 @@
-const Church = require('../../models/church');
+const Church = require('../../db/models/church');
 
 const resolversChurch = {
   ChurchQuery: {

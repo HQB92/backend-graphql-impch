@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 
 const User = sequelize.define('User', {
@@ -29,7 +29,3 @@ const User = sequelize.define('User', {
 });
 
 module.exports = User;
-
-User.sync({ force: false }).then(() => {
-    console.log('Tabla User sincronizada');
-});

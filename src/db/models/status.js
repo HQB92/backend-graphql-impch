@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 
 const Status = sequelize.define('Status', {
@@ -20,7 +20,3 @@ const Status = sequelize.define('Status', {
 });
 
 module.exports = Status;
-
-Status.sync({ force: false }).then(() => {
-    console.log('Tabla Status sincronizada');
-});

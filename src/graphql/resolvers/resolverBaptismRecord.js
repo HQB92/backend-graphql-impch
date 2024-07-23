@@ -1,4 +1,4 @@
-const BaptismRecord = require('../../models/baptismRecord');
+const BaptismRecord = require('../../db/models/baptismRecord');
 
 const resolversBaptismRecord = {
   BaptismRecordQuery: {

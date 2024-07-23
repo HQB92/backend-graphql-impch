@@ -1,4 +1,4 @@
-const Member = require('../../models/member');
+const Member = require('../../db/models/member');
 const {Op} = require("sequelize");
 
 const resolversMember = {

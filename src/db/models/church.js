@@ -1,6 +1,6 @@
 // src/models/iglesia/iglesiaModel.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 const Church = sequelize.define('Church', {
     id: {
@@ -19,7 +19,3 @@ const Church = sequelize.define('Church', {
 });
 
 module.exports = Church
-
-Church.sync({ force: false }).then(() => {
-    console.log('Tabla Church sincronizada');
-});

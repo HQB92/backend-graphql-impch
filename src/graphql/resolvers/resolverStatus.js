@@ -1,4 +1,4 @@
-const Status = require('../../models');
+const Status = require('../../db/models');
 
 const resolversStatus = {
   StatusQuery: {
