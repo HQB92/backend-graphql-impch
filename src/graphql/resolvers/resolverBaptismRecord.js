@@ -8,8 +8,9 @@ const resolversBaptismRecord = {
       console.log('BaptismRecord - getAll - Args:', args);
       validateContext(context.user, 'BaptismRecord');
       const baptismRecords = await baptismRecordService.getAllBaptismRecords();
-
-      console.log('BaptismRecord - getAll - Respuesta:', baptismRecords[0]);
+      baptismRecords.forEach((baptismRecord) => {
+        console.log('BaptismRecord - getAll - Respuesta:', baptismRecord?.dataValues);
+      }
       console.log('BaptismRecord - getAll - Fin:', new Date().toISOString());
       return baptismRecords;
     },
