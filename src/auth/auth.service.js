@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { generateToken } = require('./auth');
 const { findUserByUsername } = require('../services/users');
-import {userLogs, passwordLogs} from '../utils/tokensLogs';
+const { userLogs, passwordLogs } = require('../utils/tokensLogs');
 
 const login = async (username, password) => {
     console.log('login - Inicio:', new Date().toISOString());
