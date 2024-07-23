@@ -9,8 +9,8 @@ const getBaptismRecordById = async (id) => {
 };
 
 const createBaptismRecord = async (baptismRecordData) => {
-    const { rutChild } = baptismRecordData;
-    const existingRecord = await BaptismRecord.findOne({ where: { rutChild } });
+    const { childRUT } = baptismRecordData;
+    const existingRecord = await BaptismRecord.findOne({ where: { childRUT } });
     if (existingRecord) {
         return {
             code: 400,
