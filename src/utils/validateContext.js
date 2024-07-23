@@ -1,8 +1,8 @@
 
-const validateContext = (user) => {
+const validateContext = (user, patchService) => {
   if (!user) {
-    console.log('getAll - Error: You are not authenticated!');
-    console.log('getAll - Fin:', new Date().toISOString());
+    console.log(patchService,' - getAll - Error: You are not authenticated!');
+    console.log(patchService,' - getAll - Fin:', new Date().toISOString());
     throw new Error('You are not authenticated!');
   }
 };
