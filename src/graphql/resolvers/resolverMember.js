@@ -12,7 +12,7 @@ const resolversMember = {
       members.forEach((member) => {
         let count = 1;
         console.log('Members - getAll - Respuesta[',count,'] :', member?.dataValues);
-        count++;
+        count = count + 1;
       });
       console.log('Member - getAll - Fin:', new Date().toISOString());
       return members;
