@@ -10,7 +10,7 @@ const resolversMember = {
         logger.logArgs('Member - getAll', args);
         validateContext(context.user, 'Member');
         try {
-            const members = await memberService.getAllMembers();
+            const members = await memberService.getAllMembers(args);
             logger.logResponses('Member - getAll', members);
             logger.logEnd('Member - getAll');
             return members;
