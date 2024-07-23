@@ -2,7 +2,7 @@ const baptismRecordService = require('../../services/baptismRecord');
 const validateContext = require('../../utils/validateContext');
 const resolversBaptismRecord = {
   BaptismRecordQuery: {
-    getAll: async (parent, args, context) => {
+    getAll: async (args, context) => {
       console.log('BaptismRecord - getAll - Inicio:', new Date().toISOString());
       console.log('BaptismRecord - getAll - User:', context.user);
       console.log('BaptismRecord - getAll - Args:', args);
@@ -12,7 +12,7 @@ const resolversBaptismRecord = {
       console.log('BaptismRecord - getAll - Fin:', new Date().toISOString());
       return baptismRecords;
     },
-    getById: async (parent, args, context) => {
+    getById: async (args, context) => {
       console.log('BaptismRecord - getById - Inicio:', new Date().toISOString());
       console.log('BaptismRecord - getById - User:', context.user);
       console.log('BaptismRecord - getById - Args:', args);
@@ -25,7 +25,7 @@ const resolversBaptismRecord = {
   },
 
   BaptismRecordMutation: {
-    create: async (parent, args, context) => {
+    create: async (args, context) => {
       console.log('BaptismRecord - create - Inicio:', new Date().toISOString());
       console.log('BaptismRecord - create - User:', context.user);
       console.log('BaptismRecord - create - Args:', args);
@@ -35,7 +35,7 @@ const resolversBaptismRecord = {
       console.log('BaptismRecord - create - Fin:', new Date().toISOString());
       return response;
     },
-    update: async (parent, args, context) => {
+    update: async (args, context) => {
       console.log('BaptismRecord - update - Inicio:', new Date().toISOString());
       console.log('BaptismRecord - update - User:', context.user);
       console.log('BaptismRecord - update - Args:', args);
@@ -45,7 +45,7 @@ const resolversBaptismRecord = {
       console.log('BaptismRecord - update - Fin:', new Date().toISOString());
       return response;
     },
-    delete: async (parent, args, context) => {
+    delete: async (args, context) => {
       console.log('BaptismRecord - delete - Inicio:', new Date().toISOString());
       console.log('BaptismRecord - delete - User:', context.user);
       console.log('BaptismRecord - delete - Args:', args);

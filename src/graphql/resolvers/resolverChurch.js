@@ -3,7 +3,7 @@ const  validateContext  = require('../../utils/validateContext');
 
 const resolversChurch = {
   ChurchQuery: {
-    getAll: async (parent, args, context) => {
+    getAll: async (args, context) => {
       console.log('Church - getAll - Inicio:', new Date().toISOString());
       console.log('Church - getAll - User:', context.user);
       console.log('Church - getAll - Args:', args);
@@ -13,7 +13,7 @@ const resolversChurch = {
       console.log('Church - getAll - Fin:', new Date().toISOString());
       return churches;
     },
-    getById: async (parent, args, context) => {
+    getById: async (args, context) => {
       console.log('Church - getById - Inicio:', new Date().toISOString());
       console.log('Church - getById - User:', context.user);
       console.log('Church - getById - Args:', args);
@@ -26,7 +26,7 @@ const resolversChurch = {
   },
 
   ChurchMutation: {
-    create: async (parent, args, context) => {
+    create: async (args, context) => {
       console.log('Church - create - Inicio:', new Date().toISOString());
       console.log('Church - create - User:', context.user);
       console.log('Church - create - Args:', args);
@@ -36,7 +36,7 @@ const resolversChurch = {
       console.log('Church - create - Fin:', new Date().toISOString());
       return response;
     },
-    update: async (parent, args, context) => {
+    update: async (args, context) => {
       console.log('Church - update - Inicio:', new Date().toISOString());
       console.log('Church - update - User:', context.user);
       console.log('Church - update - Args:', args);
@@ -46,7 +46,7 @@ const resolversChurch = {
       console.log('Church - update - Fin:', new Date().toISOString());
       return response;
     },
-    delete: async (parent, args, context) => {
+    delete: async (args, context) => {
       console.log('Church - delete - Inicio:', new Date().toISOString());
       console.log('Church - delete - User:', context.user);
       console.log('Church - delete - Args:', args);
