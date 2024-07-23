@@ -18,21 +18,21 @@ module.exports = {
         updatedAt: new Date('2024-06-13T21:20:25.525Z'),
       },
       {
-        id: 10,
+        id: 3,
         name: 'Fallecido',
         description: 'Miembro fallecido',
         createdAt: new Date('2024-07-13T17:45:43.184Z'),
         updatedAt: new Date('2024-07-13T17:45:43.184Z'),
       },
       {
-        id: 11,
+        id: 4,
         name: 'Trasladado',
         description: 'Miembro se trasladó a otra iglesia o misión',
         createdAt: new Date('2024-07-13T17:45:43.294Z'),
         updatedAt: new Date('2024-07-13T17:45:43.294Z'),
       },
       {
-        id: 12,
+        id: 5,
         name: 'Expulsado',
         description: 'Miembro expulsado de la iglesia',
         createdAt: new Date('2024-07-13T17:45:43.392Z'),
@@ -42,6 +42,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Sstatuses', null, {});
+    await queryInterface.bulkDelete('Statuses', null, {});
   }
 };
