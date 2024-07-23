@@ -13,7 +13,7 @@ const resolversMember = {
       }
 
       const members = await memberService.getAllMembers(args);
-      console.log('getAll - Respuesta:', members.dataValues);
+      console.log('getAll - Respuesta:', members);
       console.log('getAll - Fin:', new Date().toISOString());
       return members;
     },
@@ -32,20 +32,6 @@ const resolversMember = {
       console.log('getByRut - Fin:', new Date().toISOString());
       return member;
     },
-    GetAllMemberProbation: async (args, context) => {
-      console.log('GetAllMemberProbation - Inicio:', new Date().toISOString());
-
-      if (!context.user) {
-        console.log('GetAllMemberProbation - Error: You are not authenticated!');
-        console.log('GetAllMemberProbation - Fin:', new Date().toISOString());
-        throw new Error('You are not authenticated!');
-      }
-
-      const members = await memberService.getAllMemberProbation();
-      console.log('GetAllMemberProbation - Respuesta:', members.dataValues);
-      console.log('GetAllMemberProbation - Fin:', new Date().toISOString());
-      return members;
-    },
     count: async (args, context) => {
       console.log('count - Inicio:', new Date().toISOString());
 
@@ -56,7 +42,7 @@ const resolversMember = {
       }
 
       const count = await memberService.countMembers();
-      console.log('count - Respuesta:', count.dataValues);
+      console.log('count - Respuesta:', count);
       console.log('count - Fin:', new Date().toISOString());
       return count;
     },
