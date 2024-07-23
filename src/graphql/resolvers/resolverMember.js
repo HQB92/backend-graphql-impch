@@ -1,205 +1,112 @@
-const Member = require('../../db/models/member');
-const {Op} = require("sequelize");
+const memberService = require('../../services/member');
 
 const resolversMember = {
   MemberQuery: {
     getAll: async (args, context) => {
+      console.log('getAll - Inicio:', new Date().toISOString());
+      console.log('getAll - Args:', args);
+
       if (!context.user) {
+        console.log('getAll - Error: You are not authenticated!');
+        console.log('getAll - Fin:', new Date().toISOString());
         throw new Error('You are not authenticated!');
       }
-      let filterChurch = {};
-      let filterType = {};
-        if (args.churchId && args.churchId !== 0) {
-            filterChurch = { churchId: args.churchId };
-        }
-        if (args.typeMember && args.typeMember !== 0) {
-            if (args.typeMember === 1) {
-                filterType = { probationStartDate: '2024-06-23 00:00:00+00', fullMembershipDate: null };
-            }
-            if (args.typeMember === 2) {
-              filterType = {
-                probationStartDate: { [Op.ne]: null },
-                fullMembershipDate: { [Op.ne]: null }
-              };
-            }
-            if (args.typeMember === 3) {
-                filterType = {
-                    dateOfBirth: { [Op.gte]: new Date(new Date().setFullYear(new Date().getFullYear() - 13)) }
-                };
-            }
-        }
-        return await Member.findAll({ where: { ...filterChurch, ...filterType }, order: [['names', 'ASC']] });
+
+      const members = await memberService.getAllMembers(args);
+      console.log('getAll - Respuesta:', members);
+      console.log('getAll - Fin:', new Date().toISOString());
+      return members;
     },
     getByRut: async (args, context) => {
+      console.log('getByRut - Inicio:', new Date().toISOString());
+      console.log('getByRut - Args:', args);
+
       if (!context.user) {
+        console.log('getByRut - Error: You are not authenticated!');
+        console.log('getByRut - Fin:', new Date().toISOString());
         throw new Error('You are not authenticated!');
       }
-      return await Member.findOne({ where: { rut: args.rut } });
+
+      const member = await memberService.getMemberByRut(args.rut);
+      console.log('getByRut - Respuesta:', member);
+      console.log('getByRut - Fin:', new Date().toISOString());
+      return member;
     },
     GetAllMemberProbation: async (args, context) => {
-        if (!context.user) {
-            throw new Error('You are not authenticated!');
-        }
-        return Member.findAll({ where: { probationStartDate:'2024-06-23 00:00:00+00' } });
-    },
-    count: async (args, context) => {
+      console.log('GetAllMemberProbation - Inicio:', new Date().toISOString());
+
       if (!context.user) {
+        console.log('GetAllMemberProbation - Error: You are not authenticated!');
+        console.log('GetAllMemberProbation - Fin:', new Date().toISOString());
         throw new Error('You are not authenticated!');
       }
-      return Member.count();
+
+      const members = await memberService.getAllMemberProbation();
+      console.log('GetAllMemberProbation - Respuesta:', members);
+      console.log('GetAllMemberProbation - Fin:', new Date().toISOString());
+      return members;
+    },
+    count: async (args, context) => {
+      console.log('count - Inicio:', new Date().toISOString());
+
+      if (!context.user) {
+        console.log('count - Error: You are not authenticated!');
+        console.log('count - Fin:', new Date().toISOString());
+        throw new Error('You are not authenticated!');
+      }
+
+      const count = await memberService.countMembers();
+      console.log('count - Respuesta:', count);
+      console.log('count - Fin:', new Date().toISOString());
+      return count;
     },
   },
 
   MemberMutation: {
     create: async (args, context) => {
+      console.log('create - Inicio:', new Date().toISOString());
+      console.log('create - Args:', args);
 
       if (!context.user) {
+        console.log('create - Error: You are not authenticated!');
+        console.log('create - Fin:', new Date().toISOString());
         throw new Error('You are not authenticated!');
       }
-      const {
-        rut,
-        names,
-        lastNameDad,
-        lastNameMom,
-        dateOfBirth,
-        address,
-        telephone,
-        mobile,
-        email,
-        maritalStatus,
-        probationStartDate,
-        fullMembershipDate,
-        churchId,
-        statusId,
-        userId,
-        sexo,
-      } = args.member;
-      const data = await Member.findOne({ where: { rut } });
-      try {
-        if (data) {
-          return {
-            code: 400,
-            message: 'Miembro ya existe',
-          };
-        }
-        await Member.create({
-          rut,
-          names,
-          lastNameDad,
-          lastNameMom,
-          dateOfBirth,
-          address,
-          telephone,
-          mobile,
-          email,
-          maritalStatus,
-          probationStartDate,
-          fullMembershipDate,
-          churchId,
-          statusId,
-          userId,
-          sexo,
-        });
-        return {
-          code: 200,
-          message: 'Miembro creado Exitosamente',
-        };
-      } catch (e) {
-        console.log('errro', e);
-        return {
-          code: 500,
-          message: 'Error al crear miembro',
-        };
-      }
+
+      const response = await memberService.createMember(args.member);
+      console.log('create - Respuesta:', response);
+      console.log('create - Fin:', new Date().toISOString());
+      return response;
     },
     update: async (args, context) => {
+      console.log('update - Inicio:', new Date().toISOString());
+      console.log('update - Args:', args);
+
       if (!context.user) {
+        console.log('update - Error: You are not authenticated!');
+        console.log('update - Fin:', new Date().toISOString());
         throw new Error('You are not authenticated!');
       }
-      const {
-        rut,
-        names,
-        lastNameDad,
-        lastNameMom,
-        dateOfBirth,
-        address,
-        telephone,
-        mobile,
-        email,
-        maritalStatus,
-        probationStartDate,
-        fullMembershipDate,
-        churchId,
-        statusId,
-        userId,
-        sexo,
-      } = args.member;
-      console.log(args.member);
-      try {
-        const response =await Member.update(
-          {
-            names,
-            lastNameDad,
-            lastNameMom,
-            dateOfBirth,
-            address,
-            telephone,
-            mobile,
-            email,
-            maritalStatus,
-            probationStartDate,
-            fullMembershipDate,
-            churchId,
-            statusId,
-            userId,
-            sexo,
-          },
-          { where: { rut: rut } }
-        );
-        console.log('response', response);
-        return {
-          code: 200,
-          message: 'Miembro actualizado Exitosamente',
-        };
-      } catch (e) {
-        console.log('errro', e);
-        return {
-          code: 500,
-          message: 'Error al actualizar miembro',
-        };
-      }
+
+      const response = await memberService.updateMember(args.member);
+      console.log('update - Respuesta:', response);
+      console.log('update - Fin:', new Date().toISOString());
+      return response;
     },
     delete: async (args, context) => {
+      console.log('delete - Inicio:', new Date().toISOString());
+      console.log('delete - Args:', args);
+
       if (!context.user) {
+        console.log('delete - Error: You are not authenticated!');
+        console.log('delete - Fin:', new Date().toISOString());
         throw new Error('You are not authenticated!');
       }
-      try {
-        const response = await Member.destroy({ where: { rut: args.rut } });
-        try {
-          if (response === 0) {
-            return {
-              code: 400,
-              message: 'Miembro no existe',
-            };
-          }
-        } catch (e) {
-          console.log('errror 1', e);
-          return {
-            code: 500,
-            message: 'Error al eliminar miembro',
-          };
-        }
-        return {
-          code: 200,
-          message: 'Miembro eliminado Exitosamente',
-        };
-      } catch (e) {
-        console.log('errror 2', e);
-        return {
-          code: 500,
-          message: 'Error al eliminar miembro',
-        };
-      }
+
+      const response = await memberService.deleteMember(args.rut);
+      console.log('delete - Respuesta:', response);
+      console.log('delete - Fin:', new Date().toISOString());
+      return response;
     },
   },
 };
