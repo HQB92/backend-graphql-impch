@@ -13,6 +13,7 @@ const login = async (username, password) => {
     const token = generateToken(user.id, username, user.email, user.rut);
     console.log('Auth - Login - token:', token);
     console.log('Auth - Login - Fin:', new Date().toISOString());
+    return token;
 };
 
 module.exports = { login };

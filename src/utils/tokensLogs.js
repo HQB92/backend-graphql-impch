@@ -10,8 +10,8 @@ const validateContext = (user, patchService) => {
 
 const userLogs = (user) => {
   if (!user) {
-    console.log('login - Usuario no encontrado');
-    console.log('login - Fin:', new Date().toISOString());
+    console.log('Auth - Login - Usuario no encontrado');
+    console.log('Auth - Login - Fin:', new Date().toISOString());
     throw new Error('Usuario no encontrado');
   }
 }
@@ -19,8 +19,8 @@ const userLogs = (user) => {
 const passwordLogs = (pass,user) => {
   const valid = bcrypt.compareSync(pass, user.password);
     if (!valid) {
-        console.log('login - Contraseña inválida');
-        console.log('login - Fin:', new Date().toISOString());
+        console.log('Auth - Login - Contraseña inválida');
+        console.log('Auth - Login - Fin:', new Date().toISOString());
         throw new Error('Contraseña inválida');
     }
 
