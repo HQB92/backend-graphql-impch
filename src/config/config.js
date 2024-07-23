@@ -13,6 +13,9 @@ module.exports = {
                 rejectUnauthorized: false,
             },
         },
+        seederStorage: 'sequelize',
+        seederStorageTableName: 'SequelizeData',
+
     },
     test: {
         username: process.env.PGUSER,
@@ -26,6 +29,8 @@ module.exports = {
                 rejectUnauthorized: false,
             },
         },
+        seederStorage: 'sequelize',
+        seederStorageTableName: 'SequelizeData',
     },
     production: {
         username: process.env.PGUSER,
@@ -39,5 +44,7 @@ module.exports = {
                 rejectUnauthorized: false,
             },
         },
+        seederStorage: 'sequelize',
+        seederStorageTableName: 'SequelizeData',
     },
 };
