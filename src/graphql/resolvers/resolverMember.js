@@ -12,8 +12,8 @@ const resolversMember = {
       members.forEach((member) => {
         let count = 1;
         console.log('Members - getAll - Respuesta[',count,'] :', member?.dataValues);
+        count++;
       });
-      console.log('Member - getAll - Respuesta:', members);
       console.log('Member - getAll - Fin:', new Date().toISOString());
       return members;
     },
