@@ -4,15 +4,15 @@ const { findUserByUsername } = require('../services/users');
 const { userLogs, passwordLogs } = require('../utils/tokensLogs');
 
 const login = async (username, password) => {
-    console.log('login - Inicio:', new Date().toISOString());
-    console.log('login - username:', username);
-    console.log('login - password: *******');
+    console.log('Auth - Login - Inicio:', new Date().toISOString());
+    console.log('Auth - Login - username:', username);
+    console.log('Auth - Login - password: *******');
     const user = await findUserByUsername(username);
     userLogs(user);
     passwordLogs(password, user);
     const token = generateToken(user.id, username, user.email, user.rut);
-    console.log('login - token:', token);
-    console.log('login - Fin:', new Date().toISOString());
+    console.log('Auth - Login - token:', token);
+    console.log('Auth - Login - Fin:', new Date().toISOString());
 };
 
 module.exports = { login };
