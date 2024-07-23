@@ -1,79 +1,130 @@
 const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword} = require('../../services/users');
 const { validateContext } = require('../../utils/tokensLogs');
+const logger = require('../../utils/logger');
+
 const resolversUser = {
     UserQuery: {
         getAll: async ( args, context) => {
-            console.log('User - getAll - Inicio:', new Date().toISOString());
-            console.log('User - getAll - User:', context.user);
-            console.log('User - getAll - Args:', args);
-            validateContext(context.user, "User");
-            const users = await findAllUsers();
-            users.forEach((user, index) => {
-                console.log('Users - getAll - Respuesta[',index,'] :', user?.dataValues);
-
-            });
-            console.log('User - getAll - Fin:', new Date().toISOString());
+            logger.logStart('User - getAll')
+            logger.logUser('User - getAll', context.user);
+            logger.logArgs('User - getAll', args);
+            validateContext(context.user, 'User');
+            try {
+                const users = await findAllUsers();
+                logger.logResponses('User - getAll', users);
+                logger.logEnd('User - getAll');
+                return users;
+            }catch (error) {
+                logger.logError('User - getAll', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - getAll');
+            }
         },
         getById: async (args, context) => {
-            console.log('User - getById - Inicio:', new Date().toISOString());
-            console.log('User - getById - User:', context.user);
-            console.log('User - getById - Args:', args);
-            validateContext(context.user, "User");
-            const user = await findUserById(args.id);
-            console.log('User - getById - Respuesta:', user);
-            console.log('User - getById - Fin:', new Date().toISOString());
-            return user;
+            logger.logStart('User - getById')
+            logger.logUser('User - getById', context.user);
+            logger.logArgs('User - getById', args);
+            validateContext(context.user, 'User');
+            try {
+                const user = await findUserById(args.id);
+                logger.logResponse('User - getById', user);
+                logger.logEnd('User - getById');
+                return user;
+            }catch (error) {
+                logger.logError('User - getById', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - getById');
+            }
         },
         geyByUsername: async ( args, context) => {
-            console.log('User - getByUsername - Inicio:', new Date().toISOString());
-            console.log('User - getByUsername - User:', context.user);
-            console.log('User - getByUsername - Args:', args);
-            validateContext(context.user, "User");
-            const user = await findUserByUsername(args.username);
-            console.log('User - getByUsername - Respuesta:', user);
-            console.log('User - getByUsername - Fin:', new Date().toISOString());
+            logger.logStart('User - getByUsername')
+            logger.logUser('User - getByUsername', context.user);
+            logger.logArgs('User - getByUsername', args);
+            validateContext(context.user, 'User');
+            try {
+                const user = await findUserByUsername(args.username);
+                logger.logResponse('User - getByUsername', user);
+                logger.logEnd('User - getByUsername');
+                return user;
+            }catch (error) {
+                logger.logError('User - getByUsername', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - getByUsername');
+            }
         }
     },
 
     UserMutation: {
         create: async ( args, context) => {
-            console.log('User - create - Inicio:', new Date().toISOString());
-            console.log('User - create - User:', context.user);
-            console.log('User - create - Args:', args);
-            validateContext(context.user, "User");
-            const { username, email, password, rut } = args;
-            const user= await createUser(username, email, password, rut);
-            console.log('User - create - Respuesta:', user);
-            console.log('User - create - Fin:', new Date().toISOString());
+            logger.logStart('User - create')
+            logger.logUser('User - create', context.user);
+            logger.logArgs('User - create', args);
+            validateContext(context.user, 'User');
+            try {
+                const user = await createUser(args);
+                logger.logResponse('User - create', user);
+                logger.logEnd('User - create');
+                return user;
+            }catch (error) {
+                logger.logError('User - create', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - create');
+            }
         },
         update: async ( args, context) => {
-            console.log('User - update - Inicio:', new Date().toISOString());
-            console.log('User - update - User:', context.user);
-            console.log('User - update - Args:', args);
-            validateContext(context.user, "User");
-            const {id, username, email, password, rut } = args;
-            const user = await updateUser(id, username, email, password, rut);
-            console.log('User - update - Respuesta:', user);
-            console.log('User - update - Fin:', new Date().toISOString());
+            logger.logStart('User - update')
+            logger.logUser('User - update', context.user);
+            logger.logArgs('User - update', args);
+            validateContext(context.user, 'User');
+            try {
+                const user = await updateUser(args);
+                logger.logResponse('User - update', user);
+                logger.logEnd('User - update');
+                return user;
+            }catch (error) {
+                logger.logError('User - update', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - update');
+            }
         },
         delete: async (args, context) => {
-            console.log('User - delete - Inicio:', new Date().toISOString());
-            console.log('User - delete - User:', context.user);
-            console.log('User - delete - Args:', args);
-            validateContext(context.user, "User");
-            const user = await deleteUser(context.user.id);
-            console.log('User - delete - Respuesta:', user);
-            console.log('User - delete - Fin:', new Date().toISOString());
+            logger.logStart('User - delete')
+            logger.logUser('User - delete', context.user);
+            logger.logArgs('User - delete', args);
+            validateContext(context.user, 'User');
+            try {
+                const user = await deleteUser(args.id);
+                logger.logResponse('User - delete', user);
+                logger.logEnd('User - delete');
+                return user;
+            }catch (error) {
+                logger.logError('User - delete', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - delete');
+            }
         },
         changePassword: async (args, context) => {
-            console.log('User - changePassword - Inicio:', new Date().toISOString());
-            console.log('User - changePassword - User:', context.user);
-            console.log('User - changePassword - Args:', args);
-            validateContext(context.user, "User");
-            const { id, password } = args;
-            const user= await changePassword(id, password);
-            console.log('User - changePassword - Respuesta:', user);
-            console.log('User - changePassword - Fin:', new Date().toISOString());
+            logger.logStart('User - changePassword')
+            logger.logUser('User - changePassword', context.user);
+            logger.logArgs('User - changePassword', args);
+            validateContext(context.user, 'User');
+            try {
+                const response = await changePassword(args.id, args.password);
+                logger.logResponse('User - changePassword', response);
+                logger.logEnd('User - changePassword');
+                return response;
+            }catch (error) {
+                logger.logError('User - changePassword', error);
+                throw error;
+            }finally {
+                logger.logEnd('User - changePassword');
+            }
         }
     },
 };

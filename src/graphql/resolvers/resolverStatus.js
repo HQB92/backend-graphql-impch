@@ -1,62 +1,96 @@
 const statusService = require('../../services/status');
 const { validateContext } = require('../../utils/tokensLogs');
+const logger = require('../../utils/logger');
 
 const resolversStatus = {
   StatusQuery: {
     getAll: async (args, context) => {
-      console.log('Status - getAll - Inicio:', new Date().toISOString());
-      console.log('Status - getAll - User:', context.user);
-      console.log('Status - getAll - Args:', args);
-      validateContext(context.user, "Status");
-      const statuses = await statusService.getAllStatuses();
-      statuses.forEach((status, index) => {
-          console.log('Status - getAll - Respuesta[',index,'] :', status?.dataValues);
-      });
-      console.log('Status - getAll - Fin:', new Date().toISOString());
-      return statuses;
+      logger.logStart('Status - getAll')
+      logger.logUser('Status - getAll', context.user);
+      logger.logArgs('Status - getAll', args);
+      validateContext(context.user, 'Status');
+      try {
+        const status = await statusService.getAllStatuses();
+        logger.logResponses('Status - getAll', status);
+        logger.logEnd('Status - getAll');
+        return status;
+      }catch (error) {
+        logger.logError('Status - getAll', error);
+        throw error;
+      }finally {
+        logger.logEnd('Status - getAll');
+      }
     },
     getById: async (args, context) => {
-      console.log('Status - getById - Inicio:', new Date().toISOString());
-      console.log('Status - getById - User:', context.user);
-      console.log('Status - getById - Args:', args);
-      validateContext(context.user, "Status");
-      const status = await statusService.getStatusById(args.id);
-      console.log('Status - getById - Respuesta:', status);
-      console.log('Status - getById - Fin:', new Date().toISOString());
-      return status;
+        logger.logStart('Status - getById')
+        logger.logUser('Status - getById', context.user);
+        logger.logArgs('Status - getById', args);
+        validateContext(context.user, 'Status');
+        try {
+            const status = await statusService.getStatusById(args.id);
+            logger.logResponse('Status - getById', status);
+            logger.logEnd('Status - getById');
+            return status;
+        }catch (error) {
+            logger.logError('Status - getById', error);
+            throw error;
+        }finally {
+          logger.logEnd('Status - getById');
+        }
     },
   },
 
   StatusMutation: {
     create: async (args, context) => {
-      console.log('Status - create - Inicio:', new Date().toISOString());
-      console.log('Status - create - User:', context.user);
-      console.log('Status - create - Args:', args);
-      validateContext(context.user, "Status");
-      const response = await statusService.createStatus(args.status);
-      console.log('Status - create - Respuesta:', response);
-      console.log('Status - create - Fin:', new Date().toISOString());
-      return response;
+        logger.logStart('Status - create')
+        logger.logUser('Status - create', context.user);
+        logger.logArgs('Status - create', args);
+        validateContext(context.user, 'Status');
+        try {
+            const response = await statusService.createStatus(args.status);
+            logger.logResponse('Status - create', response);
+            logger.logEnd('Status - create');
+            return response;
+        }catch (error) {
+            logger.logError('Status - create', error);
+            throw error;
+        }finally {
+            logger.logEnd('Status - create');
+        }
     },
     update: async (args, context) => {
-      console.log('Status - update - Inicio:', new Date().toISOString());
-      console.log('Status - update - User:', context.user);
-      console.log('Status - update - Args:', args);
-      validateContext(context.user, "Status");
-      const response = await statusService.updateStatus(args.status);
-      console.log('Status - update - Respuesta:', response);
-      console.log('Status - update - Fin:', new Date().toISOString());
-      return response;
+        logger.logStart('Status - update')
+        logger.logUser('Status - update', context.user);
+        logger.logArgs('Status - update', args);
+        validateContext(context.user, 'Status');
+        try {
+            const response = await statusService.updateStatus(args.status);
+            logger.logResponse('Status - update', response);
+            logger.logEnd('Status - update');
+            return response;
+        }catch (error) {
+            logger.logError('Status - update', error);
+            throw error;
+        }finally {
+          logger.logEnd('Status - update');
+        }
     },
     delete: async (args, context) => {
-      console.log('Status - delete - Inicio:', new Date().toISOString());
-      console.log('Status - delete - User:', context.user);
-      console.log('Status - delete - Args:', args);
-      validateContext(context.user, "Status");
-      const response = await statusService.deleteStatus(args.id);
-      console.log('Status - delete - Respuesta:', response);
-      console.log('Status - delete - Fin:', new Date().toISOString());
-      return response;
+        logger.logStart('Status - delete')
+        logger.logUser('Status - delete', context.user);
+        logger.logArgs('Status - delete', args);
+        validateContext(context.user, 'Status');
+        try {
+            const response = await statusService.deleteStatus(args.id);
+            logger.logResponse('Status - delete', response);
+            logger.logEnd('Status - delete');
+            return response;
+        }catch (error) {
+            logger.logError('Status - delete', error);
+            throw error;
+        }finally {
+          logger.logEnd('Status - delete');
+        }
     },
   },
 };
