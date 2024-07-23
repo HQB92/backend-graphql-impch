@@ -15,7 +15,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          key_type: pem
           port: 22
           script: |
             cd /home/bitnami/paginas/backend-graphql-impch
