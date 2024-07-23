@@ -11,6 +11,7 @@ const resolversBaptismRecord = {
       baptismRecords.forEach((baptismRecord) => {
         let count = 1;
         console.log('BaptismRecord - getAll - Respuesta[',count,'] :', baptismRecord?.dataValues);
+        count++;
       })
       console.log('BaptismRecord - getAll - Fin:', new Date().toISOString());
       return baptismRecords;

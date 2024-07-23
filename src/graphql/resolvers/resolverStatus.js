@@ -9,7 +9,11 @@ const resolversStatus = {
       console.log('Status - getAll - Args:', args);
       validateContext(context.user, "Status");
       const statuses = await statusService.getAllStatuses();
-      console.log('Status - getAll - Respuesta:', statuses);
+      statuses.forEach((status) => {
+          let count = 1;
+          console.log('Status - getAll - Respuesta[',count,'] :', status?.dataValues);
+          count++;
+      });
       console.log('Status - getAll - Fin:', new Date().toISOString());
       return statuses;
     },

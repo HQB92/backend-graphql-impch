@@ -8,7 +8,11 @@ const resolversUser = {
             console.log('User - getAll - Args:', args);
             validateContext(context.user, "User");
             const users = await findAllUsers();
-            console.log('User - getAll - Respuesta:', users);
+            users.forEach((user) => {
+                let count = 1;
+                console.log('Users - getAll - Respuesta[',count,'] :', user?.dataValues);
+                count++;
+            });
             console.log('User - getAll - Fin:', new Date().toISOString());
         },
         getById: async (args, context) => {

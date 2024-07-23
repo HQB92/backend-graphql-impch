@@ -9,6 +9,10 @@ const resolversMember = {
       console.log('Member - getAll - Args:', args);
       validateContext(context.user, "Member");
       const members = await memberService.getAllMembers(args);
+      members.forEach((member) => {
+        let count = 1;
+        console.log('Members - getAll - Respuesta[',count,'] :', member?.dataValues);
+      });
       console.log('Member - getAll - Respuesta:', members);
       console.log('Member - getAll - Fin:', new Date().toISOString());
       return members;
