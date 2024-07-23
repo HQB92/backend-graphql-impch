@@ -13,7 +13,7 @@ const resolversMember = {
       }
 
       const members = await memberService.getAllMembers(args);
-      console.log('getAll - Respuesta:', members[0].Member.dataValues);
+      console.log('getAll - Respuesta:', members);
       console.log('getAll - Fin:', new Date().toISOString());
       return members;
     },
