@@ -5,8 +5,8 @@ module.exports = {
     await queryInterface.bulkInsert('Statuses', [
       {
         id: 3,
-        name: 'Activo',
-        description: 'Miembro activo',
+        name: 'Activo2',
+        description: 'Miembro activo2',
         createdAt: new Date('2024-06-13T21:20:25.323Z'),
         updatedAt: new Date('2024-06-13T21:20:25.323Z'),
       }
