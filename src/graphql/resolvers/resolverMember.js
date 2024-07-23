@@ -13,7 +13,7 @@ const resolversMember = {
       }
 
       const members = await memberService.getAllMembers(args);
-      console.log('getAll - Respuesta:', members);
+      console.log('getAll - Respuesta:', members.dataValues);
       console.log('getAll - Fin:', new Date().toISOString());
       return members;
     },
@@ -28,7 +28,7 @@ const resolversMember = {
       }
 
       const member = await memberService.getMemberByRut(args.rut);
-      console.log('getByRut - Respuesta:', member);
+      console.log('getByRut - Respuesta:', member.dataValues);
       console.log('getByRut - Fin:', new Date().toISOString());
       return member;
     },
@@ -42,7 +42,7 @@ const resolversMember = {
       }
 
       const members = await memberService.getAllMemberProbation();
-      console.log('GetAllMemberProbation - Respuesta:', members);
+      console.log('GetAllMemberProbation - Respuesta:', members.dataValues);
       console.log('GetAllMemberProbation - Fin:', new Date().toISOString());
       return members;
     },
@@ -56,7 +56,7 @@ const resolversMember = {
       }
 
       const count = await memberService.countMembers();
-      console.log('count - Respuesta:', count);
+      console.log('count - Respuesta:', count.dataValues);
       console.log('count - Fin:', new Date().toISOString());
       return count;
     },
@@ -74,7 +74,7 @@ const resolversMember = {
       }
 
       const response = await memberService.createMember(args.member);
-      console.log('create - Respuesta:', response);
+      console.log('create - Respuesta:', response.dataValues);
       console.log('create - Fin:', new Date().toISOString());
       return response;
     },
@@ -89,7 +89,7 @@ const resolversMember = {
       }
 
       const response = await memberService.updateMember(args.member);
-      console.log('update - Respuesta:', response);
+      console.log('update - Respuesta:', response.dataValues);
       console.log('update - Fin:', new Date().toISOString());
       return response;
     },
@@ -104,7 +104,7 @@ const resolversMember = {
       }
 
       const response = await memberService.deleteMember(args.rut);
-      console.log('delete - Respuesta:', response);
+      console.log('delete - Respuesta:', response.dataValues);
       console.log('delete - Fin:', new Date().toISOString());
       return response;
     },
