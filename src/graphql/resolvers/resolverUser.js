@@ -8,10 +8,9 @@ const resolversUser = {
             console.log('User - getAll - Args:', args);
             validateContext(context.user, "User");
             const users = await findAllUsers();
-            users.forEach((user) => {
-                let count = 1;
-                console.log('Users - getAll - Respuesta[',count,'] :', user?.dataValues);
-                count++;
+            users.forEach((user, index) => {
+                console.log('Users - getAll - Respuesta[',index,'] :', user?.dataValues);
+
             });
             console.log('User - getAll - Fin:', new Date().toISOString());
         },

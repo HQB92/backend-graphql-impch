@@ -35,10 +35,8 @@ const resolversChurch = {
       console.log('Church - create - Args:', args);
       validateContext(context.user, "Church");
       const response = await churchService.createChurch(args.church);
-      response.forEach((church) => {
-        let count = 1;
-        console.log('Church - create - Respuesta[',count,'] :', church?.dataValues);
-        count++;
+      response.forEach((church, index) => {
+        console.log('Church - create - Respuesta[',index,'] :', church?.dataValues);
       })
       console.log('Church - create - Fin:', new Date().toISOString());
       return response;
