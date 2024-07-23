@@ -1,101 +1,55 @@
-const Church = require('../../db/models/church');
+const churchService = require('../../services/church');
+const { validateContext } = require('../../utils/validateContext');
 
 const resolversChurch = {
   ChurchQuery: {
-    getAll: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      return Church.findAll();
+    getAll: async (parent, args, context) => {
+      console.log('getAll - Inicio:', new Date().toISOString());
+      console.log('getAll - Args:', args);
+      validateContext(context.user);
+      const churches = await churchService.getAllChurches();
+      console.log('getAll - Respuesta:', churches);
+      console.log('getAll - Fin:', new Date().toISOString());
+      return churches;
     },
-    getById: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      const data = await Iglesia.findOne({ where: { id: args?.id } });
-      return await Church.findOne({ where: { id: args.id } });
-    },
-    getByName: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      return Church.findOne({ where: { nombre: args.nombre } });
+    getById: async (parent, args, context) => {
+      console.log('getById - Inicio:', new Date().toISOString());
+      console.log('getById - Args:', args);
+      validateContext(context.user);
+      const church = await churchService.getChurchById(args.id);
+      console.log('getById - Respuesta:', church);
+      console.log('getById - Fin:', new Date().toISOString());
+      return church;
     },
   },
 
   ChurchMutation: {
-    create: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      const { name, address } = args;
-      const data = await Church.findOne({ where: { name } });
-      try {
-        if (data) {
-          return {
-            code: 400,
-            message: 'Iglesia ya existe',
-          };
-        }
-        await Church.create({ name, address });
-        return {
-          code: 200,
-          message: 'Iglesia creada Exitosamente',
-        };
-      } catch (e) {
-        return {
-          code: 500,
-          message: 'Error al crear iglesia',
-        };
-      }
+    create: async (parent, args, context) => {
+      console.log('create - Inicio:', new Date().toISOString());
+      console.log('create - Args:', args);
+      validateContext(context.user);
+      const response = await churchService.createChurch(args.church);
+      console.log('create - Respuesta:', response);
+      console.log('create - Fin:', new Date().toISOString());
+      return response;
     },
-    update: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      const { id, nombre, direccion } = args;
-      try {
-        await Church.update({ nombre, direccion }, { where: { id } });
-        return {
-          code: 200,
-          message: 'Iglesia actualizada Exitosamente',
-        };
-      } catch (e) {
-        return {
-          code: 500,
-          message: 'Error al actualizar iglesia',
-        };
-      }
+    update: async (parent, args, context) => {
+      console.log('update - Inicio:', new Date().toISOString());
+      console.log('update - Args:', args);
+      validateContext(context.user);
+      const response = await churchService.updateChurch(args.church);
+      console.log('update - Respuesta:', response);
+      console.log('update - Fin:', new Date().toISOString());
+      return response;
     },
-    delete: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      try {
-        const response = await Church.destroy({ where: { id: args.id } });
-        try {
-          if (response === 0) {
-            return {
-              code: 400,
-              message: 'Iglesia no existe',
-            };
-          }
-        } catch (e) {
-          return {
-            code: 500,
-            message: 'Error al eliminar iglesia',
-          };
-        }
-        return {
-          code: 200,
-          message: 'Iglesia eliminada Exitosamente',
-        };
-      } catch (e) {
-        return {
-          code: 500,
-          message: 'Error al eliminar iglesia',
-        };
-      }
+    delete: async (parent, args, context) => {
+      console.log('delete - Inicio:', new Date().toISOString());
+      console.log('delete - Args:', args);
+      validateContext(context.user);
+      const response = await churchService.deleteChurch(args.id);
+      console.log('delete - Respuesta:', response);
+      console.log('delete - Fin:', new Date().toISOString());
+      return response;
     },
   },
 };

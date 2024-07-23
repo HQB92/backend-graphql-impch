@@ -3,6 +3,7 @@ const Member = require('../db/models/member');
 const { Op } = require('sequelize');
 
 const getAllMembers = async (args) => {
+
     let filterChurch = {};
     let filterType = {};
 

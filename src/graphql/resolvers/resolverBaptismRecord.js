@@ -1,145 +1,54 @@
-const BaptismRecord = require('../../db/models/baptismRecord');
-
+const baptismRecordService = require('../../services/baptismRecord');
+const { validateContext } = require('../../utils/validateContext');
 const resolversBaptismRecord = {
   BaptismRecordQuery: {
-    getAll: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      return await BaptismRecord.findAll({ order: [['baptismDate', 'DESC']] });
+    getAll: async (parent, args, context) => {
+      console.log('getAll - Inicio:', new Date().toISOString());
+      console.log('getAll - Args:', args);
+      validateContext(context.user);
+      const baptismRecords = await baptismRecordService.getAllBaptismRecords();
+      console.log('getAll - Respuesta:', baptismRecords);
+      console.log('getAll - Fin:', new Date().toISOString());
+      return baptismRecords;
     },
-    getByChildRut: async (args, context) => {
-      console.log('args', args);
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      return await BaptismRecord.findOne({ where: { childRUT: args.childRUT } });
-    },
-    count: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      return BaptismRecord.count();
+    getById: async (parent, args, context) => {
+      console.log('getById - Inicio:', new Date().toISOString());
+      console.log('getById - Args:', args);
+      validateContext(context.user);
+      const baptismRecord = await baptismRecordService.getBaptismRecordById(args.id);
+      console.log('getById - Respuesta:', baptismRecord);
+      console.log('getById - Fin:', new Date().toISOString());
+      return baptismRecord;
     },
   },
 
   BaptismRecordMutation: {
-    create: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      const {
-        childRUT,
-        childFullName,
-        childDateOfBirth,
-        fatherRUT,
-        fatherFullName,
-        motherRUT,
-        motherFullName,
-        placeOfRegistration,
-        baptismDate,
-        registrationNumber,
-        registrationDate
-      } = args.baptismRecord;
-
-      const data = await BaptismRecord.findOne({ where: { childRUT } });
-      try {
-        if (data) {
-          return {
-            success: 400,
-            message: 'Baptism record already exists',
-          };
-        }
-        await BaptismRecord.create({
-          childRUT,
-          childFullName,
-          childDateOfBirth,
-          fatherRUT,
-          fatherFullName,
-          motherRUT,
-          motherFullName,
-          placeOfRegistration,
-          baptismDate,
-          registrationNumber,
-          registrationDate
-        });
-        return {
-          success: 200,
-          message: 'Baptism record created successfully',
-        };
-      } catch (e) {
-        console.log('Error', e);
-        return {
-          success: 400,
-          message: 'Error creating baptism record',
-        };
-      }
+    create: async (parent, args, context) => {
+      console.log('create - Inicio:', new Date().toISOString());
+      console.log('create - Args:', args);
+      validateContext(context.user);
+      const response = await baptismRecordService.createBaptismRecord(args.baptismRecord);
+      console.log('create - Respuesta:', response);
+      console.log('create - Fin:', new Date().toISOString());
+      return response;
     },
-    update: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      const {
-        childRUT,
-        childFullName,
-        childDateOfBirth,
-        fatherRUT,
-        fatherFullName,
-        motherRUT,
-        motherFullName,
-        placeOfRegistration,
-        baptismDate,
-        registrationNumber,
-        registrationDate
-      } = args.baptismRecord;
-      try {
-        const response = await BaptismRecord.update({
-          childFullName,
-          childDateOfBirth,
-          fatherRUT,
-          fatherFullName,
-          motherRUT,
-          motherFullName,
-          placeOfRegistration,
-          baptismDate,
-          registrationNumber,
-          registrationDate
-        }, { where: { childRUT } });
-        return {
-          success: 200,
-          message: 'Baptism record updated successfully',
-        };
-      } catch (e) {
-        console.log('Error', e);
-        return {
-          success: 400,
-          message: 'Error updating baptism record',
-        };
-      }
+    update: async (parent, args, context) => {
+      console.log('update - Inicio:', new Date().toISOString());
+      console.log('update - Args:', args);
+      validateContext(context.user);
+      const response = await baptismRecordService.updateBaptismRecord(args.baptismRecord);
+      console.log('update - Respuesta:', response);
+      console.log('update - Fin:', new Date().toISOString());
+      return response;
     },
-    delete: async (args, context) => {
-      if (!context.user) {
-        throw new Error('You are not authenticated!');
-      }
-      try {
-        const response = await BaptismRecord.destroy({ where: { childRut: args.childRut } });
-        if (response === 0) {
-          return {
-            success: 500,
-            message: 'Baptism record does not exist',
-          };
-        }
-        return {
-          success: 200,
-          message: 'Baptism record deleted successfully',
-        };
-      } catch (e) {
-        console.log('Error', e);
-        return {
-          success: 400,
-          message: 'Error deleting baptism record',
-        };
-      }
+    delete: async (parent, args, context) => {
+      console.log('delete - Inicio:', new Date().toISOString());
+      console.log('delete - Args:', args);
+      validateContext(context.user);
+      const response = await baptismRecordService.deleteBaptismRecord(args.id);
+      console.log('delete - Respuesta:', response);
+      console.log('delete - Fin:', new Date().toISOString());
+      return response;
     },
   },
 };
