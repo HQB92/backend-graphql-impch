@@ -6,7 +6,7 @@ const resolversBaptismRecord = {
       if (!context.user) {
         throw new Error('You are not authenticated!');
       }
-      return await BaptismRecord.findAll({ order: [['baptismDate', 'ASC']] });
+      return await BaptismRecord.findAll({ order: [['baptismDate', 'DESC']] });
     },
     getByChildRut: async (args, context) => {
       console.log('args', args);
