@@ -1,19 +1,18 @@
 const bcrypt = require('bcryptjs');
 const { generateToken } = require('./auth');
 const { findUserByUsername } = require('../services/users');
+import {userLogs, passwordLogs} from '../utils/tokensLogs';
 
 const login = async (username, password) => {
+    console.log('login - Inicio:', new Date().toISOString());
+    console.log('login - username:', username);
+    console.log('login - password: *******');
     const user = await findUserByUsername(username);
-    if (!user) {
-        throw new Error('User not found');
-    }
-
-    const valid = bcrypt.compareSync(password, user.password);
-    if (!valid) {
-        throw new Error('Invalid password');
-    }
-
-    return generateToken(user.id, username, user.email, user.rut);
+    userLogs(user);
+    passwordLogs(password, user);
+    const token = generateToken(user.id, username, user.email, user.rut);
+    console.log('login - token:', token);
+    console.log('login - Fin:', new Date().toISOString());
 };
 
 module.exports = { login };

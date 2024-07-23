@@ -1,5 +1,5 @@
 const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword} = require('../../services/users');
-const validateContext = require('../../utils/validateContext');
+const { validateContext } = require('../../utils/tokensLogs');
 const resolversUser = {
     UserQuery: {
         getAll: async ( args, context) => {

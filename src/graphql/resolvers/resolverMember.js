@@ -1,5 +1,5 @@
 const memberService = require('../../services/member');
-const validateContext = require('../../utils/validateContext');
+const { validateContext } = require('../../utils/tokensLogs');
 
 const resolversMember = {
   MemberQuery: {
