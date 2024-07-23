@@ -1,5 +1,5 @@
 const churchService = require('../../services/church');
-const { validateContext } = require('../../utils/validateContext');
+const  validateContext  = require('../../utils/validateContext');
 
 const resolversChurch = {
   ChurchQuery: {

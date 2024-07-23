@@ -1,5 +1,5 @@
 const baptismRecordService = require('../../services/baptismRecord');
-const { validateContext } = require('../../utils/validateContext');
+const validateContext = require('../../utils/validateContext');
 const resolversBaptismRecord = {
   BaptismRecordQuery: {
     getAll: async (parent, args, context) => {

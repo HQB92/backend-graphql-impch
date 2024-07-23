@@ -1,5 +1,5 @@
 const statusService = require('../../services/status');
-const { validateContext } = require('../../utils/validateContext');
+const validateContext = require('../../utils/validateContext');
 
 const resolversStatus = {
   StatusQuery: {
