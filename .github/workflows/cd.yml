@@ -18,6 +18,7 @@ jobs:
           port: 22
           script: |
             cd /home/bitnami/paginas/backend-graphql-impch
+            pm2 stop backend-graphql-impch
             git clean -f
             git pull origin main
             npm ci
