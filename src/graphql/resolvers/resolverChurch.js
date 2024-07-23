@@ -9,10 +9,8 @@ const resolversChurch = {
       console.log('Church - getAll - Args:', args);
       validateContext(context.user, "Church");
       const churches = await churchService.getAllChurches();
-      churches.forEach((churche) => {
-        let count = 1;
-        console.log('Churches - getAll - Respuesta[',count,'] :', churche?.dataValues);
-        count++;
+      churches.forEach((churche, index) => {
+        console.log('Churches - getAll - Respuesta[',index,'] :', churche?.dataValues);
       });
       console.log('Church - getAll - Respuesta:', churches);
       console.log('Church - getAll - Fin:', new Date().toISOString());
