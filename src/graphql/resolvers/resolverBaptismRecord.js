@@ -10,7 +10,7 @@ const resolversBaptismRecord = {
       const baptismRecords = await baptismRecordService.getAllBaptismRecords();
       baptismRecords.forEach((baptismRecord) => {
         console.log('BaptismRecord - getAll - Respuesta:', baptismRecord?.dataValues);
-      }
+      })
       console.log('BaptismRecord - getAll - Fin:', new Date().toISOString());
       return baptismRecords;
     },
