@@ -23,7 +23,6 @@ const passwordLogs = (pass,user) => {
         console.log('Auth - Login - Fin:', new Date().toISOString());
         throw new Error('Contraseña inválida');
     }
-
 }
 
 module.exports = {
