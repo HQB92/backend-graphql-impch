@@ -20,7 +20,7 @@ const logger = {
     },
     logResponses: (operation, responses) => {
         console.log(`${operation} - Cantidad de Respuestas: `,responses.length );
-    }
+    },
     logError: (operation, error) => {
         console.error(`${operation} - Error:`, error);
     },
