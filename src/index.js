@@ -1,6 +1,6 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const { verifyToken } = require('./auth/auth');
+const { verifyToken } = require('./utils/auth');
 const authRouter = require('./auth/auth.router');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
