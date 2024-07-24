@@ -40,7 +40,8 @@ const deleteUser = async (id) => {
     if (data === 1) {
         return { code: 200 , message: 'Usuario Eliminado Exitosamente' };
     }else {
-        return { code: 400 , message: 'Error al eliminar usuario' };
+        return {code: 400, message: 'Error al eliminar usuario'};
+    }
 }
 
 const changePassword = async (id, password) => {
