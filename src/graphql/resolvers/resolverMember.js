@@ -12,7 +12,6 @@ const resolversMember = {
         try {
             const members = await memberService.getAllMembers(args);
             logger.logResponses('Member - getAll', members);
-            logger.logEnd('Member - getAll');
             return members;
         }catch (error) {
             logger.logError('Member - getAll', error);
@@ -29,7 +28,6 @@ const resolversMember = {
        try {
           const member = await memberService.getMemberByRut(args.rut);
           logger.logResponse('Member - getByRut', member);
-          logger.logEnd('Member - getByRut');
           return member;
        }catch (error) {
           logger.logError('Member - getByRut', error);
@@ -47,7 +45,6 @@ const resolversMember = {
         try {
             const count = await memberService.countMembers();
             logger.logResponse('Member - count', count);
-            logger.logEnd('Member - count');
             return count;
         }catch (error) {
             logger.logError('Member - count', error);
@@ -67,7 +64,6 @@ const resolversMember = {
       try {
         const response = await memberService.createMember(args.member);
         logger.logResponse('Member - create', response);
-        logger.logEnd('Member - create');
         return response;
       }catch (error) {
         logger.logError('Member - create', error);
@@ -84,7 +80,6 @@ const resolversMember = {
         try {
             const response = await memberService.updateMember(args.member);
             logger.logResponse('Member - update', response);
-            logger.logEnd('Member - update');
             return response;
         }catch (error) {
             logger.logError('Member - update', error);
@@ -101,7 +96,6 @@ const resolversMember = {
         try {
             const response = await memberService.deleteMember(args.id);
             logger.logResponse('Member - delete', response);
-            logger.logEnd('Member - delete');
             return response;
         }catch (error) {
             logger.logError('Member - delete', error);

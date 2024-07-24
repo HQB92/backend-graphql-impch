@@ -12,7 +12,6 @@ const resolversBaptismRecord = {
       try {
         const baptismRecords = await baptismRecordService.getAllBaptismRecords();
         logger.logResponses('BaptismRecord - getAll', baptismRecords);
-        logger.logEnd('BaptismRecord - getAll');
         return baptismRecords;
       }catch (error) {
         logger.logError('BaptismRecord - getAll', error);
@@ -29,7 +28,6 @@ const resolversBaptismRecord = {
       try {
         const baptismRecord = await baptismRecordService.getBaptismRecordById(args.id);
         logger.logResponse('BaptismRecord - getById', baptismRecord);
-        logger.logEnd('BaptismRecord - getById');
         return baptismRecord;
       }catch (error) {
         logger.logError('BaptismRecord - getById', error);
@@ -49,7 +47,6 @@ const resolversBaptismRecord = {
       try {
         const response = await baptismRecordService.createBaptismRecord(args.baptismRecord);
         logger.logResponse('BaptismRecord - create', response);
-        logger.logEnd('BaptismRecord - create');
         return response;
       }catch (error) {
         logger.logError('BaptismRecord - create', error);
@@ -66,7 +63,6 @@ const resolversBaptismRecord = {
         try {
             const response = await baptismRecordService.updateBaptismRecord(args.baptismRecord);
             logger.logResponse('BaptismRecord - update', response);
-            logger.logEnd('BaptismRecord - update');
             return response;
         }catch (error) {
             logger.logError('BaptismRecord - update', error);
@@ -83,7 +79,6 @@ const resolversBaptismRecord = {
         try {
             const response = await baptismRecordService.deleteBaptismRecord(args.id);
             logger.logResponse('BaptismRecord - delete', response);
-            logger.logEnd('BaptismRecord - delete');
             return response;
         }catch (error) {
             logger.logError('BaptismRecord - delete', error);

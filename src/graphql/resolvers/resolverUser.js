@@ -12,7 +12,6 @@ const resolversUser = {
             try {
                 const users = await findAllUsers();
                 logger.logResponses('User - getAll', users);
-                logger.logEnd('User - getAll');
                 return users;
             }catch (error) {
                 logger.logError('User - getAll', error);
@@ -29,7 +28,6 @@ const resolversUser = {
             try {
                 const user = await findUserById(args.id);
                 logger.logResponse('User - getById', user);
-                logger.logEnd('User - getById');
                 return user;
             }catch (error) {
                 logger.logError('User - getById', error);
@@ -46,7 +44,6 @@ const resolversUser = {
             try {
                 const user = await findUserByUsername(args.username);
                 logger.logResponse('User - getByUsername', user);
-                logger.logEnd('User - getByUsername');
                 return user;
             }catch (error) {
                 logger.logError('User - getByUsername', error);
@@ -66,7 +63,6 @@ const resolversUser = {
             try {
                 const user = await createUser(args);
                 logger.logResponse('User - create', user);
-                logger.logEnd('User - create');
                 return user;
             }catch (error) {
                 logger.logError('User - create', error);
@@ -83,7 +79,6 @@ const resolversUser = {
             try {
                 const user = await updateUser(args);
                 logger.logResponse('User - update', user);
-                logger.logEnd('User - update');
                 return user;
             }catch (error) {
                 logger.logError('User - update', error);
@@ -100,7 +95,6 @@ const resolversUser = {
             try {
                 const user = await deleteUser(args.id);
                 logger.logResponse('User - delete', user);
-                logger.logEnd('User - delete');
                 return user;
             }catch (error) {
                 logger.logError('User - delete', error);
@@ -117,7 +111,6 @@ const resolversUser = {
             try {
                 const response = await changePassword(args.id, args.password);
                 logger.logResponse('User - changePassword', response);
-                logger.logEnd('User - changePassword');
                 return response;
             }catch (error) {
                 logger.logError('User - changePassword', error);

@@ -1,9 +1,14 @@
+const dateFormated = () => {
+    const date = new Date();
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}
+
 const logger = {
     logStart: (operation) => {
-        console.log(`${operation} - Inicio:`, new Date().toISOString());
+        console.log(`${operation} - Inicio:`, dateFormated());
     },
     logEnd: (operation) => {
-        console.log(`${operation} - Fin:`, new Date().toISOString());
+        console.log(`${operation} - Fin:`, dateFormated());
     },
     logArgs: (operation, args) => {
         console.log(`${operation} - Args:`, args);

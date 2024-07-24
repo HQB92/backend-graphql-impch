@@ -12,7 +12,6 @@ const resolversStatus = {
       try {
         const status = await statusService.getAllStatuses();
         logger.logResponses('Status - getAll', status);
-        logger.logEnd('Status - getAll');
         return status;
       }catch (error) {
         logger.logError('Status - getAll', error);
@@ -29,7 +28,6 @@ const resolversStatus = {
         try {
             const status = await statusService.getStatusById(args.id);
             logger.logResponse('Status - getById', status);
-            logger.logEnd('Status - getById');
             return status;
         }catch (error) {
             logger.logError('Status - getById', error);
@@ -49,7 +47,6 @@ const resolversStatus = {
         try {
             const response = await statusService.createStatus(args.status);
             logger.logResponse('Status - create', response);
-            logger.logEnd('Status - create');
             return response;
         }catch (error) {
             logger.logError('Status - create', error);
@@ -66,7 +63,6 @@ const resolversStatus = {
         try {
             const response = await statusService.updateStatus(args.status);
             logger.logResponse('Status - update', response);
-            logger.logEnd('Status - update');
             return response;
         }catch (error) {
             logger.logError('Status - update', error);
@@ -83,7 +79,6 @@ const resolversStatus = {
         try {
             const response = await statusService.deleteStatus(args.id);
             logger.logResponse('Status - delete', response);
-            logger.logEnd('Status - delete');
             return response;
         }catch (error) {
             logger.logError('Status - delete', error);

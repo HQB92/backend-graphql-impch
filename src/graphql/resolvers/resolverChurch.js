@@ -12,7 +12,6 @@ const resolversChurch = {
       try {
         const churches = await churchService.getAllChurches();
         logger.logResponses('Church - getAll', churches);
-        logger.logEnd('Church - getAll');
         return churches;
       }catch (error) {
         logger.logError('Church - getAll', error);
@@ -29,7 +28,6 @@ const resolversChurch = {
         try {
             const church = await churchService.getChurchById(args.id);
             logger.logResponse('Church - getById', church);
-            logger.logEnd('Church - getById');
             return church;
         }catch (error) {
             logger.logError('Church - getById', error);
@@ -49,7 +47,6 @@ const resolversChurch = {
         try {
             const response = await churchService.createChurch(args.church);
             logger.logResponse('Church - create', response);
-            logger.logEnd('Church - create');
             return response;
         }catch (error) {
             logger.logError('Church - create', error);
@@ -66,7 +63,6 @@ const resolversChurch = {
         try {
             const response = await churchService.updateChurch(args.church);
             logger.logResponse('Church - update', response);
-            logger.logEnd('Church - update');
             return response;
         }catch (error) {
             logger.logError('Church - update', error);
@@ -83,7 +79,6 @@ const resolversChurch = {
         try {
             const response = await churchService.deleteChurch(args.id);
             logger.logResponse('Church - delete', response);
-            logger.logEnd('Church - delete');
             return response;
         }catch (error) {
             logger.logError('Church - delete', error);
