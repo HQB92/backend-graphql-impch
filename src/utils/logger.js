@@ -1,6 +1,8 @@
+const moment = require('moment-timezone');
+
+
 const dateFormated = () => {
-    const date = new Date();
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return moment().tz('America/Santiago').format('YYYY-MM-DD HH:mm:ss');
 }
 
 const logger = {
