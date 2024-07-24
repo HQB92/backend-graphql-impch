@@ -33,11 +33,7 @@ const updateUser = async (args) => {
         try {
             const userData = await User.update(
                 {user}, {where: {id: user.id}});
-            if (userData[0] === 1) {
-                return {code: 200, message: 'Usuario Actualizado Exitosamente'};
-            } else {
-                return {code: 400, message: 'Error al actualizar usuario'};
-            }
+            console.log(userData);
         }catch (error) {
             console.log(error);
             return {code: 400, message: 'Error al actualizar usuario'};
