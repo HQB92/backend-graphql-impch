@@ -24,6 +24,7 @@ const dataTypesUser = gql`
   }
   
   input UserInput {
+    id: ID
     rut: ID
     username: String
     email: String
