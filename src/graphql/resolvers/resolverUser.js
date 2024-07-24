@@ -1,7 +1,7 @@
 const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword, resetPassword} = require('../../services/users');
 const { validateContext } = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
-
+const { getMemberByRut, updateMember } = require('../../services/member');
 const resolversUser = {
     UserQuery: {
         getAll: async ( args, context) => {
@@ -63,6 +63,29 @@ const resolversUser = {
             try {
                 const user = await createUser(args);
                 logger.logResponse('User - create', user);
+                logger.logStart('Member - getByRut')
+                logger.logUser('Member - getByRut', context.user);
+                logger.logArgs('Member - getByRut', args);
+                validateContext(context.user, 'Member');
+                getMemberByRut(args.rut).then(member => {
+                    logger.logResponse('Member - getByRut', member);
+                    member.user = user.id;
+                    updateMember(member).then(member => {
+                        logger.logStart('Member - update')
+                        logger.logUser('Member - update', context.user);
+                        logger.logArgs('Member - update', args);
+                        validateContext(context.user, 'Member');
+                        logger.logResponse('Member - update', member);
+
+                    }).catch(error => {
+                        logger.logError('Member - update', error);
+                        throw error;
+                    }).finally(() => {
+                        logger.logEnd('Member - update');
+                    })
+                }).finally(() => {
+                    logger.logEnd('Member - getByRut');
+                });
                 return user;
             }catch (error) {
                 logger.logError('User - create', error);
