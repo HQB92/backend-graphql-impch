@@ -27,20 +27,21 @@ const findAllUsers = async () => {
 }
 
 const updateUser = async (args) => {
-    if (args.password) {
-        args.password = bcrypt.hashSync(args.password, 10);
-        const user = await User.update(
-            { args
-            }, { where: { id } });
-        if (user[0] === 1) {
+    if (args.user.password) {
+        args.user.password = bcrypt.hashSync(args.user.password, 10);
+        const {user} = args
+        const userData = await User.update(
+            { user }, { where: { id:user.id } });
+        if (userData[0] === 1) {
             return {code: 200, message: 'Usuario Actualizado Exitosamente'};
         }else {
             return {code: 400, message: 'Error al actualizar usuario'};
         }
     }
-    const user = await User.update(
-        { args }, { where: { id:args.id } });
-    if (user[0] === 1) {
+    const {user} = args
+    const userData = await User.update(
+        { user }, { where: { id:args.id } });
+    if (userData[0] === 1) {
         return {code: 200, message: 'Usuario Actualizado Exitosamente'};
     }else {
         return {code: 400, message: 'Error al actualizar usuario'};
