@@ -7,8 +7,6 @@ const createUser = async (args) => {
     const hashedPassword = bcrypt.hashSync(args.password, 10);
     const user = await User.create({ username: args.username, email: args.email, password: hashedPassword, rut: args.rut });
     if (user) {
-        console.log(user);
-
         return { code: 200, message: 'Usuario Creado Exitosamente' };
     }else {
         return { code: 400, message: 'Error al crear usuario' };
