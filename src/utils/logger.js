@@ -2,7 +2,7 @@ const moment = require('moment-timezone');
 
 
 const dateFormated = () => {
-    return moment().tz('America/Santiago').format('YYYY-MM-DD HH:mm:ss');
+    return moment().tz('America/Santiago').format('DD-MM-YYYY HH:mm:ss');
 }
 
 const logger = {
