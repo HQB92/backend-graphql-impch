@@ -100,7 +100,7 @@ const resolversUser = {
             logger.logArgs('User - update', args);
             validateContext(context.user, 'User');
             try {
-                const user = await updateUser(args);
+                const user = await updateUser(args.user);
                 logger.logResponse('User - update', user);
                 return user;
             }catch (error) {
