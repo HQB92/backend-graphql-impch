@@ -42,7 +42,7 @@ const updateUser = async (args) => {
     }
     try {
         const userData = await User.update(
-            {user}, {where: {id: user.id}});
+            { roles:user.roles, email:user.email }, {where: {id: user.id}});
         console.log(userData);
         return {code: 200, message: 'Usuario Actualizado Exitosamente'};
     } catch (error) {
