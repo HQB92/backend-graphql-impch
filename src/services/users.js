@@ -17,7 +17,7 @@ const findUserById = async (id) => {
 }
 
 const findAllUsers = async () => {
-    return await User.findAll();
+    return await User.findAll({ order: [['id', 'ASC']] });
 }
 
 const updateUser = async (id, username, email, password, rut) => {
@@ -62,6 +62,6 @@ module.exports = { createUser,
                    findAllUsers,
                    updateUser,
                    deleteUser,
-                   changePassword, 
+                   changePassword,
                    resetPassword
                 };
