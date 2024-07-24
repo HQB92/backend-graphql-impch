@@ -44,7 +44,6 @@ const authMiddleware = ({ req }) => {
 };
 
 app.use((req, res, next) => {
-  console.log('Request Headers:', req.headers);
   next();
 });
 
