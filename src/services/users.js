@@ -36,7 +36,11 @@ const updateUser = async (id, username, email, password, rut) => {
 }
 
 const deleteUser = async (id) => {
-    return await User.destroy({ where: { id } });
+    const data = await User.destroy({ where: { id } });
+    if (data === 1) {
+        return { code: 200 , message: 'Usuario Eliminado Exitosamente' };
+    }else {
+        return { code: 400 , message: 'Error al eliminar usuario' };
 }
 
 const changePassword = async (id, password) => {
@@ -50,8 +54,10 @@ const changePassword = async (id, password) => {
 const resetPassword = async (id) => {
     const hashedPassword = bcrypt.hashSync('123456', 10);
     const data = await User.update({ password: hashedPassword }, { where: { id } });
-    if (data[0] === 1) {
+    if (data === 1) {
         return { code: 200 , message: 'Contraseña Reseteada Exitosamente' };
+    }else {
+        return { code: 400 , message: 'Error al resetear contraseña' };
     }
 
 }
