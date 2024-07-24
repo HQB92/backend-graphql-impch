@@ -1,7 +1,7 @@
 const BaptismRecord = require('../db/models/baptismRecord');
 
 const getAllBaptismRecords = async () => {
-    return await BaptismRecord.findAll();
+    return await BaptismRecord.findAll({order: [['baptismDate', 'DESC']]});
 };
 
 const getBaptismRecordById = async (id) => {
