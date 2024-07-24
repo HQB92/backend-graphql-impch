@@ -1,4 +1,4 @@
-const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword} = require('../../services/users');
+const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword, resetPassword} = require('../../services/users');
 const { validateContext } = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
 
@@ -117,6 +117,22 @@ const resolversUser = {
                 throw error;
             }finally {
                 logger.logEnd('User - changePassword');
+            }
+        },
+        resetPassword: async (args, context) => {
+            logger.logStart('User - resetPassword')
+            logger.logUser('User -  resetPassword', context.user);
+            logger.logArgs('User - resetPassword', args);
+            validateContext(context.user, 'User');
+            try {
+                const response = await resetPassword(args.id);
+                logger.logResponse('User - resetPassword', response);
+                return response;
+            } catch (error) {
+                logger.logError('User - resetPassword', error);
+                throw error;
+            } finally {
+                logger.logEnd('User - resetPassword');
             }
         }
     },

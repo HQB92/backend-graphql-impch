@@ -43,8 +43,17 @@ const changePassword = async (id, password) => {
     const hashedPassword = bcrypt.hashSync(password, 10);
     const data = await User.update({ password: hashedPassword }, { where: { id } });
     if (data[0] === 1) {
-        return { code: 200 , message: 'Password changed successfully' };
+        return { code: 200 , message: 'Contraseña Cambiada Exitosamente' };
     }
 };
+
+const resetPassword = async (id) => {
+    const hashedPassword = bcrypt.hashSync('123456', 10);
+    const data = await User.update({ password: hashedPassword }, { where: { id } });
+    if (data[0] === 1) {
+        return { code: 200 , message: 'Contraseña Reseteada Exitosamente' };
+    }
+
+}
 
 module.exports = { createUser, findUserByUsername, findUserById, findAllUsers, updateUser, deleteUser, changePassword };
