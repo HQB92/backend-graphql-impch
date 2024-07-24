@@ -4,13 +4,12 @@ const User = require('../db/models/user');
 
 // Crear un usuario (usado para pruebas)
 const createUser = async (args) => {
-    const hashedPassword = bcrypt.hashSync(args.password, 10);
-    const user = await User.create({ username: args.username, email: args.email, password: hashedPassword, rut: args.rut });
+    args.password = bcrypt.hashSync(args.password, 10);
+    const user = await User.create({ args });
     if (user) {
         return { code: 200, message: 'Usuario Creado Exitosamente' };
     }else {
         return { code: 400, message: 'Error al crear usuario' };
-
     }
 };
 
@@ -27,14 +26,11 @@ const findAllUsers = async () => {
     return await User.findAll({ order: [['id', 'ASC']] });
 }
 
-const updateUser = async (id, username, email, password, rut) => {
-    if (password) {
-        const hashedPassword = bcrypt.hashSync(password, 10);
+const updateUser = async (args) => {
+    if (args.password) {
+        args.password = bcrypt.hashSync(args.password, 10);
         const user = await User.update(
-            { username,
-              email,
-              rut,
-              password: hashedPassword
+            { args
             }, { where: { id } });
         if (user[0] === 1) {
             return {code: 200, message: 'Usuario Actualizado Exitosamente'};
@@ -43,7 +39,7 @@ const updateUser = async (id, username, email, password, rut) => {
         }
     }
     const user = await User.update(
-        { username, email, rut }, { where: { id } });
+        { args }, { where: { id:args.id } });
     if (user[0] === 1) {
         return {code: 200, message: 'Usuario Actualizado Exitosamente'};
     }else {

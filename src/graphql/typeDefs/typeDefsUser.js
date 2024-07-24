@@ -8,8 +8,8 @@ const dataTypesUser = gql`
     getByUsername(username: String!): User
   }
   type UserMutation {
-    create(username: String!, email: String!, password: String! rut:ID!): Response
-    update(id: ID!, username: String, email: String, password:String, rut:ID! ): Response
+    create(user: UserInput!): Response
+    update(user: UserInput!): Response
     delete(id: ID!): Response
     changePassword(id: ID!, password: String!): Response
     resetPassword(id: ID!): Response
@@ -20,6 +20,15 @@ const dataTypesUser = gql`
     rut: ID
     username: String
     email: String
+    roles: [String]
+  }
+  
+  input UserInput {
+    rut: ID
+    username: String
+    email: String
+    password: String
+    roles: [String]
   }
   `;
 module.exports = dataTypesUser;

@@ -160,5 +160,4 @@ const resolversUser = {
         }
     },
 };
-
 module.exports = resolversUser;
