@@ -32,18 +32,21 @@ const updateUser = async (args) => {
         user.password = bcrypt.hashSync(user.password, 10);
         try {
             const userData = await User.update(
-                {user}, {where: {id: user.id}});
+                { password:user.password }, {where: {id: user.id}});
             console.log(userData);
+            return {code: 200, message: 'Usuario Actualizado Exitosamente'};
         }catch (error) {
             console.log(error);
             return {code: 400, message: 'Error al actualizar usuario'};
         }
     }
-    const userData = await User.update(
-        { user }, { where: { id:args.id } });
-    if (userData[0] === 1) {
+    try {
+        const userData = await User.update(
+            {user}, {where: {id: user.id}});
+        console.log(userData);
         return {code: 200, message: 'Usuario Actualizado Exitosamente'};
-    }else {
+    } catch (error) {
+        console.log(error);
         return {code: 400, message: 'Error al actualizar usuario'};
     }
 
