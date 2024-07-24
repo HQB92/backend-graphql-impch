@@ -19,7 +19,7 @@ const logger = {
         console.log(`${operation} - Respuesta:`, response?.dataValues ? response.dataValues : response);
     },
     logResponses: (operation, responses) => {
-        console.log(`${operation} - Cantidad de Respuestas: `,responses.length );
+        console.log(`${operation} - Cantidad de Respuestas:`,responses.length );
     },
     logError: (operation, error) => {
         console.error(`${operation} - Error:`, error);
