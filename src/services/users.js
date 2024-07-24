@@ -49,13 +49,15 @@ const changePassword = async (id, password) => {
     const data = await User.update({ password: hashedPassword }, { where: { id } });
     if (data[0] === 1) {
         return { code: 200 , message: 'Contraseña Cambiada Exitosamente' };
+    }else {
+        return { code: 400 , message: 'Error al cambiar contraseña' };
     }
 };
 
 const resetPassword = async (id) => {
     const hashedPassword = bcrypt.hashSync('123456', 10);
     const data = await User.update({ password: hashedPassword }, { where: { id } });
-    if (data === 1) {
+    if (data[0] === 1) {
         return { code: 200 , message: 'Contraseña Reseteada Exitosamente' };
     }else {
         return { code: 400 , message: 'Error al resetear contraseña' };
