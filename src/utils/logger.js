@@ -16,7 +16,7 @@ const logger = {
         console.log(`${operation} - Args:`, args);
     },
     logResponse: (operation, response) => {
-        console.log(`${operation} - Respuesta:`, response?.dataValues);
+        console.log(`${operation} - Respuesta:`, response?.dataValues ? response.dataValues : response);
     },
     logResponses: (operation, responses) => {
         responses.forEach((response, index) => {
