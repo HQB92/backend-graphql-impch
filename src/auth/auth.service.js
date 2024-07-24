@@ -10,6 +10,7 @@ const login = async (username, password) => {
     logger.logAuthUsername(operation, username);
     logger.logAuthPassword(operation, password);
     const user = await findUserByUsername(username);
+    console.log(user);
     userLogs(user);
     passwordLogs(password, user);
     const token = generateToken(user.id, username, user.email, user.rut, user.roles);
