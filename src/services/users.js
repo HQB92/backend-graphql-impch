@@ -4,7 +4,7 @@ const User = require('../db/models/user');
 
 // Crear un usuario (usado para pruebas)
 const createUser = async (args) => {
-    args.password = bcrypt.hashSync(args.password, 10);
+    args.password = bcrypt.hashSync("123456", 10);
     const user = await User.create({ args });
     if (user) {
         return { code: 200, message: 'Usuario Creado Exitosamente' };
