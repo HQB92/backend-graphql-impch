@@ -27,9 +27,9 @@ const findAllUsers = async () => {
 }
 
 const updateUser = async (args) => {
-    if (args.user.password) {
-        args.user.password = bcrypt.hashSync(args.user.password, 10);
-        const {user} = args
+    const {user} = args
+    if (user.password) {
+        user.password = bcrypt.hashSync(user.password, 10);
         const userData = await User.update(
             { user }, { where: { id:user.id } });
         if (userData[0] === 1) {
@@ -38,7 +38,6 @@ const updateUser = async (args) => {
             return {code: 400, message: 'Error al actualizar usuario'};
         }
     }
-    const {user} = args
     const userData = await User.update(
         { user }, { where: { id:args.id } });
     if (userData[0] === 1) {
