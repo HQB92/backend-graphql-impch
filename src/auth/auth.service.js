@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { generateToken } = require('./auth');
+const { generateToken } = require('../utils/auth');
 const { findUserByUsername } = require('../services/users');
 const { userLogs, passwordLogs } = require('../utils/tokensLogs');
 const logger = require('../utils/logger');
