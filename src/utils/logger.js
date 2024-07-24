@@ -19,10 +19,8 @@ const logger = {
         console.log(`${operation} - Respuesta:`, response?.dataValues ? response.dataValues : response);
     },
     logResponses: (operation, responses) => {
-        responses.forEach((response, index) => {
-            console.log(`${operation} - Respuesta[${index}]:`, response?.dataValues);
-        });
-    },
+        console.log(`${operation} - Cantidad de Respuestas: `,responses.length );
+    }
     logError: (operation, error) => {
         console.error(`${operation} - Error:`, error);
     },
