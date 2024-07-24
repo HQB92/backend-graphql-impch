@@ -56,4 +56,12 @@ const resetPassword = async (id) => {
 
 }
 
-module.exports = { createUser, findUserByUsername, findUserById, findAllUsers, updateUser, deleteUser, changePassword };
+module.exports = { createUser,
+                   findUserByUsername,
+                   findUserById,
+                   findAllUsers,
+                   updateUser,
+                   deleteUser,
+                   changePassword, 
+                   resetPassword
+                };
