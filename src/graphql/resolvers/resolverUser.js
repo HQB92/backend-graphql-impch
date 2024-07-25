@@ -70,7 +70,6 @@ const resolversUser = {
                 console.log("args.user.rut", args.user.rut);
                 getMemberByRut(args.user.rut).then(member => {
                     logger.logResponse('Member - getByRut', member);
-                    member.user = user.id;
                     updateMember(member).then(member => {
                         logger.logStart('Member - update')
                         logger.logUser('Member - update', context.user);
@@ -92,6 +91,10 @@ const resolversUser = {
                 logger.logError('User - create', error);
                 throw error;
             }finally {
+                return {
+                    code: 200,
+                    message: 'Miembro actualizado Exitosamente',
+                };
                 logger.logEnd('User - create');
             }
         },
