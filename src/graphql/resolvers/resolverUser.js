@@ -69,9 +69,10 @@ const resolversUser = {
                 validateContext(context.user, 'Member');
                 console.log("args.user.rut", user);
                 getMemberByRut(user.dataValues.rut).then(member => {
+                    member.userId = user.dataValues.id;
                     logger.logResponse('Member - getByRut', member);
                     updateMember(member).then(member => {
-                        member.userId = user.dataValues.id;
+
                         logger.logStart('Member - update')
                         logger.logUser('Member - update', context.user);
                         logger.logArgs('Member - update', args);
