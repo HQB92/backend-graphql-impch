@@ -74,8 +74,7 @@ const resolversUser = {
                 logger.logResponse('User - create', user);
                 validateContext(context.user, 'Member');
                 getMemberByRut(user.dataValues.rut).then(member => {
-                    console.log("Miembro",member);
-                    member.userId = user.dataValues.id;
+                    member.dataValues.userId = user.dataValues.id;
                     updateMember(member).then(member2 => {
                     }).catch(error => {
                         logger.logError('Member - update', error);
