@@ -91,11 +91,12 @@ const resolversUser = {
                 logger.logError('User - create', error);
                 throw error;
             }finally {
+                logger.logEnd('User - create');
                 return {
                     code: 200,
                     message: 'Miembro actualizado Exitosamente',
                 };
-                logger.logEnd('User - create');
+
             }
         },
         update: async ( args, context) => {
