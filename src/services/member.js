@@ -60,6 +60,7 @@ const createMember = async (memberData) => {
 };
 
 const updateMember = async (memberData) => {
+    console.log("memberData", memberData);
     const { rut } = memberData;
     await Member.update(memberData, { where: { rut } });
     return {
