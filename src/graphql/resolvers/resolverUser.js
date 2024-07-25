@@ -1,10 +1,19 @@
-const { findUserById, findAllUsers, createUser, updateUser, deleteUser, findUserByUsername, changePassword, resetPassword} = require('../../services/users');
-const { validateContext } = require('../../utils/tokensLogs');
+const {
+    findUserById,
+    findAllUsers,
+    createUser,
+    updateUser,
+    deleteUser,
+    findUserByUsername,
+    changePassword,
+    resetPassword
+} = require('../../services/users');
+const {validateContext} = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
-const { getMemberByRut, updateMember } = require('../../services/member');
+const {getMemberByRut, updateMember} = require('../../services/member');
 const resolversUser = {
     UserQuery: {
-        getAll: async ( args, context) => {
+        getAll: async (args, context) => {
             logger.logStart('User - getAll')
             logger.logUser('User - getAll', context.user);
             logger.logArgs('User - getAll', args);
@@ -13,10 +22,10 @@ const resolversUser = {
                 const users = await findAllUsers();
                 logger.logResponses('User - getAll', users);
                 return users;
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - getAll', error);
                 throw error;
-            }finally {
+            } finally {
                 logger.logEnd('User - getAll');
             }
         },
@@ -29,14 +38,14 @@ const resolversUser = {
                 const user = await findUserById(args.id);
                 logger.logResponse('User - getById', user);
                 return user;
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - getById', error);
                 throw error;
-            }finally {
+            } finally {
                 logger.logEnd('User - getById');
             }
         },
-        geyByUsername: async ( args, context) => {
+        geyByUsername: async (args, context) => {
             logger.logStart('User - getByUsername')
             logger.logUser('User - getByUsername', context.user);
             logger.logArgs('User - getByUsername', args);
@@ -45,17 +54,17 @@ const resolversUser = {
                 const user = await findUserByUsername(args.username);
                 logger.logResponse('User - getByUsername', user);
                 return user;
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - getByUsername', error);
                 throw error;
-            }finally {
+            } finally {
                 logger.logEnd('User - getByUsername');
             }
         }
     },
 
     UserMutation: {
-        create: async ( args, context) => {
+        create: async (args, context) => {
             logger.logStart('User - create')
             logger.logUser('User - create', context.user);
             logger.logArgs('User - create', args);
@@ -63,47 +72,32 @@ const resolversUser = {
             try {
                 const user = await createUser(args.user);
                 logger.logResponse('User - create', user);
-                logger.logStart('Member - getByRut')
-                logger.logUser('Member - getByRut', context.user);
-                logger.logArgs('Member - getByRut', args);
                 validateContext(context.user, 'Member');
-                console.log("args.user.rut", user);
                 getMemberByRut(user.dataValues.rut).then(member => {
+                    console.log("Miembro",member);
                     member.userId = user.dataValues.id;
-                    logger.logResponse('Member - getByRut', member);
-                    updateMember(member).then(member => {
-
-                        logger.logStart('Member - update')
-                        logger.logUser('Member - update', context.user);
-                        logger.logArgs('Member - update', args);
-                        validateContext(context.user, 'Member');
-                        logger.logResponse('Member - update', member);
-
+                    updateMember(member).then(member2 => {
                     }).catch(error => {
                         logger.logError('Member - update', error);
                         throw error;
-                    }).finally(() => {
-                        logger.logEnd('Member - update');
                     })
-                }).finally(() => {
-                    logger.logEnd('Member - getByRut');
-                });
+                })
                 return {
                     code: 200,
                     message: 'Miembro actualizado Exitosamente',
                 };
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - create', error);
                 return {
                     code: 500,
                     message: 'Error al actualizar miembro',
                 }
 
-            }finally {
+            } finally {
                 logger.logEnd('User - create');
             }
         },
-        update: async ( args, context) => {
+        update: async (args, context) => {
             logger.logStart('User - update')
             logger.logUser('User - update', context.user);
             logger.logArgs('User - update', args);
@@ -112,10 +106,10 @@ const resolversUser = {
                 const user = await updateUser(args);
                 logger.logResponse('User - update', user);
                 return user;
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - update', error);
                 throw error;
-            }finally {
+            } finally {
                 logger.logEnd('User - update');
             }
         },
@@ -128,10 +122,10 @@ const resolversUser = {
                 const user = await deleteUser(args.id);
                 logger.logResponse('User - delete', user);
                 return user;
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - delete', error);
                 throw error;
-            }finally {
+            } finally {
                 logger.logEnd('User - delete');
             }
         },
@@ -144,10 +138,10 @@ const resolversUser = {
                 const response = await changePassword(args.id, args.password);
                 logger.logResponse('User - changePassword', response);
                 return response;
-            }catch (error) {
+            } catch (error) {
                 logger.logError('User - changePassword', error);
                 throw error;
-            }finally {
+            } finally {
                 logger.logEnd('User - changePassword');
             }
         },

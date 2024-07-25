@@ -61,8 +61,7 @@ const createMember = async (memberData) => {
 
 const updateMember = async (memberData, ) => {
     console.log("memberData", memberData);
-    const { rut } = memberData;
-    return await Member.update(memberData, {where: {rut}})
+    return await Member.update(memberData, {where: {rut:memberData.rut}})
 };
 
 const deleteMember = async (rut) => {
