@@ -8,12 +8,7 @@ const createUser = async (args) => {
     args.password = bcrypt.hashSync("123456", 10);
     console.log("args",args);
     delete args.id;
-    const user = await User.create(args);
-    if (user) {
-        return { code: 200, message: 'Usuario Creado Exitosamente' };
-    }else {
-        return { code: 400, message: 'Error al crear usuario' };
-    }
+    return await User.create(args);
 };
 
 // Buscar un usuario por nombre de usuario

@@ -67,7 +67,7 @@ const resolversUser = {
                 logger.logUser('Member - getByRut', context.user);
                 logger.logArgs('Member - getByRut', args);
                 validateContext(context.user, 'Member');
-                console.log("args.user.rut", args.user.rut);
+                console.log("args.user.rut", user);
                 getMemberByRut(args.user.rut).then(member => {
                     logger.logResponse('Member - getByRut', member);
                     updateMember(member).then(member => {
@@ -86,17 +86,19 @@ const resolversUser = {
                 }).finally(() => {
                     logger.logEnd('Member - getByRut');
                 });
-                return user;
-            }catch (error) {
-                logger.logError('User - create', error);
-                throw error;
-            }finally {
-                logger.logEnd('User - create');
                 return {
                     code: 200,
                     message: 'Miembro actualizado Exitosamente',
                 };
+            }catch (error) {
+                logger.logError('User - create', error);
+                return {
+                    code: 500,
+                    message: 'Error al actualizar miembro',
+                }
 
+            }finally {
+                logger.logEnd('User - create');
             }
         },
         update: async ( args, context) => {
