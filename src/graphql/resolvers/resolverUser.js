@@ -61,7 +61,7 @@ const resolversUser = {
             logger.logArgs('User - create', args);
             validateContext(context.user, 'User');
             try {
-                const user = await createUser(args.User);
+                const user = await createUser(args);
                 logger.logResponse('User - create', user);
                 logger.logStart('Member - getByRut')
                 logger.logUser('Member - getByRut', context.user);
