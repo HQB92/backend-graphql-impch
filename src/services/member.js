@@ -52,29 +52,63 @@ const createMember = async (memberData) => {
             message: 'Miembro ya existe',
         };
     }
-    await Member.create(memberData);
-    return {
-        code: 200,
-        message: 'Miembro creado Exitosamente',
-    };
+    try {
+        await Member.create(memberData);
+        return {
+            code: 200,
+            message: 'Miembro creado Exitosamente',
+        };
+    }catch (error) {
+        return {
+            code: 400,
+            message: 'Error al crear miembro',
+        };
+    }
 };
 
 const updateMember = async (memberData, ) => {
-    return await Member.update(memberData.dataValues, {where: {rut:memberData.dataValues.rut}})
-};
-
-const deleteMember = async (rut) => {
-    const result = await Member.destroy({ where: { rut } });
-    if (result === 0) {
+    const { rut } = memberData;
+    const existingMember = await Member.findOne({ where: { rut } });
+    if (!existingMember) {
         return {
             code: 400,
             message: 'Miembro no existe',
         };
     }
-    return {
-        code: 200,
-        message: 'Miembro eliminado Exitosamente',
-    };
+    try {
+        await Member.update(memberData, { where: { rut } });
+        return {
+            code: 200,
+            message: 'Miembro actualizado Exitosamente',
+        };
+    } catch (error) {
+        return {
+            code: 400,
+            message: 'Error al actualizar miembro',
+        };
+    }
+};
+
+const deleteMember = async (rut) => {
+    const result = await Member.findOne({ where: { rut } });
+    if (!result) {
+        return {
+            code: 400,
+            message: 'Miembro no existe',
+        };
+    }
+    try {
+        await Member.destroy({ where: { rut } });
+        return {
+            code: 200,
+            message: 'Miembro eliminado Exitosamente',
+        };
+    } catch (error) {
+        return {
+            code: 400,
+            message: 'Error al eliminar miembro',
+        };
+    }
 };
 
 module.exports = {

@@ -72,26 +72,12 @@ const resolversUser = {
             try {
                 const user = await createUser(args.user);
                 logger.logResponse('User - create', user);
-                validateContext(context.user, 'Member');
-                getMemberByRut(user.dataValues.rut).then(member => {
-                    member.dataValues.userId = user.dataValues.id;
-                    updateMember(member).then(member2 => {
-                    }).catch(error => {
-                        logger.logError('Member - update', error);
-                        throw error;
-                    })
-                })
-                return {
-                    code: 200,
-                    message: 'Miembro actualizado Exitosamente',
-                };
             } catch (error) {
                 logger.logError('User - create', error);
                 return {
                     code: 500,
                     message: 'Error al actualizar miembro',
                 }
-
             } finally {
                 logger.logEnd('User - create');
             }

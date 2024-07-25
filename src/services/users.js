@@ -1,14 +1,22 @@
 const bcrypt = require('bcryptjs');
 const User = require('../db/models/user');
-
+const Member = require('../db/models/member');
 
 // Crear un usuario (usado para pruebas)
 const createUser = async (args) => {
-    console.log("args",args);
     args.password = bcrypt.hashSync("123456", 10);
-    console.log("args",args);
+    const member = await Member.findOne({ where: { rut: args.rut } });
+    if (!member) {
+        return { code: 403, message: 'Miembro no existe' };
+    }
     delete args.id;
-    return await User.create(args);
+    const user = await User.create(args);
+    const meberUpdate = await Member.update({ userId: user.dataValues.id }, { where: { rut: args.rut } });
+    if ( user && meberUpdate[0] === 1) {
+        return {code: 200, message: 'Usuario creado Exitosamente'};
+    } else {
+        return {code: 400, message: 'Error al crear usuario'};
+    }    
 };
 
 // Buscar un usuario por nombre de usuario
