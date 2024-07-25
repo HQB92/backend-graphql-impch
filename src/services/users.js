@@ -17,11 +17,13 @@ const createUser = async (args) => {
         delete args.id;
         const user = await User.create(args,transaction);
         const meberUpdate = await Member.update({ userId: user.dataValues.id }, { where: { rut: args.rut } }, transaction);
+        await transaction.commit();
         if ( user && meberUpdate[0] === 1) {
             return {code: 200, message: 'Usuario creado Exitosamente'};
         } else {
             return {code: 400, message: 'Error al crear usuario'};
         }
+
     } catch (error) {
         await transaction.rollback();
         return {code: 500, message: 'Error al crear usuario'};
