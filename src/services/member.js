@@ -62,11 +62,7 @@ const createMember = async (memberData) => {
 const updateMember = async (memberData, ) => {
     console.log("memberData", memberData);
     const { rut } = memberData;
-    const user = await Member.update(memberData, { where: { rut } });
-    return {
-        code: 200,
-        message: 'Miembro actualizado Exitosamente',
-    };
+    return await Member.update(memberData, {where: {rut}})
 };
 
 const deleteMember = async (rut) => {
