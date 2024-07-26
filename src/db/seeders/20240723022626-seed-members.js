@@ -4,7 +4,6 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      console.log('Starting to seed a single member...');
       await queryInterface.bulkInsert('Members', [
         {
           rut: '18.156.271-4',
@@ -28,10 +27,8 @@ module.exports = {
         },
       ], { transaction });
       await transaction.commit();
-      console.log('Single member seeded successfully.');
     } catch (error) {
       await transaction.rollback();
-      console.error('Error seeding single member:', error);
     }
   },
 
@@ -41,10 +38,8 @@ module.exports = {
       await queryInterface.bulkDelete('Members', { rut: '18.156.271-4' }, { transaction });
       await queryInterface.bulkDelete('SeedersData', { name: '20240723022626-seed-members.js' }, { transaction });
       await transaction.commit();
-      console.log('Seeded single member rolled back successfully.');
     } catch (error) {
       await transaction.rollback();
-      console.error('Error rolling back seeded single member:', error);
     }
   },
 };

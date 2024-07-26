@@ -40,4 +40,6 @@ const User = sequelize.define('User', {
     }
 });
 
+User.hasOne(Member, {foreignKey: 'userId', sourceKey: 'id'});
+
 module.exports = User;
