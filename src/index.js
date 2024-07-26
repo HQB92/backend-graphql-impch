@@ -43,7 +43,7 @@ const authMiddleware = ({ req }) => {
       }
       return { user: decoded };
     } catch (err) {
-      logger.logTokenInvalid("authMiddleware")
+      logger.logTokenInvalid("authMiddleware",token)
     }
   }
   throw new Error('Authorization header must be provided');

@@ -39,7 +39,7 @@ const logger = {
     logErrorCors: (operation, error) => {
         console.error(`${operation} - Error:`, error);
     },
-    logTokenInvalid: (operation ) => {
+    logTokenInvalid: (operation, token) => {
         console.error(`${operation} - Token inválido`);
     },
     logTokenExpirado: (operation ) => {
