@@ -12,7 +12,7 @@ require('dotenv').config();
 const app = express();
 
 // Habilitar CORS para dominios específicos
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:4000', 'https://impchzanartu.online', "https://app.impchzanartu.online" ];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:4000', 'https://impchzanartu.online', "https://app.impchzanartu.online","https://studio.apollographql.com" ];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -29,17 +29,21 @@ app.use('/auth', authRouter);
 
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
+  //obtener ip
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  logger.logIpCosulta("authMiddleware",ip);
+
   if (authHeader) {
     const token = authHeader.split(' ')[1];
     try {
       const decoded = verifyToken(token);
       const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
       if (decoded.exp && decoded.exp < currentTime) {
-        throw new Error('Token expirado');
+        logger.logTokenExpirado("authMiddleware");
       }
       return { user: decoded };
     } catch (err) {
-      throw new Error('Invalid/Expired token');
+      logger.logTokenInvalid("authMiddleware")
     }
   }
   throw new Error('Authorization header must be provided');

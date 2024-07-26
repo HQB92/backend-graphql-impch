@@ -38,7 +38,18 @@ const logger = {
     },
     logErrorCors: (operation, error) => {
         console.error(`${operation} - Error:`, error);
+    },
+    logTokenInvalid: (operation ) => {
+        console.error(`${operation} - Token inválido`);
+    },
+    logTokenExpirado: (operation ) => {
+        console.error(`${operation} - Token Expirado`);
+    },
+    logIpCosulta:(operation,ip)=>{
+        console.log(`${operation} - IP:`, ip);
     }
+
+
 };
 
 module.exports = logger;
