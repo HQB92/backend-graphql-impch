@@ -7,18 +7,12 @@ const sequelize = require('../config/database');
 const createUser = async (args) => {
     args.password = bcrypt.hashSync("123456", 10);
     const transaction = await sequelize.transaction();
-
     try {
-        const member = await Member.findOne({ where: { rut: args.rut } }, transaction);
-        if (!member) {
-            return { code: 403, message: 'Miembro no existe' };
-        }
-
         delete args.id;
         const user = await User.create(args,transaction);
-        const meberUpdate = await Member.update({ userId: user.dataValues.id }, { where: { rut: args.rut } }, transaction);
+
         await transaction.commit();
-        if ( user && meberUpdate[0] === 1) {
+        if ( user) {
             return {code: 200, message: 'Usuario creado Exitosamente'};
         } else {
             return {code: 400, message: 'Error al crear usuario'};

@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
+const Member = require('./member');
 
 
 const User = sequelize.define('User', {
@@ -30,6 +31,12 @@ const User = sequelize.define('User', {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
         defaultValue: []
+    }
+},{
+    hooks:{
+        afterCreate: async(user, options) => {
+            await Member.update({userId: user.id}, {where: {rut: user.rut}});
+        }
     }
 });
 
