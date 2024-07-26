@@ -1,4 +1,4 @@
-const memberService = require('../../services/member');
+const memberService = require('../../services/member.service');
 const { validateContext } = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
 

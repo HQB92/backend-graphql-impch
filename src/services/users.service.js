@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const User = require('../db/models/user');
-const Member = require('../db/models/member');
+const User = require('../db/models/user.model');
+const Member = require('../db/models/member.model');
 const sequelize = require('../config/database');
 
 // Crear un usuario (usado para pruebas)

@@ -1,24 +1,24 @@
 
-const Church = require('../db/models/church');
+const ChurchService = require('../db/models/church.model');
 
 const getAllChurches = async () => {
-    return await Church.findAll();
+    return await ChurchService.findAll();
 };
 
 const getChurchById = async (id) => {
-    return await Church.findByPk(id);
+    return await ChurchService.findByPk(id);
 };
 
 const createChurch = async (churchData) => {
     const { name } = churchData;
-    const existingChurch = await Church.findOne({ where: { name } });
+    const existingChurch = await ChurchService.findOne({ where: { name } });
     if (existingChurch) {
         return {
             code: 400,
             message: 'Iglesia ya existe',
         };
     }
-    await Church.create(churchData);
+    await ChurchService.create(churchData);
     return {
         code: 200,
         message: 'Iglesia creada Exitosamente',
@@ -27,7 +27,7 @@ const createChurch = async (churchData) => {
 
 const updateChurch = async (churchData) => {
     const { id } = churchData;
-    await Church.update(churchData, { where: { id } });
+    await ChurchService.update(churchData, { where: { id } });
     return {
         code: 200,
         message: 'Iglesia actualizada Exitosamente',
@@ -35,7 +35,7 @@ const updateChurch = async (churchData) => {
 };
 
 const deleteChurch = async (id) => {
-    const result = await Church.destroy({ where: { id } });
+    const result = await ChurchService.destroy({ where: { id } });
     if (result === 0) {
         return {
             code: 400,

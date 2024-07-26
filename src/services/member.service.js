@@ -1,5 +1,5 @@
 // src/service/memberService.js
-const Member = require('../db/models/member');
+const MemberService = require('../db/models/member.model');
 const { Op } = require('sequelize');
 
 const getAllMembers = async (args) => {
@@ -28,24 +28,24 @@ const getAllMembers = async (args) => {
         }
     }
 
-    return await Member.findAll({ where: { ...filterChurch, ...filterType }, order: [['names', 'ASC']] });
+    return await MemberService.findAll({ where: { ...filterChurch, ...filterType }, order: [['names', 'ASC']] });
 };
 
 const getMemberByRut = async (rut) => {
-    return await Member.findOne({ where: { rut } });
+    return await MemberService.findOne({ where: { rut } });
 };
 
 const getAllMemberProbation = async () => {
-    return await Member.findAll({ where: { probationStartDate: '2024-06-23 00:00:00+00' } });
+    return await MemberService.findAll({ where: { probationStartDate: '2024-06-23 00:00:00+00' } });
 };
 
 const countMembers = async () => {
-    return await Member.count();
+    return await MemberService.count();
 };
 
 const createMember = async (memberData) => {
     const { rut } = memberData;
-    const existingMember = await Member.findOne({ where: { rut } });
+    const existingMember = await MemberService.findOne({ where: { rut } });
     if (existingMember) {
         return {
             code: 400,
@@ -53,7 +53,7 @@ const createMember = async (memberData) => {
         };
     }
     try {
-        await Member.create(memberData);
+        await MemberService.create(memberData);
         return {
             code: 200,
             message: 'Miembro creado Exitosamente',
@@ -68,7 +68,7 @@ const createMember = async (memberData) => {
 
 const updateMember = async (memberData, ) => {
     const { rut } = memberData;
-    const existingMember = await Member.findOne({ where: { rut } });
+    const existingMember = await MemberService.findOne({ where: { rut } });
     if (!existingMember) {
         return {
             code: 400,
@@ -76,7 +76,7 @@ const updateMember = async (memberData, ) => {
         };
     }
     try {
-        await Member.update(memberData, { where: { rut } });
+        await MemberService.update(memberData, { where: { rut } });
         return {
             code: 200,
             message: 'Miembro actualizado Exitosamente',
@@ -90,7 +90,7 @@ const updateMember = async (memberData, ) => {
 };
 
 const deleteMember = async (rut) => {
-    const result = await Member.findOne({ where: { rut } });
+    const result = await MemberService.findOne({ where: { rut } });
     if (!result) {
         return {
             code: 400,
@@ -98,7 +98,7 @@ const deleteMember = async (rut) => {
         };
     }
     try {
-        await Member.destroy({ where: { rut } });
+        await MemberService.destroy({ where: { rut } });
         return {
             code: 200,
             message: 'Miembro eliminado Exitosamente',

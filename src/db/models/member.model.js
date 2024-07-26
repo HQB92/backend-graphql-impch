@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 const { User, Status, Church } = require('./index');
 
-const Member = sequelize.define('Member', {
+const MemberModel = sequelize.define('Member', {
   rut: {
     type: DataTypes.STRING(12),
     allowNull: false,
@@ -86,19 +86,19 @@ const Member = sequelize.define('Member', {
   },
 });
 
-module.exports = Member;
+module.exports = MemberModel;
 
 //relacionar con user
 
 
 //relacionar con status
-Member.belongsTo(Status, {
+MemberModel.belongsTo(Status, {
   foreignKey: 'statusId',
   as: 'status',
 });
 
 //relacionar con church
-Member.belongsTo(Church, {
+MemberModel.belongsTo(Church, {
   foreignKey: 'churchId',
   as: 'church',
 });

@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
-const BaptismRecord = sequelize.define('BaptismRecord', {
+const BaptismRecordModel = sequelize.define('BaptismRecord', {
     childRUT: {
         type: DataTypes.STRING(12),
         allowNull: false,
@@ -51,4 +51,4 @@ const BaptismRecord = sequelize.define('BaptismRecord', {
     }
 });
 
-module.exports = BaptismRecord;
+module.exports = BaptismRecordModel;

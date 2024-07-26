@@ -1,8 +1,8 @@
+// src/models/iglesia/iglesiaModel.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
-
-const Status = sequelize.define('Status', {
+const ChurchModel = sequelize.define('Church', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -11,12 +11,11 @@ const Status = sequelize.define('Status', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
     },
-    description: {
+    address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 });
 
-module.exports = Status;
+module.exports = ChurchModel

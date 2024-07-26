@@ -1,4 +1,4 @@
-const statusService = require('../../services/status');
+const statusService = require('../../services/status.service');
 const { validateContext } = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
 

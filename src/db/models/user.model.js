@@ -1,9 +1,9 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../../config/database');
-const Member = require('./member');
+const Member = require('./member.model');
 
 
-const User = sequelize.define('User', {
+const UserModel = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -40,7 +40,7 @@ const User = sequelize.define('User', {
   }
 });
 
-User.hasOne(Member, {foreignKey: 'userId', sourceKey: 'id'});
-Member.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'});
+UserModel.hasOne(Member, {foreignKey: 'userId', sourceKey: 'id'});
+Member.belongsTo(UserModel, {foreignKey: 'userId', targetKey: 'id'});
 
-module.exports = User;
+module.exports = UserModel;

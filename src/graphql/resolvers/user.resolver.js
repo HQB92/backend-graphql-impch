@@ -7,10 +7,10 @@ const {
     findUserByUsername,
     changePassword,
     resetPassword
-} = require('../../services/users');
+} = require('../../services/users.service');
 const {validateContext} = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
-const {getMemberByRut, updateMember} = require('../../services/member');
+const {getMemberByRut, updateMember} = require('../../services/member.service');
 const resolversUser = {
     UserQuery: {
         getAll: async (args, context) => {

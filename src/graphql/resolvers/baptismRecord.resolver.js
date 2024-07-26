@@ -1,4 +1,4 @@
-const baptismRecordService = require('../../services/baptismRecord');
+const baptismRecordService = require('../../services/baptismRecord.service');
 const { validateContext } = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
 

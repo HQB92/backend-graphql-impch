@@ -1,8 +1,10 @@
-const dataTypesUser = require('./typeDefsUser');
-const dataTypesIglesia = require('./typeDefsChurch');
-const dataTypesMember = require('./typeDefsMember');
-const dataTypesStatus = require('./typeDefsStatus');
-const datatypesBaptismRecord = require('./typeDefsBaptismRecord');
+const dataTypesUser = require('./user.typeDef');
+const dataTypesIglesia = require('./church.typeDef');
+const dataTypesMember = require('./member.typeDef');
+const dataTypesStatus = require('./status.typeDef');
+const datatypesBaptismRecord = require('./baptismRecord.typeDef');
+const datatypesOffering = require('./offering.typeDef');
+
 
 
 module.exports = {
@@ -10,5 +12,6 @@ module.exports = {
     dataTypesIglesia,
     dataTypesMember,
     dataTypesStatus,
-    datatypesBaptismRecord
+    datatypesBaptismRecord,
+    datatypesOffering
 }
