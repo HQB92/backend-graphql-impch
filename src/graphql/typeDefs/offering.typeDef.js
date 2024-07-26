@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server-express');
 
-const dataTypesUser = gql`
+const dataTypesOffering = gql`
+  
 
   `;
-module.exports = dataTypesUser;
+module.exports = dataTypesOffering;
