@@ -89,10 +89,7 @@ const Member = sequelize.define('Member', {
 module.exports = Member;
 
 //relacionar con user
-Member.belongsTo(User, {
-  foreignKey: 'userId',
-  as: 'user',
-});
+
 
 //relacionar con status
 Member.belongsTo(Status, {
