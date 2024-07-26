@@ -5,6 +5,7 @@ const authRouter = require('./auth/auth.router');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const cors = require('cors');
+const logger = require('./utils/logger');
 
 require('dotenv').config();
 
@@ -17,7 +18,8 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+
+      logger.logErrorCors("CORS Error", origin);
     }
   }
 }));
