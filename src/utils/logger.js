@@ -16,7 +16,7 @@ const logger = {
         console.log(`${operation} - Args:`, args);
     },
     logResponse: (operation, response) => {
-        console.log(`${operation} - Respuesta:`, response?.dataValues ? response.dataValues : response.length);
+        console.log(`${operation} - Respuesta:`, response?.dataValues ? response.dataValues.length : response.length);
     },
     logResponses: (operation, responses) => {
         console.log(`${operation} - Cantidad de Respuestas:`,responses.length );
