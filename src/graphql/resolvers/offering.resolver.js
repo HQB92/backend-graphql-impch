@@ -9,7 +9,7 @@ const {
 } = require("../../services/offering.service");
 const resolversOffering = {
 	OfferingQuery: {
-		getAll: async (_, args, context) => {
+		getAll: async (args, context) => {
 			logger.logStart('Offering - getAll');
 			logger.logUser('Offering - getAll', context.user);
 			logger.logArgs('Offering - getAll', args);
@@ -26,7 +26,7 @@ const resolversOffering = {
 			}
 
 		},
-		getById: async (_, args, context) => {
+		getById: async (args, context) => {
 			logger.logStart('Offering - getById');
 			logger.logUser('Offering - getById', context.user);
 			logger.logArgs('Offering - getById', args);
@@ -45,7 +45,7 @@ const resolversOffering = {
 
 	},
 	OfferingMutation: {
-		create: async (_, args, context) => {
+		create: async (args, context) => {
 
 			logger.logStart('Offering - create');
 			logger.logUser('Offering - create', context.user);
@@ -62,7 +62,7 @@ const resolversOffering = {
 				logger.logEnd('Offering - create');
 			}
 		},
-		update: async (_, args, context) => {
+		update: async (args, context) => {
 			logger.logStart('Offering - update');
 			logger.logUser('Offering - update', context.user);
 			logger.logArgs('Offering - update', args);
@@ -78,7 +78,7 @@ const resolversOffering = {
 				logger.logEnd('Offering - update');
 			}
 		},
-		delete: async (_, args, context) => {
+		delete: async (args, context) => {
 			logger.logStart('Offering - delete');
 			logger.logUser('Offering - delete', context.user);
 			logger.logArgs('Offering - delete', args);
