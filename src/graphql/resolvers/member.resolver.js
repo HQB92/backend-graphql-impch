@@ -45,7 +45,10 @@ const resolversMember = {
         try {
             const count = await memberService.countMembers();
 						console.log(count);
-            logger.logResponse('Member - count', count);
+						let data = {
+							dataValues: count
+	          }
+            logger.logResponse('Member - count', data);
             return count;
         }catch (error) {
             logger.logError('Member - count', error);
