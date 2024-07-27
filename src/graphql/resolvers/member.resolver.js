@@ -44,6 +44,7 @@ const resolversMember = {
         validateContext(context.user, 'Member');
         try {
             const count = await memberService.countMembers();
+						console.log(count);
             logger.logResponse('Member - count', count);
             return count;
         }catch (error) {
