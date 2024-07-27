@@ -25,6 +25,7 @@ const logger = {
         console.error(`${operation} - Error:`, error);
     },
     logUser: (operation, user) => {
+			console.log("user",user)
         console.log(`${operation} - User:`, user.username);
     },
     logAuthUsername: (operation, username) => {
