@@ -31,7 +31,7 @@ const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
   //obtener ip
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  logger.logIpCosulta("authMiddleware",ip);
+  logger.logIpCosulta("Auth - Middleware",ip);
 
   if (authHeader) {
     const token = authHeader.split(' ')[1];
@@ -39,11 +39,11 @@ const authMiddleware = ({ req }) => {
       const decoded = verifyToken(token);
       const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
       if (decoded.exp && decoded.exp < currentTime) {
-        logger.logTokenExpirado("authMiddleware");
+        logger.logTokenExpirado("Auth - Middleware");
       }
       return { user: decoded };
     } catch (err) {
-      logger.logTokenInvalid("authMiddleware",token)
+      logger.logTokenInvalid("Auth - Middleware",token)
     }
   }
   throw new Error('Authorization header must be provided');

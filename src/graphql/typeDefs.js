@@ -3,7 +3,8 @@ const { dataTypesUser,
         dataTypesIglesia,
         dataTypesMember,
         dataTypesStatus,
-        datatypesBaptismRecord}  = require('./typeDefs/index');
+        datatypesBaptismRecord,
+			  datatypesOffering}  = require('./typeDefs/index');
 
 const typeDefs = gql`
     scalar Date
@@ -12,6 +13,7 @@ const typeDefs = gql`
     ${dataTypesMember}
     ${dataTypesStatus}
     ${datatypesBaptismRecord}
+    ${datatypesOffering}
     
     type Query {
         User: UserQuery
@@ -19,6 +21,7 @@ const typeDefs = gql`
         Member: MemberQuery
         Status: StatusQuery
         BaptismRecord: BaptismRecordQuery
+        Offering: OfferingQuery
     }
     
     type Mutation {
@@ -27,6 +30,7 @@ const typeDefs = gql`
         Member: MemberMutation
         Status: StatusMutation
         BaptismRecord: BaptismRecordMutation
+        Offering: OfferingMutation
     }
     
     type Response {

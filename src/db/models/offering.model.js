@@ -38,6 +38,7 @@ const Offering = sequelize.define('Offering', {
       key: 'id'
     },
   },
+	//considera si la ofrenda se considera para el cálculo de ofrenda pastoral
   state:{
     type: DataTypes.BOOLEAN,
     allowNull: false
@@ -49,4 +50,5 @@ const Offering = sequelize.define('Offering', {
   }
 );
 
+module.exports = Offering;
 
