@@ -30,4 +30,4 @@ jobs:
             echo PGPASSWORD=${{ secrets.PGPASSWORD }} >> .env
             npx sequelize-cli db:migrate
             npx sequelize-cli db:seed:all
-            pm2 restart backend-graphql-impch --watch
+            pm2 restart backend-graphql-impch --watch --trace-warnings
