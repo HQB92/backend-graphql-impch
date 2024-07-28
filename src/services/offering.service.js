@@ -87,7 +87,7 @@ const getAllOfferings = async (user, church) => {
     }
 }
 
-const getOfferingById = async (id) => {
+const getOfferingByChurchId = async (id) => {
     try {
         return await offering.findByPk(id);
     }catch (e) {
@@ -103,5 +103,5 @@ module.exports = {
 		updateOffering,
 		deleteOffering,
 		getAllOfferings,
-		getOfferingById,
+		getOfferingByChurchId
 }

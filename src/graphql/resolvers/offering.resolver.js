@@ -5,7 +5,7 @@ const {
 	updateOffering,
 	deleteOffering,
 	getAllOfferings,
-	getOfferingById
+	getOfferingByChurchId
 } = require("../../services/offering.service");
 const resolversOffering = {
 	OfferingQuery: {
@@ -26,13 +26,13 @@ const resolversOffering = {
 			}
 
 		},
-		getById: async (args, context) => {
+		getAllByChurchId: async (args, context) => {
 			logger.logStart('Offering - getById');
 			logger.logUser('Offering - getById', context.user);
 			logger.logArgs('Offering - getById', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const offering = await getOfferingById(args.id);
+				const offering = await getOfferingByChurchId(args.churchId);
 				logger.logResponse('Offering - getById', offering);
 				return offering;
 			} catch (error) {
