@@ -4,8 +4,7 @@ const {
 	createOffering,
 	updateOffering,
 	deleteOffering,
-	getAllOfferings,
-	getOfferingByChurchId
+	getAllOfferings
 } = require("../../services/offering.service");
 const resolversOffering = {
 	OfferingQuery: {
@@ -26,23 +25,6 @@ const resolversOffering = {
 			}
 
 		},
-		getAllByChurchId: async (args, context) => {
-			logger.logStart('Offering - getById');
-			logger.logUser('Offering - getById', context.user);
-			logger.logArgs('Offering - getById', args);
-			validateContext(context.user, 'Offering');
-			try {
-				const offering = await getOfferingByChurchId(args.churchId);
-				logger.logResponse('Offering - getById', offering);
-				return offering;
-			} catch (error) {
-				logger.logError('Offering - getById', error);
-				throw error;
-			} finally {
-				logger.logEnd('Offering - getById');
-			}
-		},
-
 	},
 	OfferingMutation: {
 		create: async (args, context) => {

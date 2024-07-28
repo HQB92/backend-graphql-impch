@@ -87,21 +87,9 @@ const getAllOfferings = async (user, church) => {
     }
 }
 
-const getOfferingByChurchId = async (id) => {
-    try {
-        return await offering.findByPk(id);
-    }catch (e) {
-        return {
-            code: 500,
-            message: 'Error interno del servidor',
-        }
-    }
-}
-
 module.exports = {
 		createOffering,
 		updateOffering,
 		deleteOffering,
 		getAllOfferings,
-		getOfferingByChurchId
 }

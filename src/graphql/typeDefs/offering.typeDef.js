@@ -3,7 +3,6 @@ const { gql } = require('apollo-server-express');
 const dataTypesOffering = gql`
     type OfferingQuery {
         getAll(user: Int, churchId: Int): [Offering]
-        getAllByChurchId(churchId: Int!): Offering
     }
 		
     type OfferingMutation {
