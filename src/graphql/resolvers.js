@@ -1,11 +1,10 @@
-const {
-	resolverUser,
-	resolverChurch,
-	resolverMember,
-	resolverStatus,
-	resolverBaptismRecord,
-	resolverOffering
-} = require("./resolvers");
+const resolverUser = require('./resolvers/user.resolver');
+const resolverChurch = require('./resolvers/church.resolver');
+const resolverMember = require('./resolvers/member.resolver');
+const resolverStatus = require('./resolvers/status.resolver');
+const resolverBaptismRecord = require('./resolvers/baptismRecord.resolver');
+const resolverOffering = require('./resolvers/offering.resolver');
+
 
 const resolvers = {
 	Query: {
