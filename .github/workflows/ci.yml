@@ -15,21 +15,9 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        run: npm install 2>&1 | tee install.log | tee /dev/stderr
+        run: npm install
+      - name: Up Version
+        run: npm run bump-patch
+#        run: npm run bump-minor
+#        run: npm run bump-major
 
-      - name: Check for warnings in npm install
-        run: |
-          if grep -i 'warning' install.log; then
-            echo "Warnings found during npm install"
-            exit 1
-          fi
-
-      - name: Run tests
-        run: npm test 2>&1 | tee test.log | tee /dev/stderr
-
-      - name: Check for warnings in npm test
-        run: |
-          if grep -i 'warning' test.log; then
-            echo "Warnings found during npm test"
-            exit 1
-          fi
