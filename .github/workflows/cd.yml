@@ -21,7 +21,6 @@ jobs:
             pm2 stop backend-graphql-impch
             git clean -f 
             git pull origin main
-            npm run bump-patch
             npm ci
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} > .env
             echo PORT=${{ secrets.PORT }} >> .env
