@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 const Church = require('./church.model');
 const Status = require('./status.model');
-const User = require('./user.model');
 
 const MemberModel = sequelize.define('Member', {
   rut: {
@@ -77,7 +76,6 @@ const MemberModel = sequelize.define('Member', {
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: User,
       table: 'Users',
       key: 'id',
     },
