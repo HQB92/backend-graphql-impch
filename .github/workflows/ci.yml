@@ -4,16 +4,32 @@ on:
   push:
     branches:
       - develop
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 20
+      - name: Use Node.js 18
         uses: actions/setup-node@v2
         with:
-          node-version: 20
-      - run: npm i
-      - run: npm run build --if-present
+          node-version: 18
+      - name: Install dependencies
+        run: npm install 2>&1 | tee install.log | tee /dev/stderr
+
+      - name: Check for warnings in npm install
+        run: |
+          if grep -i 'warning' install.log; then
+            echo "Warnings found during npm install"
+            exit 1
+          fi
+
+      - name: Run tests
+        run: npm test 2>&1 | tee test.log | tee /dev/stderr
+
+      - name: Check for warnings in npm test
+        run: |
+          if grep -i 'warning' test.log; then
+            echo "Warnings found during npm test"
+            exit 1
+          fi
