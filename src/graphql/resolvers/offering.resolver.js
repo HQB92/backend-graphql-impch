@@ -1,11 +1,6 @@
 const {validateContext} = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
-const {
-	createOffering,
-	updateOffering,
-	deleteOffering,
-	getAllOfferings
-} = require("../../services/offering.service");
+const offering = require("../../services/offering.service");
 const resolversOffering = {
 	OfferingQuery: {
 		getAll: async (args, context) => {
@@ -14,7 +9,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - getAll', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const offerings = await getAllOfferings(args.user, args.churchId);
+				const offerings = await offering.getAllOfferings(args.user, args.churchId);
 				logger.logResponses('Offering - getAll', offerings);
 				return offerings;
 			} catch (error) {
@@ -34,7 +29,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - create', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const offeringData = await createOffering(args.offering);
+				const offeringData = await offering.createOffering(args.offering);
 				logger.logResponse('Offering - create', offeringData);
 				return offeringData;
 			} catch (error) {
@@ -50,7 +45,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - update', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const offeringData = await updateOffering(args.offering);
+				const offeringData = await offering.updateOffering(args.offering);
 				logger.logResponse('Offering - update', offeringData);
 				return offeringData;
 			} catch (error) {
@@ -66,7 +61,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - delete', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const offering = await deleteOffering(args.id);
+				const offering = await offering.deleteOffering(args.id);
 				logger.logResponse('Offering - delete', offering);
 				return offering;
 			} catch (error) {
