@@ -1,13 +1,4 @@
-const {
-    findUserById,
-    findAllUsers,
-    createUser,
-    updateUser,
-    deleteUser,
-    findUserByUsername,
-    changePassword,
-    resetPassword
-} = require('../../services/users.service');
+const Users = require('../../services/users.service');
 const {validateContext} = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
 const resolversUser = {
@@ -18,7 +9,7 @@ const resolversUser = {
             logger.logArgs('User - getAll', args);
             validateContext(context.user, 'User');
             try {
-                const users = await findAllUsers();
+                const users = await Users.findAllUsers();
                 logger.logResponses('User - getAll', users);
                 return users;
             } catch (error) {
@@ -34,7 +25,7 @@ const resolversUser = {
             logger.logArgs('User - getById', args);
             validateContext(context.user, 'User');
             try {
-                const user = await findUserById(args.id);
+                const user = await Users.findUserById(args.id);
                 logger.logResponse('User - getById', user);
                 return user;
             } catch (error) {
@@ -50,7 +41,7 @@ const resolversUser = {
             logger.logArgs('User - getByUsername', args);
             validateContext(context.user, 'User');
             try {
-                const user = await findUserByUsername(args.username);
+                const user = await Users.findUserByUsername(args.username);
                 logger.logResponse('User - getByUsername', user);
                 return user;
             } catch (error) {
@@ -69,7 +60,7 @@ const resolversUser = {
             logger.logArgs('User - create', args);
             validateContext(context.user, 'User');
             try {
-                const user = await createUser(args.user);
+                const user = await Users.createUser(args.user);
                 logger.logResponse('User - create', user);
             } catch (error) {
                 logger.logError('User - create', error);
@@ -87,7 +78,7 @@ const resolversUser = {
             logger.logArgs('User - update', args);
             validateContext(context.user, 'User');
             try {
-                const user = await updateUser(args);
+                const user = await Users.updateUser(args);
                 logger.logResponse('User - update', user);
                 return user;
             } catch (error) {
@@ -103,7 +94,7 @@ const resolversUser = {
             logger.logArgs('User - delete', args);
             validateContext(context.user, 'User');
             try {
-                const user = await deleteUser(args.id);
+                const user = await Users.deleteUser(args.id);
                 logger.logResponse('User - delete', user);
                 return user;
             } catch (error) {
@@ -119,7 +110,7 @@ const resolversUser = {
             logger.logArgs('User - changePassword', args);
             validateContext(context.user, 'User');
             try {
-                const response = await changePassword(args.id, args.password);
+                const response = await Users.changePassword(args.id, args.password);
                 logger.logResponse('User - changePassword', response);
                 return response;
             } catch (error) {
@@ -135,7 +126,7 @@ const resolversUser = {
             logger.logArgs('User - resetPassword', args);
             validateContext(context.user, 'User');
             try {
-                const response = await resetPassword(args.id);
+                const response = await Users.resetPassword(args.id);
                 logger.logResponse('User - resetPassword', response);
                 return response;
             } catch (error) {
