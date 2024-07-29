@@ -5,7 +5,7 @@ const {
 	resolverStatus,
 	resolverBaptismRecord,
 	resolverOffering
-} = require("./resolvers/index");
+} = require("./resolvers");
 
 const resolvers = {
 	Query: {

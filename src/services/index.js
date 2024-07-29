@@ -1,0 +1,1 @@
+const churchService = require('./church.service');
