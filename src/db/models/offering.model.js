@@ -1,7 +1,6 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../../config/database');
 const Church = require('./church.model');
-const User = require('./user.model');
 
 const Offering = sequelize.define('Offering', {
   id: {
@@ -34,7 +33,6 @@ const Offering = sequelize.define('Offering', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
       table: 'Users',
       key: 'id'
     },
