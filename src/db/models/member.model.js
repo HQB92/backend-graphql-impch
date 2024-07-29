@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
-const { User, Status, Church } = require('./index');
+const Church = require('./church.model');
+const Status = require('./status.model');
+const User = require('./user.model');
 
 const MemberModel = sequelize.define('Member', {
   rut: {
@@ -88,10 +90,6 @@ const MemberModel = sequelize.define('Member', {
 
 module.exports = MemberModel;
 
-//relacionar con user
-
-
-//relacionar con status
 MemberModel.belongsTo(Status, {
   foreignKey: 'statusId',
   as: 'status',
