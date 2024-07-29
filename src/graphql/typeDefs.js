@@ -1,10 +1,11 @@
 const { gql } = require('apollo-server-express');
-const { dataTypesUser,
-        dataTypesIglesia,
-        dataTypesMember,
-        dataTypesStatus,
-        datatypesBaptismRecord,
-			  datatypesOffering}  = require('./typeDefs/index');
+const dataTypesUser = require('./typeDefs/user.typeDef');
+const dataTypesIglesia = require('./typeDefs/church.typeDef');
+const dataTypesMember = require('./typeDefs/member.typeDef');
+const dataTypesStatus = require('./typeDefs/status.typeDef');
+const datatypesBaptismRecord = require('./typeDefs/baptismRecord.typeDef');
+const datatypesOffering = require('./typeDefs/offering.typeDef');
+
 
 const typeDefs = gql`
     scalar Date
