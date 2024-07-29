@@ -1,0 +1,43 @@
+name: Auto Bump Version
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Determine version bump
+        id: version
+        run: |
+          echo "::set-output name=type::$(node -e '
+          const conventionalCommits = require("conventional-commits-parser");
+          const { execSync } = require("child_process");
+          const commits = execSync("git log --format=%B $(git describe --tags --abbrev=0)..HEAD").toString();
+          const parsedCommits = conventionalCommits.sync(commits);
+          let bumpType = "patch";
+          if (parsedCommits.some(commit => commit.type === "feat")) bumpType = "minor";
+          if (parsedCommits.some(commit => commit.notes.some(note => note.title === "BREAKING CHANGE"))) bumpType = "major";
+          console.log(bumpType);
+          process.stdout.write(bumpType);
+          ')"
+
+      - name: Bump version
+        run: npm version ${{ steps.version.outputs.type }} -m "ci: bump version to %s"
+
+      - name: Push changes
+          git push
+          git push --tags
