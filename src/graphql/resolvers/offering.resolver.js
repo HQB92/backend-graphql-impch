@@ -40,11 +40,9 @@ const resolversOffering = {
 							name: item?.dataValues?.name,
 							total: item?.dataValues?.total,
 							count: item?.dataValues?.count
-						}
-					});
-					if (!result) {
-						return []
-					}
+						};
+					}) || [];
+
 					return result;
 				}
 			} catch (error) {
