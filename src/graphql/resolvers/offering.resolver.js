@@ -29,7 +29,15 @@ const resolversOffering = {
 				const summary = await offering.getSummaryAll(args.mes, args.anio);
 				console.log(summary);
 				logger.logResponses('Offering - getSummaryAll', summary);
-				return summary;
+
+				//mapeo de la respuesta
+				const result = summary.map((item) => {
+					return {
+						churchId: item.churchId,
+						total: item.total,
+						count: item.count
+					}
+				});
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
 				throw error;
