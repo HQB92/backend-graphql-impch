@@ -30,6 +30,8 @@ const getSummaryAll = async (mes, anio) => {
                 code: 400,
                 message: 'Mes y año son requeridos',
             };
+        }else if (mes < 10){
+            mes = '0'+mes;
         }
 
         const results = await offering.findAll({
