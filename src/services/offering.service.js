@@ -44,6 +44,7 @@ const getSummaryAll = async (mes, anio) => {
             ],
             include: [{
                 model: ChurchModel,
+                as: 'church',
                 attributes: ['name'],
                 required: true
             }],
