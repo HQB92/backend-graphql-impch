@@ -1,5 +1,6 @@
 const offering = require('../db/models/offering.model');
-const { sequelize, Op } = require('../config/database');
+const { sequelize } = require('../config/database');
+const { Op } = require('sequelize');
 
 const createOffering = async (offeringData) => {
     try {
