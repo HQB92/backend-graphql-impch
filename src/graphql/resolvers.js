@@ -4,6 +4,7 @@ const resolverMember = require('./resolvers/member.resolver');
 const resolverStatus = require('./resolvers/status.resolver');
 const resolverBaptismRecord = require('./resolvers/baptismRecord.resolver');
 const resolverOffering = require('./resolvers/offering.resolver');
+const resolverMerriageRecord = require('./resolvers/merriageRecord.resolver');
 
 
 const resolvers = {
@@ -26,6 +27,9 @@ const resolvers = {
 		Offering: (_, parent, args, context) => ({
 			...resolverOffering.OfferingQuery
 		}),
+		MerriageRecord: (_, parent, args, context) => ({
+			...resolverMerriageRecord.MerriageRecordQuery
+		}),
 	},
 	Mutation: {
 		User: (parent, args, context) => ({
@@ -45,6 +49,9 @@ const resolvers = {
 		}),
 		Offering: (parent, args, context) => ({
 			...resolverOffering.OfferingMutation
+		}),
+		MerriageRecord: (parent, args, context) => ({
+			...resolverMerriageRecord.MerriageRecordMutation
 		}),
 	},
 };
