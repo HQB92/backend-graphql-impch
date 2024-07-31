@@ -37,6 +37,7 @@ const dataTypesOffering = gql`
     
     type SummaryOfferingChurch {
         churchId: Int!
+        name: String!
         total: Int!
         count: Int!
     }

@@ -1,4 +1,5 @@
 const offering = require('../db/models/offering.model');
+const church = require('../db/models/church.model');
 const { Op,fn, col, literal} = require('sequelize');
 
 const createOffering = async (offeringData) => {
@@ -38,15 +39,21 @@ const getSummaryAll = async (mes, anio) => {
             attributes: [
                 'churchId',
                 [fn('sum', col('amount')), 'total'],
-                [fn('count', col('amount')), 'count']
+                [fn('count', col('amount')), 'count'],
+                [col('church.name'), 'name'] // Obtén el nombre de la iglesia
             ],
+            include: [{
+                model: church,
+                attributes: [],
+                required: true
+            }],
             where: {
                 [Op.and]: [
                     literal(`EXTRACT(MONTH FROM "date") = ${mes}`),
                     literal(`EXTRACT(YEAR FROM "date") = ${anio}`)
                 ]
             },
-            group: ['churchId']
+            group: ['churchId', 'church.name'] // Agrupa también por el nombre de la iglesia
         });
 
         if (!results.length) {
