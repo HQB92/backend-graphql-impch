@@ -23,7 +23,6 @@ const createOffering = async (offeringData) => {
 }
 
 const getSummaryAll = async (mes, anio) => {
-//agrupar por iglesia y sumar el total de ofrendas y cantidad de ofrendas los item son churchId, Total, Count del mes y anio selecionado
     try {
         return await offering.findAll({
             attributes: ['churchId', [sequelize.fn('sum', sequelize.col('amount')), 'total'], [sequelize.fn('count', sequelize.col('amount')), 'count']],
