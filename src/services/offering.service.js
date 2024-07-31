@@ -58,7 +58,7 @@ const getSummaryAll = async (mes, anio) => {
                     literal(`EXTRACT(YEAR FROM "date") = ${anio}`)
                 ]
             },
-            group: ['churchId']
+            group: ['churchId', 'church.id'],
         });
 
         if (!results.length) {
