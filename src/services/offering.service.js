@@ -1,5 +1,5 @@
 const offering = require('../db/models/offering.model');
-const { Op,sequelize} = require('sequelize');
+const { Op,fn, col} = require('sequelize');
 
 const createOffering = async (offeringData) => {
     try {
@@ -35,13 +35,13 @@ const getSummaryAll = async (mes, anio) => {
         const results = await offering.findAll({
             attributes: [
                 'churchId',
-                [sequelize.fn('sum', sequelize.col('amount')), 'total'],
-                [sequelize.fn('count', sequelize.col('amount')), 'count']
+                [fn('sum', col('amount')), 'total'],
+                [fn('count', col('amount')), 'count']
             ],
             where: {
                 [Op.and]: [
-                    sequelize.where(sequelize.fn('month', sequelize.col('date')), mes),
-                    sequelize.where(sequelize.fn('year', sequelize.col('date')), anio)
+                    fn('MONTH', col('date')), mes,
+                    fn('YEAR', col('date')), anio
                 ]
             },
             group: ['churchId']
