@@ -30,16 +30,22 @@ const resolversOffering = {
 				console.log(summary);
 				logger.logResponses('Offering - getSummaryAll', summary);
 
-				//mapeo de la respuesta
-				const result = summary.map((item) => {
+				if (!summary) {
 					return {
-						churchId: item?.dataValues?.churchId,
-						name: item?.dataValues?.name,
-						total: item?.dataValues?.total,
-						count: item?.dataValues?.count
-					}
-				});
-				return result;
+						code: 404,
+						message: 'No se encontraron resultados para el mes y año especificados',
+					};
+				}else{
+					const result = summary.map((item) => {
+						return {
+							churchId: item?.dataValues?.churchId,
+							name: item?.dataValues?.name,
+							total: item?.dataValues?.total,
+							count: item?.dataValues?.count
+						}
+					});
+					return result;
+				}
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
 				throw error;
