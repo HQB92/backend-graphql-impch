@@ -47,6 +47,7 @@ const resolversOffering = {
 							count: item?.dataValues?.count
 						};
 					});
+					return result;
 				}
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
