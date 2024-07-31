@@ -14,9 +14,9 @@ const dataTypesMerriageRecord = gql`
     
     type MerriageRecord {
         id: ID!
-        husbandRUT: ID!
+        husbandId: ID!
         husbandFullName: String!
-        wifeRUT: ID!
+        wifeId: ID!
         wifeFullName: String!
         placeOfRegistration: String!
         merriageDate: Date!
@@ -25,9 +25,9 @@ const dataTypesMerriageRecord = gql`
     }
     
     input MerriageRecordInput {
-        husbandRUT: ID
+        husbandId: ID
         husbandFullName: String
-        wifeRUT: ID
+        wifeId: ID
         wifeFullName: String
         placeOfRegistration: String
         merriageDate: Date
