@@ -1,10 +1,7 @@
 const {
-    getAllStatuses,
-    getStatusById,
-    createStatus,
-    updateStatus,
-    deleteStatus,
+    getAllMerriageRecords,
     count,
+    createMerriageRecord,
 } = require('../../services/merriageRecord.service');
 const { validateContext } = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
@@ -17,7 +14,7 @@ const resolversMerriageRecord = {
             logger.logArgs('MerriageRecord - getAll', args);
             validateContext(context.user, 'MerriageRecord');
             try {
-                const merriageRecords = await getAllStatuses();
+                const merriageRecords = await getAllMerriageRecords();
                 logger.logResponses('MerriageRecord - getAll', merriageRecords);
                 return merriageRecords;
             } catch (error) {
@@ -51,7 +48,7 @@ const resolversMerriageRecord = {
             logger.logArgs('MerriageRecord - create', args);
             validateContext(context.user, 'MerriageRecord');
             try {
-                const response = await createStatus(args.merriageRecord);
+                const response = await createMerriageRecord(args.merriageRecord);
                 logger.logResponse('MerriageRecord - create', response);
                 return response;
             } catch (error) {
