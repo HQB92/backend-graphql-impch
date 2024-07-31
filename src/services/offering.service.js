@@ -19,9 +19,9 @@ const createOffering = async (offeringData) => {
             code: 500,
             message: 'Error interno del servidor',
         }
-
     }
 }
+
 
 const updateOffering = async (offeringData, id) => {
     try {
