@@ -39,15 +39,8 @@ const getSummaryAll = async (mes, anio) => {
             attributes: [
                 'churchId',
                 [fn('sum', col('amount')), 'total'],
-                [fn('count', col('amount')), 'count'],
-                [col('church.name'), 'name']
+                [fn('count', col('amount')), 'count']
             ],
-            include: [{
-                model: ChurchModel,
-                as: 'church',
-                attributes: ['name'],
-                required: true
-            }],
             where: {
                 [Op.and]: [
                     literal(`EXTRACT(MONTH FROM "date") = ${mes}`),
