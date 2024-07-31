@@ -2,8 +2,8 @@ const { gql } = require('apollo-server-express');
 
 const dataTypesOffering = gql`
     type OfferingQuery {
-        getAll(user: Int, churchId: Int, mes: Int, anio: Int): [Offering]
-        getSummaryAll(mes: Int, anio: Int): [SummaryOfferingChurch]
+        getAll(user: Int, churchId: Int, mes: Int, anio: Int): [Offering] 
+        getSummaryAll(mes: Int, anio: Int): result
         getSummaryByChurch(churchId: Int, mes: Int, anio: Int): SummaryOfferingChurch
     }
     
@@ -22,6 +22,7 @@ const dataTypesOffering = gql`
         userId: Int!
         state: Boolean!
     }
+    union result = Offering | Response | SummaryOfferingChurch 
 
     input OfferingInput {
         id: Int
@@ -32,8 +33,6 @@ const dataTypesOffering = gql`
         userId: Int
         state: Boolean
     }
-    
-
     
     type SummaryOfferingChurch {
         churchId: Int!
