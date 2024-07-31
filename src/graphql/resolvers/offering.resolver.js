@@ -34,7 +34,7 @@ const resolversOffering = {
 						message: 'No se encontraron resultados para el mes y año especificados',
 					};
 				}else{
-					const result = summary.map((item) => {
+					const result = summary?.map((item) => {
 						return {
 							churchId: item?.dataValues?.churchId,
 							name: item?.dataValues?.name,
@@ -42,7 +42,9 @@ const resolversOffering = {
 							count: item?.dataValues?.count
 						}
 					});
-					return result;
+					if (!result) {
+						return []
+					}
 				}
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
