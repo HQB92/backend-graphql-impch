@@ -33,9 +33,9 @@ const resolversOffering = {
 				//mapeo de la respuesta
 				const result = summary.map((item) => {
 					return {
-						churchId: item.churchId,
-						total: item.total,
-						count: item.count
+						churchId: item?.dataValues?.churchId,
+						total: item?.dataValues?.total,
+						count: item?.dataValues?.count
 					}
 				});
 				return result;
