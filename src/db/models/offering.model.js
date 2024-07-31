@@ -49,8 +49,8 @@ const Offering = sequelize.define('Offering', {
   }
 );
 
-Offering.belongsTo(Church, {foreignKey: 'churchId'});
-Church.hasMany(Offering, {foreignKey: 'churchId'});
+Offering.belongsTo(Church, {foreignKey: 'churchId', as: 'church'});
+Church.hasMany(Offering, {foreignKey: 'id', as: 'offerings'});
 
 module.exports = Offering;
 

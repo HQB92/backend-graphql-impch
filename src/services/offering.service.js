@@ -40,7 +40,7 @@ const getSummaryAll = async (mes, anio) => {
                 'churchId',
                 [fn('sum', col('amount')), 'total'],
                 [fn('count', col('amount')), 'count'],
-                [col('church.name'), 'name'] // Obtén el nombre de la iglesia
+                [col('church.name'), 'name']
             ],
             include: [{
                 model: ChurchModel,
