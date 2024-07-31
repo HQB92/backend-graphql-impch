@@ -15,24 +15,24 @@ const dataTypesMerriageRecord = gql`
     type MerriageRecord {
         id: ID!
         husbandId: ID!
-        husbandFullName: String!
+        fullNameHusband: String!
         wifeId: ID!
-        wifeFullName: String!
-        placeOfRegistration: String!
-        merriageDate: Date!
-        registrationNumber: String!
-        registrationDate: Date!
+        fullNameWife: String!
+        civilCode: Int!
+        civilDate: Date!
+        civilPlace: String!
+        religiousDate: Date!
     }
     
     input MerriageRecordInput {
         husbandId: ID
-        husbandFullName: String
+        fullNameHusband: String
         wifeId: ID
-        wifeFullName: String
-        placeOfRegistration: String
-        merriageDate: Date
-        registrationNumber: String
-        registrationDate: Date
+        fullNameWife: String
+        civilCode: Int
+        civilDate: Date
+        civilPlace: String
+        religiousDate: Date
     }
 `;
 
