@@ -5,6 +5,7 @@ const dataTypesMember = require('./typeDefs/member.typeDef');
 const dataTypesStatus = require('./typeDefs/status.typeDef');
 const datatypesBaptismRecord = require('./typeDefs/baptismRecord.typeDef');
 const datatypesOffering = require('./typeDefs/offering.typeDef');
+const dataTypesMerriageRecord = require('./typeDefs/merriageRecord.typeDef');
 
 
 const typeDefs = gql`
@@ -15,6 +16,7 @@ const typeDefs = gql`
     ${dataTypesStatus}
     ${datatypesBaptismRecord}
     ${datatypesOffering}
+    ${dataTypesMerriageRecord}
     
     type Query {
         User: UserQuery
@@ -23,6 +25,7 @@ const typeDefs = gql`
         Status: StatusQuery
         BaptismRecord: BaptismRecordQuery
         Offering: OfferingQuery
+        MerriageRecord: MerriageRecordQuery
     }
     
     type Mutation {
@@ -32,6 +35,7 @@ const typeDefs = gql`
         Status: StatusMutation
         BaptismRecord: BaptismRecordMutation
         Offering: OfferingMutation
+        MerriageRecord: MerriageRecordMutation
     }
     
     type Response {

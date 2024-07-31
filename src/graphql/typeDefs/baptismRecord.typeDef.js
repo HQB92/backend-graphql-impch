@@ -6,11 +6,13 @@ const dataTypesBaptismRecord = gql`
     getByChildRut(childRUT: ID!): BaptismRecord
     count: Int
   }
+  
   type BaptismRecordMutation {
     create(baptismRecord: BaptismRecordInput!): Response
     update(baptismRecord: BaptismRecordInput): Response
     delete(childRUT: ID!): Response
   }
+  
   type BaptismRecord {
     childRUT: ID!
     childFullName: String!
