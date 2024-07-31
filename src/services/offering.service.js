@@ -56,10 +56,7 @@ const getSummaryAll = async (mes, anio) => {
             };
         }
 
-        return {
-            code: 200,
-            data: results,
-        };
+        return  results
     } catch (e) {
         console.error('Error al obtener el resumen:', e);
         return {
