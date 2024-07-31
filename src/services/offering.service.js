@@ -31,6 +31,7 @@ const getSummaryAll = async (mes, anio) => {
             group: ['churchId']
         });
     }catch (e) {
+        console.log(e);
         return {
             code: 500,
             message: 'Error interno del servidor',
