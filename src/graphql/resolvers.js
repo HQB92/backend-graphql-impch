@@ -1,3 +1,4 @@
+const { GraphQLJSON } = require('graphql-type-json');
 const resolverUser = require('./resolvers/user.resolver');
 const resolverChurch = require('./resolvers/church.resolver');
 const resolverMember = require('./resolvers/member.resolver');
@@ -8,6 +9,7 @@ const resolverMerriageRecord = require('./resolvers/merriageRecord.resolver');
 
 
 const resolvers = {
+	JSON: GraphQLJSON,
 	Query: {
 		User: (_, parent, args, context) => ({
 			...resolverUser.UserQuery

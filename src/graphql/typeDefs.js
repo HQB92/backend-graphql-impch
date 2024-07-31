@@ -10,6 +10,7 @@ const dataTypesMerriageRecord = require('./typeDefs/merriageRecord.typeDef');
 
 const typeDefs = gql`
     scalar Date
+    scalar JSON
     ${dataTypesUser}
     ${dataTypesIglesia}
     ${dataTypesMember}
@@ -39,9 +40,12 @@ const typeDefs = gql`
     }
     
     type Response {
-        code: Int
-        message: String
+        code: Int!
+        message: String!
+        data: JSON
     }
+    
+    
 `;
 
 module.exports = typeDefs;

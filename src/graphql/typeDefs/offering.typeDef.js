@@ -33,8 +33,6 @@ const dataTypesOffering = gql`
         state: Boolean
     }
     
-
-    
     type SummaryOfferingChurch {
         churchId: Int!
         name: String!
