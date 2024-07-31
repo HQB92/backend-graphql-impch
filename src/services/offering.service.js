@@ -1,5 +1,5 @@
 const offering = require('../db/models/offering.model');
-const { Op,fn, col, where} = require('sequelize');
+const { Op,fn, col, literal} = require('sequelize');
 
 const createOffering = async (offeringData) => {
     try {
@@ -42,8 +42,8 @@ const getSummaryAll = async (mes, anio) => {
             ],
             where: {
                 [Op.and]: [
-                    where(fn('MONTH', col('date')), mes),
-                    where(fn('YEAR', col('date')), anio)
+                    literal(`EXTRACT(MONTH FROM "date") = ${mes}`),
+                    literal(`EXTRACT(YEAR FROM "date") = ${anio}`)
                 ]
             },
             group: ['churchId']
