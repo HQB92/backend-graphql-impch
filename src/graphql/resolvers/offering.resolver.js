@@ -26,7 +26,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - getSummaryAll', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const summary = await offering.getSummaryAll(args.mes, args.anio);
+				let summary = await offering.getSummaryAll(args.mes, args.anio);
 				logger.logResponses('Offering - getSummaryAll', summary);
 				if (!summary) {
 					return {
@@ -34,16 +34,19 @@ const resolversOffering = {
 						message: 'No se encontraron resultados para el mes y año especificados',
 					};
 				}else{
-					const result = summary?.map((item) => {
+					if (!Array.isArray(summary)) {
+						console.error("Expected summary to be an array but got", typeof summary);
+						summary = [];
+					}
+
+					const result = summary.map((item) => {
 						return {
 							churchId: item?.dataValues?.churchId,
 							name: item?.dataValues?.name,
 							total: item?.dataValues?.total,
 							count: item?.dataValues?.count
 						};
-					}) || [];
-
-					return result;
+					});
 				}
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
