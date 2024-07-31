@@ -27,9 +27,7 @@ const resolversOffering = {
 			validateContext(context.user, 'Offering');
 			try {
 				const summary = await offering.getSummaryAll(args.mes, args.anio);
-				console.log(summary);
 				logger.logResponses('Offering - getSummaryAll', summary);
-
 				if (!summary) {
 					return {
 						code: 404,
