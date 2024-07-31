@@ -40,9 +40,7 @@ const getSummaryAll = async (mes, anio) => {
                 'churchId',
                 [fn('sum', col('amount')), 'total'],
                 [fn('count', col('amount')), 'count'],
-                //name church.name
                 [literal(`"church"."name"`), 'name']
-
             ],
             include: [
                 {
@@ -51,7 +49,6 @@ const getSummaryAll = async (mes, anio) => {
                     as: 'church',
                     attributes: ['name'],
                     required: true
-
                 }
             ],
             where: {

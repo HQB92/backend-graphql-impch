@@ -34,6 +34,7 @@ const resolversOffering = {
 				const result = summary.map((item) => {
 					return {
 						churchId: item?.dataValues?.churchId,
+						name: item?.dataValues?.name,
 						total: item?.dataValues?.total,
 						count: item?.dataValues?.count
 					}
