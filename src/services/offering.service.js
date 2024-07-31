@@ -1,4 +1,5 @@
 const offering = require('../db/models/offering.model');
+const { sequelize, Op } = require('sequelize');
 
 const createOffering = async (offeringData) => {
     try {
@@ -8,13 +9,13 @@ const createOffering = async (offeringData) => {
                 code: 201,
                 message: 'Ofrenda registrada correctamente',
             }
-        }else{
+        } else {
             return {
                 code: 400,
                 message: 'Error al registrar la ofrenda',
             }
         }
-    }catch (e) {
+    } catch (e) {
         return {
             code: 500,
             message: 'Error interno del servidor',
@@ -24,20 +25,27 @@ const createOffering = async (offeringData) => {
 
 const getSummaryAll = async (mes, anio) => {
     try {
-        return await offering.findAll({
-            attributes: ['churchId', [sequelize.fn('sum', sequelize.col('amount')), 'total'], [sequelize.fn('count', sequelize.col('amount')), 'count']],
-            where: sequelize.where(sequelize.fn('month', sequelize.col('date')), mes),
-            where: sequelize.where(sequelize.fn('year', sequelize.col('date')), anio),
+        return await Offering.findAll({
+            attributes: [
+                'churchId',
+                [sequelize.fn('sum', sequelize.col('amount')), 'total'],
+                [sequelize.fn('count', sequelize.col('amount')), 'count']
+            ],
+            where: {
+                [Op.and]: [
+                    sequelize.where(sequelize.fn('month', sequelize.col('date')), mes),
+                    sequelize.where(sequelize.fn('year', sequelize.col('date')), anio)
+                ]
+            },
             group: ['churchId']
         });
-    }catch (e) {
+    } catch (e) {
         console.log(e);
         return {
             code: 500,
             message: 'Error interno del servidor',
-        }
+        };
     }
-
 
 }
 
@@ -50,12 +58,12 @@ const updateOffering = async (offeringData, id) => {
                 message: 'Ofrenda no existe',
             }
         }
-        await offering.update(offeringData, { where: { id } });
+        await offering.update(offeringData, {where: {id}});
         return {
             code: 200,
             message: 'Ofrenda actualizada correctamente',
         }
-    }catch (e) {
+    } catch (e) {
         return {
             code: 500,
             message: 'Error interno del servidor',
@@ -72,12 +80,12 @@ const deleteOffering = async (id) => {
                 message: 'Ofrenda no existe',
             }
         }
-        await offering.destroy({ where: { id } });
+        await offering.destroy({where: {id}});
         return {
             code: 200,
             message: 'Ofrenda eliminada correctamente',
         }
-    }catch (e) {
+    } catch (e) {
         return {
             code: 500,
             message: 'Error interno del servidor',
@@ -88,16 +96,16 @@ const deleteOffering = async (id) => {
 const getAllOfferings = async (user, church) => {
     let filterUser = {};
     let filterChurch = {};
-    if (user && user !== 0 ){
-        filterUser = { userId: user };
+    if (user && user !== 0) {
+        filterUser = {userId: user};
     }
 
-    if (church && church !== 0 ){
-        filterChurch = { churchId: church };
+    if (church && church !== 0) {
+        filterChurch = {churchId: church};
     }
     try {
         return await offering.findAll({where: {...filterUser, ...filterChurch}})
-    }catch (e) {
+    } catch (e) {
         return {
             code: 500,
             message: 'Error interno del servidor',
@@ -106,9 +114,9 @@ const getAllOfferings = async (user, church) => {
 }
 
 module.exports = {
-		createOffering,
-		updateOffering,
-		deleteOffering,
-		getAllOfferings,
-        getSummaryAll
+    createOffering,
+    updateOffering,
+    deleteOffering,
+    getAllOfferings,
+    getSummaryAll
 }
