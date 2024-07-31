@@ -39,7 +39,8 @@ const getSummaryAll = async (mes, anio) => {
             attributes: [
                 'churchId',
                 [fn('sum', col('amount')), 'total'],
-                [fn('count', col('amount')), 'count']
+                [fn('count', col('amount')), 'count'],
+                [literal(`(SELECT name FROM "churches" WHERE "churches"."id" = "churchId")`), 'name']
             ],
             where: {
                 [Op.and]: [
