@@ -1,5 +1,5 @@
 // src/service/statusService.js
-const StatusService = require('../db/models/status.model');
+const StatusService = require('../db/models/merriageRecord.model');
 
 const getAllStatuses = async () => {
     return await StatusService.findAll();
