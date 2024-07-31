@@ -25,7 +25,7 @@ const createOffering = async (offeringData) => {
 
 const getSummaryAll = async (mes, anio) => {
     try {
-        return await Offering.findAll({
+        return await offering.findAll({
             attributes: [
                 'churchId',
                 [sequelize.fn('sum', sequelize.col('amount')), 'total'],
