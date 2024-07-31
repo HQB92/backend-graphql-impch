@@ -46,7 +46,9 @@ const getSummaryAll = async (mes, anio) => {
                 {
                     model: ChurchModel,
                     as: 'church',
-                    attributes: ['name']
+                    attributes: ['name'],
+                    required: true
+
                 }
             ],
             where: {
