@@ -22,6 +22,24 @@ const createOffering = async (offeringData) => {
     }
 }
 
+const getSummaryAll = async (mes, anio) => {
+//agrupar por iglesia y sumar el total de ofrendas y cantidad de ofrendas los item son churchId, Total, Count del mes y anio selecionado
+    try {
+        return await offering.findAll({
+            attributes: ['churchId', [sequelize.fn('sum', sequelize.col('amount')), 'total'], [sequelize.fn('count', sequelize.col('amount')), 'count']],
+            where: sequelize.where(sequelize.fn('month', sequelize.col('date')), mes),
+            where: sequelize.where(sequelize.fn('year', sequelize.col('date')), anio),
+            group: ['churchId']
+        });
+    }catch (e) {
+        return {
+            code: 500,
+            message: 'Error interno del servidor',
+        }
+    }
+
+
+}
 
 const updateOffering = async (offeringData, id) => {
     try {
@@ -92,4 +110,5 @@ module.exports = {
 		updateOffering,
 		deleteOffering,
 		getAllOfferings,
+        getSummaryAll
 }

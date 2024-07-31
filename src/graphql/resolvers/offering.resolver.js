@@ -20,6 +20,23 @@ const resolversOffering = {
 			}
 
 		},
+		getSummaryAll: async (args, context) => {
+			logger.logStart('Offering - getSummaryAll');
+			logger.logUser('Offering - getSummaryAll', context.user);
+			logger.logArgs('Offering - getSummaryAll', args);
+			validateContext(context.user, 'Offering');
+			try {
+				const summary = await offering.getSummaryAll();
+				console.log(summary);
+				logger.logResponses('Offering - getSummaryAll', summary);
+				return summary;
+			} catch (error) {
+				logger.logError('Offering - getSummaryAll', error);
+				throw error;
+			} finally {
+				logger.logEnd('Offering - getSummaryAll');
+			}
+		}
 	},
 	OfferingMutation: {
 		create: async (args, context) => {
