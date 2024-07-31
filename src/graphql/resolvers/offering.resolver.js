@@ -38,6 +38,7 @@ const resolversOffering = {
 						count: item.count
 					}
 				});
+				return result;
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
 				throw error;
