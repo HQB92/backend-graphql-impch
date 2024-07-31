@@ -49,5 +49,7 @@ const Offering = sequelize.define('Offering', {
   }
 );
 
+Offering.belongsTo(Church, {foreignKey: 'churchId'});
+
 module.exports = Offering;
 
