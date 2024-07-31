@@ -1,6 +1,5 @@
 const offering = require('../db/models/offering.model');
-const { sequelize } = require('../config/database');
-const { Op } = require('sequelize');
+const { Op,sequelize} = require('sequelize');
 
 const createOffering = async (offeringData) => {
     try {
@@ -26,7 +25,14 @@ const createOffering = async (offeringData) => {
 
 const getSummaryAll = async (mes, anio) => {
     try {
-        return await offering.findAll({
+        if (!mes || !anio) {
+            return {
+                code: 400,
+                message: 'Mes y año son requeridos',
+            };
+        }
+
+        const results = await offering.findAll({
             attributes: [
                 'churchId',
                 [sequelize.fn('sum', sequelize.col('amount')), 'total'],
@@ -40,15 +46,27 @@ const getSummaryAll = async (mes, anio) => {
             },
             group: ['churchId']
         });
+
+        if (!results.length) {
+            return {
+                code: 404,
+                message: 'No se encontraron resultados para el mes y año especificados',
+            };
+        }
+
+        return {
+            code: 200,
+            data: results,
+        };
     } catch (e) {
-        console.log(e);
+        console.error('Error al obtener el resumen:', e);
         return {
             code: 500,
             message: 'Error interno del servidor',
         };
     }
+};
 
-}
 
 const updateOffering = async (offeringData, id) => {
     try {

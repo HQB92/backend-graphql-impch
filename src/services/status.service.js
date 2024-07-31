@@ -10,8 +10,8 @@ const getStatusById = async (id) => {
 };
 
 const createStatus = async (statusData) => {
-    const { name } = statusData;
-    const existingStatus = await StatusService.findOne({ where: { name } });
+    const {name} = statusData;
+    const existingStatus = await StatusService.findOne({where: {name}});
     if (existingStatus) {
         return {
             code: 400,
@@ -26,8 +26,8 @@ const createStatus = async (statusData) => {
 };
 
 const updateStatus = async (statusData) => {
-    const { id } = statusData;
-    await StatusService.update(statusData, { where: { id } });
+    const {id} = statusData;
+    await StatusService.update(statusData, {where: {id}});
     return {
         code: 200,
         message: 'Estado actualizado Exitosamente',
@@ -35,7 +35,7 @@ const updateStatus = async (statusData) => {
 };
 
 const deleteStatus = async (id) => {
-    const result = await StatusService.destroy({ where: { id } });
+    const result = await StatusService.destroy({where: {id}});
     if (result === 0) {
         return {
             code: 400,
