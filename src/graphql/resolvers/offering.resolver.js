@@ -45,6 +45,7 @@ const resolversOffering = {
 					if (!result) {
 						return []
 					}
+					return result;
 				}
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
