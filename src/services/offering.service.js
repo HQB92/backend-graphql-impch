@@ -24,7 +24,8 @@ const createOffering = async (offeringData) => {
     }
 }
 
-const getSummaryAll = async (mes, anio) => {
+const getSummaryAll = async (mes, anio, churchId) => {
+    let filterChurch = {};
     try {
         if (!mes || !anio) {
             return {
@@ -33,6 +34,9 @@ const getSummaryAll = async (mes, anio) => {
             };
         }else if (mes < 10){
             mes = '0'+mes;
+        }
+        if(churchId){
+            filterChurch = { churchId: churchId };
         }
 
         const results = await offering.findAll({
@@ -54,7 +58,8 @@ const getSummaryAll = async (mes, anio) => {
             where: {
                 [Op.and]: [
                     literal(`EXTRACT(MONTH FROM "date") = ${mes}`),
-                    literal(`EXTRACT(YEAR FROM "date") = ${anio}`)
+                    literal(`EXTRACT(YEAR FROM "date") = ${anio}`),
+                    filterChurch
                 ]
             },
             group: ['churchId', 'church.id'],

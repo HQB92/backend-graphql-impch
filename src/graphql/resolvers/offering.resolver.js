@@ -26,7 +26,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - getSummaryAll', args);
 			validateContext(context.user, 'Offering');
 			try {
-				let summary = await offering.getSummaryAll(args.mes, args.anio);
+				let summary = await offering.getSummaryAll(args.mes, args.anio, args.churchId);
 				logger.logResponses('Offering - getSummaryAll', summary);
 				if (!summary) {
 					return {
