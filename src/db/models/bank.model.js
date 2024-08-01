@@ -52,7 +52,7 @@ const bank = sequelize.define('bank', {
 );
 
 bank.belongsTo(Church, {foreignKey: 'churchId', as: 'church'});
-Church.hasMany(bank, {foreignKey: 'id', as: 'offerings'});
+Church.hasMany(bank, {foreignKey: 'id', as: 'banks'});
 
 module.exports = bank;
 

@@ -1,6 +1,7 @@
 const {validateContext} = require('../../utils/tokensLogs');
 const logger = require('../../utils/logger');
 const offering = require("../../services/offering.service");
+const bank = require("../../services/bank.service");
 const resolversOffering = {
 	OfferingQuery: {
 		getAll: async (args, context) => {
@@ -39,7 +40,7 @@ const resolversOffering = {
 						summary = [];
 					}
 
-					const response = offering.getSummaryBank();
+					const response = bank.getSummaryBank();
 					console.log(response);
 					const result = summary.map((item) => {
 						return {
