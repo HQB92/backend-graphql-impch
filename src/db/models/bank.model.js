@@ -2,7 +2,7 @@ const {DataTypes} = require('sequelize');
 const sequelize = require('../../config/database');
 const Church = require('./church.model');
 
-const bank = sequelize.define('bank', {
+const Bank = sequelize.define('Bank', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -47,12 +47,12 @@ const bank = sequelize.define('bank', {
   },
 },
   {
-    tableName: 'banks',
+    tableName: 'Banks',
   }
 );
 
-bank.belongsTo(Church, {foreignKey: 'churchId', as: 'church'});
-Church.hasMany(bank, {foreignKey: 'id', as: 'banks'});
+Bank.belongsTo(Church, {foreignKey: 'churchId', as: 'church'});
+Church.hasMany(Bank, {foreignKey: 'id', as: 'Banks'});
 
-module.exports = bank;
+module.exports = Bank;
 

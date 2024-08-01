@@ -1,27 +1,17 @@
-const bank = require('../db/models/bank.model');
+const Bank = require('../db/models/bank.model');
 
 const { Op,fn, col, literal} = require('sequelize');
 const ChurchModel = require("../db/models/church.model");
 
 const getSummaryBank = async () => {
     try {
-        const results = await bank.findAll({
+        const results = await Bank.findAll({
             attributes: [
                 'churchId',
                 [fn('sum', col('amount')), 'total'],
                 [fn('count', col('amount')), 'count'],
-                [literal(`"church"."name"`), 'name']
             ],
-            include: [
-                {
-                    model: ChurchModel,
-                    tableName: 'churches',
-                    as: 'church',
-                    attributes: ['name'],
-                    required: true
-                }
-            ],
-            group: ['churchId', 'church.id']
+            group: ['churchId']
         });
 
 

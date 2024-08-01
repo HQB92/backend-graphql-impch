@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: 'Churches', // Nombre de la tabla referenciada
+            tableName: 'Churches',
           },
           key: 'id',
         },
@@ -37,7 +37,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: 'Users', // Nombre de la tabla referenciada
+            tableName: 'Users',
           },
           key: 'id',
         },
