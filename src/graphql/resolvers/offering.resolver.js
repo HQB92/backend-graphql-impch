@@ -65,8 +65,8 @@ const resolversOffering = {
 					result.push({
 						churchId: 1,
 						name: "Banco",
-						total: response?.dataValues?.total,
-						count: response?.dataValues?.count
+						total: response[0]?.dataValues?.total,
+						count: response[0]?.dataValues?.count
 					});
 				}
 				console.log("result", result);
