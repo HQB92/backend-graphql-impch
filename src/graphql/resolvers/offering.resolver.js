@@ -41,7 +41,7 @@ const resolversOffering = {
 					}
 
 					const response = await bank.getSummaryBank();
-					console.log(response);
+					console.log("Respeusta de datos banco",response);
 					const result = summary.map((item) => {
 						return {
 							churchId: item?.dataValues?.churchId,
