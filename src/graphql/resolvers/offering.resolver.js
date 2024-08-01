@@ -10,7 +10,7 @@ const resolversOffering = {
 			logger.logArgs('Offering - getAll', args);
 			validateContext(context.user, 'Offering');
 			try {
-				const offerings = await offering.getAllOfferings(args.user, args.churchId);
+				const offerings = await offering.getAllOfferings(args.user, args.churchId, args.mes, args.anio);
 				logger.logResponses('Offering - getAll', offerings);
 				return offerings;
 			} catch (error) {

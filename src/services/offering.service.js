@@ -157,7 +157,7 @@ const deleteOffering = async (id) => {
     }
 }
 
-const getAllOfferings = async (user, church) => {
+const getAllOfferings = async (user, church, mes, anio) => {
     let filterUser = {};
     let filterChurch = {};
     if (user && user !== 0) {
@@ -167,8 +167,22 @@ const getAllOfferings = async (user, church) => {
     if (church && church !== 0) {
         filterChurch = {churchId: church};
     }
+
+    if (mes && mes < 10) {
+        mes = '0'+mes;
+    }
+
     try {
-        return await offering.findAll({where: {...filterUser, ...filterChurch}})
+        return await offering.findAll({
+            where: {
+                [Op.and]: [
+                    filterUser,
+                    filterChurch,
+                    literal(`EXTRACT(MONTH FROM "date") = ${mes}`),
+                    literal(`EXTRACT(YEAR FROM "date") = ${anio}`)
+                ]
+            }
+        });
     } catch (e) {
         return {
             code: 500,
