@@ -91,8 +91,7 @@ const getSummaryBank = async () => {
             ],
             where: {
                 type: 'Banco'
-            },
-            group: ['type'],
+            }
         });
 
         if (!results.length) {
