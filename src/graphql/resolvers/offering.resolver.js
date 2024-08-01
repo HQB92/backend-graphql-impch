@@ -25,43 +25,53 @@ const resolversOffering = {
 			logger.logStart('Offering - getSummaryAll');
 			logger.logUser('Offering - getSummaryAll', context.user);
 			logger.logArgs('Offering - getSummaryAll', args);
+
+			// Validar el contexto
 			validateContext(context.user, 'Offering');
+
 			try {
+				// Obtener el resumen de ofrendas
 				let summary = await offering.getSummaryAll(args.mes, args.anio, args.churchId);
 				logger.logResponses('Offering - getSummaryAll', summary);
+
+				// Manejar caso de no encontrar resultados
 				if (!summary) {
 					return {
 						code: 404,
 						message: 'No se encontraron resultados para el mes y año especificados',
 					};
-				}else{
-					if (!Array.isArray(summary)) {
-						console.error("Expected summary to be an array but got", typeof summary);
-						summary = [];
-					}
-
-					const response = await bank.getSummaryBank();
-					console.log("Respeusta de datos banco",response);
-					const result = summary.map((item) => {
-						return {
-							churchId: item?.dataValues?.churchId,
-							name: item?.dataValues?.name,
-							total: item?.dataValues?.total,
-							count: item?.dataValues?.count
-						};
-					});
-					if (response) {
-						result.push(
-							{
-								churchId: 1,
-								name: "Banco",
-								total: response?.dataValues?.total,
-								count: response?.dataValues?.count
-							}
-						);
-					}
-					return result;
 				}
+
+				// Verificar si summary es un array
+				if (!Array.isArray(summary)) {
+					console.error("Expected summary to be an array but got", typeof summary);
+					summary = [];
+				}
+
+				// Obtener el resumen del banco
+				const response = await bank.getSummaryBank();
+				logger.logResponses('Offering - getSummaryBank', response);
+
+				// Mapear el resumen de ofrendas
+				const result = summary.map((item) => ({
+					churchId: item?.dataValues?.churchId,
+					name: item?.dataValues?.name,
+					total: item?.dataValues?.total,
+					count: item?.dataValues?.count
+				}));
+
+				// Añadir los datos del banco al resultado
+				if (response) {
+					result.push({
+						churchId: 1,
+						name: "Banco",
+						total: response?.dataValues?.total,
+						count: response?.dataValues?.count
+					});
+				}
+
+				return result;
+
 			} catch (error) {
 				logger.logError('Offering - getSummaryAll', error);
 				throw error;
@@ -69,6 +79,7 @@ const resolversOffering = {
 				logger.logEnd('Offering - getSummaryAll');
 			}
 		}
+
 	},
 	OfferingMutation: {
 		create: async (args, context) => {
