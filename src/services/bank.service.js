@@ -1,7 +1,6 @@
 const Bank = require('../db/models/bank.model');
 
 const { Op,fn, col, literal} = require('sequelize');
-const ChurchModel = require("../db/models/church.model");
 
 const getSummaryBank = async () => {
     try {
@@ -15,7 +14,7 @@ const getSummaryBank = async () => {
         });
 
 
-        console.log("result", results);
+
 
         if (!results.length) {
             return {
@@ -23,7 +22,7 @@ const getSummaryBank = async () => {
                 message: 'No se encontraron resultados para el mes y año especificados',
             };
         }
-        return  results
+        return results
     } catch (e) {
         console.error('Error al obtener el resumen:', e);
         return {

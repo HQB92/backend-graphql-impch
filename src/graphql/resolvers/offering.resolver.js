@@ -40,7 +40,7 @@ const resolversOffering = {
 						summary = [];
 					}
 
-					const response = bank.getSummaryBank();
+					const response = await bank.getSummaryBank();
 					console.log(response);
 					const result = summary.map((item) => {
 						return {
@@ -53,7 +53,7 @@ const resolversOffering = {
 					if (response) {
 						result.push(
 							{
-								churchId: 10,
+								churchId: 1,
 								name: "Banco",
 								total: response?.dataValues?.total,
 								count: response?.dataValues?.count
