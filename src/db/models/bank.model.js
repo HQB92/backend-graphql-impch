@@ -40,8 +40,11 @@ const bank = sequelize.define('bank', {
   state:{
     type: DataTypes.BOOLEAN,
     allowNull: false
-  }
-
+  },
+  comment: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 },
   {
     tableName: 'banks',
