@@ -93,8 +93,6 @@ const getSummaryBank = async () => {
                 type: 'Banco'
             }
         });
-        console.log("result", results);
-
         if (!results.length) {
             return {
                 code: 404,

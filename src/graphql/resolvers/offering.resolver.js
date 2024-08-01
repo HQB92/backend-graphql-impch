@@ -69,9 +69,6 @@ const resolversOffering = {
 						count: response[0]?.dataValues?.count
 					});
 				}
-				console.log("result", result);
-				console.log("response", response);
-
 				return result;
 
 			} catch (error) {
