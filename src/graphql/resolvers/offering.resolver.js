@@ -40,6 +40,7 @@ const resolversOffering = {
 					}
 
 					const response = offering.getSummaryBank();
+					console.log(response);
 					const result = summary.map((item) => {
 						return {
 							churchId: item?.dataValues?.churchId,
