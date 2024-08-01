@@ -39,6 +39,7 @@ const resolversOffering = {
 						summary = [];
 					}
 
+					const response = offering.getSummaryBank();
 					const result = summary.map((item) => {
 						return {
 							churchId: item?.dataValues?.churchId,
@@ -47,6 +48,16 @@ const resolversOffering = {
 							count: item?.dataValues?.count
 						};
 					});
+					if (response) {
+						result.push(
+							{
+								churchId: 10,
+								name: "Banco",
+								total: response?.dataValues?.total,
+								count: response?.dataValues?.count
+							}
+						);
+					}
 					return result;
 				}
 			} catch (error) {
