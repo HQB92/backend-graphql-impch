@@ -81,35 +81,6 @@ const getSummaryAll = async (mes, anio, churchId) => {
     }
 };
 
-const getSummaryBank = async () => {
-    try {
-        const results = await offering.findAll({
-            attributes: [
-                'churchId',
-                [fn('sum', col('amount')), 'total'],
-                [fn('count', col('amount')), 'count']
-            ],
-            where: {
-                type: 'Banco'
-            }
-        });
-        if (!results.length) {
-            return {
-                code: 404,
-                message: 'No se encontraron resultados para el mes y año especificados',
-            };
-        }
-        return  results
-    } catch (e) {
-        console.error('Error al obtener el resumen:', e);
-        return {
-            code: 500,
-            message: 'Error interno del servidor',
-        };
-    }
-
-}
-
 
 const updateOffering = async (offeringData, id) => {
     try {
@@ -194,6 +165,5 @@ module.exports = {
     updateOffering,
     deleteOffering,
     getAllOfferings,
-    getSummaryAll,
-    getSummaryBank
+    getSummaryAll
 }

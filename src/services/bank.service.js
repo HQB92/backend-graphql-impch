@@ -2,7 +2,7 @@ const Bank = require('../db/models/bank.model');
 
 const { Op,fn, col, literal} = require('sequelize');
 
-const getSummaryBank = async () => {
+const getSummaryBank = async (month, year) => {
     try {
         const results = await Bank.findAll({
             attributes: [
@@ -10,6 +10,12 @@ const getSummaryBank = async () => {
                 [fn('sum', col('amount')), 'total'],
                 [fn('count', col('amount')), 'count'],
             ],
+            where: {
+                [Op.and]: [
+                    literal(`EXTRACT(MONTH FROM "date") = ${month}`),
+                    literal(`EXTRACT(YEAR FROM "date") = ${year}`)
+                ]
+            },
             group: ['churchId']
         });
 

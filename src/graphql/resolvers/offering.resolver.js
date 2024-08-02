@@ -49,7 +49,7 @@ const resolversOffering = {
 				}
 
 				// Obtener el resumen del banco
-				const response = await bank.getSummaryBank();
+				const response = await bank.getSummaryBank(args.mes, args.anio);
 				logger.logResponses('Offering - getSummaryBank', response);
 
 				// Mapear el resumen de ofrendas
