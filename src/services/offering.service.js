@@ -150,7 +150,8 @@ const getAllOfferings = async (user, church, mes, anio) => {
                     literal(`EXTRACT(MONTH FROM "date") = ${mes}`),
                     literal(`EXTRACT(YEAR FROM "date") = ${anio}`)
                 ]
-            }
+            },
+            order: [['id', 'ASC']]
         });
     } catch (e) {
         return {
