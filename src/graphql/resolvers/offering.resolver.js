@@ -67,7 +67,7 @@ const resolversOffering = {
 
 
 				// Añadir los datos del banco al resultado
-				if (response) {
+				if (!response.length) {
 					result.push({
 						churchId: 1,
 						name: "Banco",
