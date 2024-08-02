@@ -53,12 +53,17 @@ const resolversOffering = {
 				logger.logResponses('Offering - getSummaryBank', response);
 
 				// Mapear el resumen de ofrendas
-				const result = summary.map((item) => ({
-					churchId: item?.dataValues?.churchId,
-					name: item?.dataValues?.name,
-					total: item?.dataValues?.total,
-					count: item?.dataValues?.count
-				}));
+				if (!summary.length) {
+					summary = [];
+				}else {
+					const result = summary.map((item) => ({
+						churchId: item?.dataValues?.churchId,
+						name: item?.dataValues?.name,
+						total: item?.dataValues?.total,
+						count: item?.dataValues?.count
+					}));
+				}
+
 
 				// Añadir los datos del banco al resultado
 				if (response) {
