@@ -14,13 +14,13 @@ const dataTypesOffering = gql`
     }
 
     type Offering {
-        id: Int!
-        amount: Int!
-        date: Date!
+        id: Int
+        amount: Int
+        date: Date
         type: String
-        churchId: Int!
-        userId: Int!
-        state: Boolean!
+        churchId: Int
+        userId: Int
+        state: Boolean
     }
 
     input OfferingInput {
