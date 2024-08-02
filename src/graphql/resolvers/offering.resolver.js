@@ -65,7 +65,7 @@ const resolversOffering = {
 					}));
 				}
 
-
+				console.log("response", response);
 				// Añadir los datos del banco al resultado
 				if (!response.length) {
 					result.push({
