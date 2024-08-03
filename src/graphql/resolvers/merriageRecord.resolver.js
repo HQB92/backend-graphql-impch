@@ -50,7 +50,10 @@ const resolversMerriageRecord = {
             try {
                 const response = await createMerriageRecord(args.merriageRecord);
                 logger.logResponse('MerriageRecord - create', response);
-                return response;
+                return {
+                    code: 201,
+                    message: 'MerriageRecord created successfully',
+                }
             } catch (error) {
                 logger.logError('MerriageRecord - create', error);
                 throw error;
