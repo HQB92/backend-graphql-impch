@@ -7,6 +7,7 @@ const loginController = async (req, res) => {
     token = token.replace(/"/g, '');
     res.send({ token });
   } catch (error) {
+    logger.logError("Auth - Login", error.message);
     res.status(401).send(error.message);
   }
 };
