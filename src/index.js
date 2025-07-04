@@ -4,7 +4,6 @@ const { verifyToken } = require('./utils/auth');
 const authRouter = require('./auth/auth.router');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
-const cors = require('cors');
 const logger = require('./utils/logger');
 
 
@@ -15,21 +14,6 @@ const app = express();
 app.use(express.json());
 app.use('/auth', authRouter);
 
-const allowedOrigins = [
-  'https://impchzanartu.cl'
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('No permitido por CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
