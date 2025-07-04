@@ -17,11 +17,7 @@ app.use('/auth', authRouter);
 
 const allowedOrigins = '*';
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
 
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
