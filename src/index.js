@@ -12,7 +12,7 @@ require('dotenv').config();
 const app = express();
 
 // Habilitar CORS para dominios específicos
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:4000', 'https://impchzanartu.online', "https://app.impchzanartu.online","https://studio.apollographql.com" ];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:4000', 'https://impchzanartu.online', "https://app.impchzanartu.online","https://studio.apollographql.com", "https://impchzanartu.cl","https://api.impchzanartu.cl"];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
