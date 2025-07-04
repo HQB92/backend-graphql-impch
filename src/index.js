@@ -16,18 +16,16 @@ app.use(express.json());
 app.use('/auth', authRouter);
 
 const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:4000',
-  'https://studio.apollographql.com',
-  'http://impchzanartu.cl',
-  'https://api.impchzanartu.cl',
-  'https://impchzanartu.cl',
-  'http://api.impchzanartu.cl',
+  'https://impchzanartu.cl'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    callback(null, origin); // Permite cualquier origen
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
