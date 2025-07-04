@@ -16,7 +16,16 @@ app.use(express.json());
 app.use('/auth', authRouter);
 
 app.use(cors({
-  origin: '*',
+  origin: [
+    '*',
+    'http://localhost:3000',
+    'http://localhost:4000',
+    'https://studio.apollographql.com',
+    'http://impchzanartu.cl',
+    'https://api.impchzanartu.cl',
+    'https://impchzanartu.cl',
+    'https://api.impchzanartu.cl'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
