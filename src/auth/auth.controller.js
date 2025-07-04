@@ -4,6 +4,8 @@ const { login } = require('./auth.service');
 const loginController = async (req, res) => {
   const { username, password } = req.body;
   try {
+    console.log("LoginController");
+    console.log(username, password);
     let token = await login(username, password);
     token = token.replace(/"/g, '');
     res.send({ token });
