@@ -13,31 +13,6 @@ require('dotenv').config();
 
 const app = express();
 
-// Habilitar CORS para dominios específicos
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:4000',
-  'https://localhost:3000',
-  'https://localhost:4000',
-  'https://impchzanartu.online',
-  'https://app.impchzanartu.online',
-  'https://studio.apollographql.com',
-  'http://impchzanartu.cl',
-  'http://api.impchzanartu.cl',
-  'https://impchzanartu.cl'
-];
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      logger.logErrorCors("CORS Error", origin);
-      callback(new Error('No permitido por CORS'));
-    }
-  },
-  credentials: true
-}));
-
 app.use(express.json());
 app.use('/auth', authRouter);
 
