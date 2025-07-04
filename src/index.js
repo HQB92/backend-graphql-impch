@@ -15,9 +15,29 @@ const app = express();
 app.use(express.json());
 app.use('/auth', authRouter);
 
-const allowedOrigins = '*';
+const allowedOrigins = [
+  'https://impchzanartu.cl',
+  'https://api.impchzanartu.cl',
+  'http://impchzanartu.cl',
+  'http://api.impchzanartu.cl',
+  'http://localhost:4000',
+  'http://localhost:3000',
+  'https://localhost:4000',
+  'https://localhost:3000'
+];
 
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
