@@ -12,9 +12,6 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(express.json());
-app.use('/auth', authRouter);
-
 const allowedOrigins = [
   'https://impchzanartu.cl',
   'https://api.impchzanartu.cl',
@@ -36,9 +33,12 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.use(express.json());
+app.use('/auth', authRouter);
 
 const authMiddleware = ({ req }) => {
   const authHeader = req.headers.authorization;
