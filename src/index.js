@@ -18,17 +18,10 @@ app.use('/auth', authRouter);
 const allowedOrigins = '*';
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-      console.log("CORS permitido");
-    } else {
-      console.log("CORS no permitido");
-      callback(new Error('No permitido por CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
 }));
 
 const authMiddleware = ({ req }) => {
