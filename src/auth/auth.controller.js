@@ -1,3 +1,4 @@
+const logger = require('../utils/logger');
 const { login } = require('./auth.service');
 
 const loginController = async (req, res) => {
