@@ -6,6 +6,8 @@ const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const cors = require('cors');
 const logger = require('./utils/logger');
+const https = require('https');
+const fs = require('fs');
 
 require('dotenv').config();
 
@@ -63,9 +65,14 @@ const server = new ApolloServer({
 server.start().then(() => {
   server.applyMiddleware({ app });
   const PORT = process.env.PORT || 4000;
-  app.listen(PORT, () => {
-    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-    console.log(`🚀 Login endpoint at http://localhost:${PORT}/auth/login`);
+  // Configuración de SSL
+  const sslOptions = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  };
+  https.createServer(sslOptions, app).listen(PORT, () => {
+    console.log(`🚀 Server ready at https://localhost:${PORT}${server.graphqlPath}`);
+    console.log(`🚀 Login endpoint at https://localhost:${PORT}/auth/login`);
   });
 }).catch((error) => {
   console.error('Error starting the server: ', error);
