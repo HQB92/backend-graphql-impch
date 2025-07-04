@@ -6,7 +6,6 @@ const loginController = async (req, res) => {
   try {
     console.log("LoginController");
     console.log(req.body);
-    console.log(req.headers);
     let token = await login(username, password);
     token = token.replace(/"/g, '');
     res.send({ token });
