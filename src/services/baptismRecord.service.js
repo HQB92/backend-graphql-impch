@@ -5,7 +5,7 @@ const getAllBaptismRecords = async () => {
     try {
         return await BaptismRecordService.findAll({order: [['baptismDate', 'DESC']]});
     } catch (error) {
-        logger.error('Error getting all baptism records:', error);
+        logger.logError('BaptismRecord - getAllBaptismRecords', error);
         throw error;
     }
 };
@@ -14,7 +14,7 @@ const getBaptismRecordById = async (id) => {
     try {
         return await BaptismRecordService.findByPk(id);
     } catch (error) {
-        logger.error('Error getting baptism record by id:', error);
+        logger.logError('BaptismRecord - getBaptismRecordById', error);
         throw error;
     }
 };
@@ -23,7 +23,7 @@ const getBaptismRecordByChildRut = async (childRut) => {
     try {
         return await BaptismRecordService.findOne({ where: { childRut } });
     } catch (error) {
-        logger.error('Error getting baptism record by childRut:', error);
+        logger.logError('BaptismRecord - getBaptismRecordByChildRut', error);
         throw error;
     }
 };
@@ -61,7 +61,7 @@ const createBaptismRecord = async (baptismRecordData) => {
         // Crear el registro
         const newRecord = await BaptismRecordService.create(baptismRecordData);
 
-        logger.info('Baptism record created successfully:', newRecord.childRut);
+        logger.logResponse('BaptismRecord - createBaptismRecord', newRecord);
 
         return {
             code: 200,
@@ -69,7 +69,7 @@ const createBaptismRecord = async (baptismRecordData) => {
             data: newRecord
         };
     } catch (error) {
-        logger.error('Error creating baptism record:', error);
+        logger.logError('BaptismRecord - createBaptismRecord', error);
         return {
             code: 500,
             message: 'Error interno del servidor al crear el registro de bautizo',
@@ -106,14 +106,14 @@ const updateBaptismRecord = async (baptismRecordData) => {
             where: { childRut }
         });
 
-        logger.info('Baptism record updated successfully:', childRut);
+        logger.logResponse('BaptismRecord - updateBaptismRecord', { childRut });
 
         return {
             code: 200,
             message: 'Registro de bautizo actualizado exitosamente',
         };
     } catch (error) {
-        logger.error('Error updating baptism record:', error);
+        logger.logError('BaptismRecord - updateBaptismRecord', error);
         return {
             code: 500,
             message: 'Error interno del servidor al actualizar el registro de bautizo',
@@ -142,14 +142,14 @@ const deleteBaptismRecord = async (childRut) => {
             };
         }
 
-        logger.info('Baptism record deleted successfully:', childRut);
+        logger.logResponse('BaptismRecord - deleteBaptismRecord', { childRut });
 
         return {
             code: 200,
             message: 'Registro de bautizo eliminado exitosamente',
         };
     } catch (error) {
-        logger.error('Error deleting baptism record:', error);
+        logger.logError('BaptismRecord - deleteBaptismRecord', error);
         return {
             code: 500,
             message: 'Error interno del servidor al eliminar el registro de bautizo',
