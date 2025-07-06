@@ -36,6 +36,22 @@ const resolversBaptismRecord = {
         logger.logEnd('BaptismRecord - getById');
       }
     },
+    getByChildRut: async (args, context) => {
+      logger.logStart('BaptismRecord - getByChildRut')
+      logger.logUser('BaptismRecord - getByChildRut', context.user);
+      logger.logArgs('BaptismRecord - getByChildRut', args);
+      validateContext(context.user, 'BaptismRecord');
+      try {
+        const baptismRecord = await baptismRecordService.getBaptismRecordByChildRut(args.childRut);
+        logger.logResponse('BaptismRecord - getByChildRut', baptismRecord);
+        return baptismRecord;
+      }catch (error) {
+        logger.logError('BaptismRecord - getByChildRut', error);
+        throw error;
+      }finally {
+        logger.logEnd('BaptismRecord - getByChildRut');
+      }
+    },
   },
 
   BaptismRecordMutation: {
@@ -77,7 +93,7 @@ const resolversBaptismRecord = {
         logger.logArgs('BaptismRecord - delete', args);
         validateContext(context.user, 'BaptismRecord');
         try {
-            const response = await baptismRecordService.deleteBaptismRecord(args.id);
+            const response = await baptismRecordService.deleteBaptismRecord(args.childRut);
             logger.logResponse('BaptismRecord - delete', response);
             return response;
         }catch (error) {
