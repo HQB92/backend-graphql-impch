@@ -7,12 +7,12 @@ async function testBaptismRecordService() {
 
         // Datos de prueba
         const testData = {
-            childRut: '12345678-9',
+            childRUT: '12345678-9',
             childFullName: 'Juan Pérez González',
             childDateOfBirth: '2020-01-15',
-            fatherRut: '98765432-1',
+            fatherRUT: '98765432-1',
             fatherFullName: 'Carlos Pérez',
-            motherRut: '11223344-5',
+            motherRUT: '11223344-5',
             motherFullName: 'María González',
             placeOfRegistration: 'Iglesia San Juan',
             baptismDate: '2023-06-15',
@@ -33,9 +33,9 @@ async function testBaptismRecordService() {
         console.log('Total de registros:', allRecords.length);
         console.log('Primer registro:', allRecords[0]);
 
-        // Prueba 3: Buscar por childRut
-        console.log('\n3️⃣ Probando búsqueda por childRut...');
-        const foundRecord = await BaptismRecordService.getBaptismRecordByChildRut(testData.childRut);
+        // Prueba 3: Buscar por childRUT
+        console.log('\n3️⃣ Probando búsqueda por childRUT...');
+        const foundRecord = await BaptismRecordService.getBaptismRecordByChildRUT(testData.childRUT);
         console.log('Registro encontrado:', foundRecord);
 
         // Prueba 4: Intentar crear duplicado
@@ -54,7 +54,7 @@ async function testBaptismRecordService() {
 
         // Prueba 6: Eliminar registro
         console.log('\n6️⃣ Probando eliminación...');
-        const deleteResult = await BaptismRecordService.deleteBaptismRecord(testData.childRut);
+        const deleteResult = await BaptismRecordService.deleteBaptismRecord(testData.childRUT);
         console.log('Resultado de eliminación:', deleteResult);
 
         console.log('\n✅ Todas las pruebas completadas exitosamente!');

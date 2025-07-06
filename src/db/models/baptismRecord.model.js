@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
 const BaptismRecordModel = sequelize.define('BaptismRecord', {
-    childRut: {
+    childRUT: {
         type: DataTypes.STRING(12),
         allowNull: false,
         primaryKey: true,
@@ -17,7 +17,7 @@ const BaptismRecordModel = sequelize.define('BaptismRecord', {
         type: DataTypes.DATEONLY,
         allowNull: false
     },
-    fatherRut: {
+    fatherRUT: {
         type: DataTypes.STRING(12),
         allowNull: true
     },
@@ -25,7 +25,7 @@ const BaptismRecordModel = sequelize.define('BaptismRecord', {
         type: DataTypes.STRING,
         allowNull: true
     },
-    motherRut: {
+    motherRUT: {
         type: DataTypes.STRING(12),
         allowNull: false
     },

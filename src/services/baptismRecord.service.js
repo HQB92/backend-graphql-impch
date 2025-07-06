@@ -19,11 +19,11 @@ const getBaptismRecordById = async (id) => {
     }
 };
 
-const getBaptismRecordByChildRut = async (childRut) => {
+const getBaptismRecordByChildRUT = async (childRUT) => {
     try {
-        return await BaptismRecordService.findOne({ where: { childRut } });
+        return await BaptismRecordService.findOne({ where: { childRUT } });
     } catch (error) {
-        logger.logError('BaptismRecord - getBaptismRecordByChildRut', error);
+        logger.logError('BaptismRecord - getBaptismRecordByChildRUT', error);
         throw error;
     }
 };
@@ -32,8 +32,8 @@ const createBaptismRecord = async (baptismRecordData) => {
     try {
         // Validar campos requeridos
         const requiredFields = [
-            'childRut', 'childFullName', 'childDateOfBirth',
-            'motherRut', 'motherFullName', 'placeOfRegistration',
+            'childRUT', 'childFullName', 'childDateOfBirth',
+            'motherRUT', 'motherFullName', 'placeOfRegistration',
             'baptismDate', 'registrationNumber', 'registrationDate'
         ];
 
@@ -46,9 +46,9 @@ const createBaptismRecord = async (baptismRecordData) => {
             }
         }
 
-        // Verificar si ya existe un registro con el mismo childRut
+        // Verificar si ya existe un registro con el mismo childRUT
         const existingRecord = await BaptismRecordService.findOne({
-            where: { childRut: baptismRecordData.childRut }
+            where: { childRUT: baptismRecordData.childRUT }
         });
 
         if (existingRecord) {
@@ -80,18 +80,18 @@ const createBaptismRecord = async (baptismRecordData) => {
 
 const updateBaptismRecord = async (baptismRecordData) => {
     try {
-        const { childRut } = baptismRecordData;
+        const { childRUT } = baptismRecordData;
 
-        if (!childRut) {
+        if (!childRUT) {
             return {
                 code: 400,
-                message: 'childRut es requerido para actualizar el registro',
+                message: 'childRUT es requerido para actualizar el registro',
             };
         }
 
         // Verificar si el registro existe
         const existingRecord = await BaptismRecordService.findOne({
-            where: { childRut }
+            where: { childRUT }
         });
 
         if (!existingRecord) {
@@ -103,10 +103,10 @@ const updateBaptismRecord = async (baptismRecordData) => {
 
         // Actualizar el registro
         await BaptismRecordService.update(baptismRecordData, {
-            where: { childRut }
+            where: { childRUT }
         });
 
-        logger.logResponse('BaptismRecord - updateBaptismRecord', { childRut });
+        logger.logResponse('BaptismRecord - updateBaptismRecord', { childRUT });
 
         return {
             code: 200,
@@ -122,17 +122,17 @@ const updateBaptismRecord = async (baptismRecordData) => {
     }
 };
 
-const deleteBaptismRecord = async (childRut) => {
+const deleteBaptismRecord = async (childRUT) => {
     try {
-        if (!childRut) {
+        if (!childRUT) {
             return {
                 code: 400,
-                message: 'childRut es requerido para eliminar el registro',
+                message: 'childRUT es requerido para eliminar el registro',
             };
         }
 
         const result = await BaptismRecordService.destroy({
-            where: { childRut }
+            where: { childRUT }
         });
 
         if (result === 0) {
@@ -142,7 +142,7 @@ const deleteBaptismRecord = async (childRut) => {
             };
         }
 
-        logger.logResponse('BaptismRecord - deleteBaptismRecord', { childRut });
+        logger.logResponse('BaptismRecord - deleteBaptismRecord', { childRUT });
 
         return {
             code: 200,
@@ -161,7 +161,7 @@ const deleteBaptismRecord = async (childRut) => {
 module.exports = {
     getAllBaptismRecords,
     getBaptismRecordById,
-    getBaptismRecordByChildRut,
+    getBaptismRecordByChildRUT,
     createBaptismRecord,
     updateBaptismRecord,
     deleteBaptismRecord,

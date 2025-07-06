@@ -36,20 +36,20 @@ const resolversBaptismRecord = {
         logger.logEnd('BaptismRecord - getById');
       }
     },
-    getByChildRut: async (args, context) => {
-      logger.logStart('BaptismRecord - getByChildRut')
-      logger.logUser('BaptismRecord - getByChildRut', context.user);
-      logger.logArgs('BaptismRecord - getByChildRut', args);
+    getByChildRUT: async (args, context) => {
+      logger.logStart('BaptismRecord - getByChildRUT')
+      logger.logUser('BaptismRecord - getByChildRUT', context.user);
+      logger.logArgs('BaptismRecord - getByChildRUT', args);
       validateContext(context.user, 'BaptismRecord');
       try {
-        const baptismRecord = await baptismRecordService.getBaptismRecordByChildRut(args.childRut);
-        logger.logResponse('BaptismRecord - getByChildRut', baptismRecord);
+        const baptismRecord = await baptismRecordService.getBaptismRecordByChildRUT(args.childRUT);
+        logger.logResponse('BaptismRecord - getByChildRUT', baptismRecord);
         return baptismRecord;
       }catch (error) {
-        logger.logError('BaptismRecord - getByChildRut', error);
+        logger.logError('BaptismRecord - getByChildRUT', error);
         throw error;
       }finally {
-        logger.logEnd('BaptismRecord - getByChildRut');
+        logger.logEnd('BaptismRecord - getByChildRUT');
       }
     },
   },
@@ -93,7 +93,7 @@ const resolversBaptismRecord = {
         logger.logArgs('BaptismRecord - delete', args);
         validateContext(context.user, 'BaptismRecord');
         try {
-            const response = await baptismRecordService.deleteBaptismRecord(args.childRut);
+            const response = await baptismRecordService.deleteBaptismRecord(args.childRUT);
             logger.logResponse('BaptismRecord - delete', response);
             return response;
         }catch (error) {
