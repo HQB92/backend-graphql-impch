@@ -1,8 +1,5 @@
 import 'dotenv/config';
 
-// Determinar si se debe usar SSL basado en el entorno y si es una conexión local
-const isLocalhost = process.env.PGHOST === 'localhost' || process.env.PGHOST === '127.0.0.1' || !process.env.PGHOST;
-
 // Permitir control explícito mediante variable de entorno PGSSL
 // Por defecto, NO usar SSL a menos que se especifique explícitamente
 let useSSL = false;
