@@ -1,0 +1,68 @@
+import {
+    getAllMerriageRecords,
+    count,
+    createMerriageRecord,
+} from '../../services/merriageRecord.service';
+import { validateContext } from '../../utils/tokensLogs';
+import logger from '../../utils/logger';
+import { GraphQLContext, GraphQLArgs } from '../types';
+
+const resolversMerriageRecord = {
+    MerriageRecordQuery: {
+        getAll: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
+            logger.logStart('MerriageRecord - getAll');
+            logger.logUser('MerriageRecord - getAll', context.user);
+            logger.logArgs('MerriageRecord - getAll', args);
+            validateContext(context.user, 'MerriageRecord');
+            try {
+                const merriageRecords = await getAllMerriageRecords();
+                logger.logResponses('MerriageRecord - getAll', merriageRecords);
+                return merriageRecords;
+            } catch (error) {
+                logger.logError('MerriageRecord - getAll', error);
+                throw error;
+            } finally {
+                logger.logEnd('MerriageRecord - getAll');
+            }
+        },
+        count: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
+            logger.logStart('MerriageRecord - count');
+            logger.logUser('MerriageRecord - count', context.user);
+            logger.logArgs('MerriageRecord - count', args);
+            validateContext(context.user, 'MerriageRecord');
+            try {
+                const countMerriageRecords = await count();
+                logger.logResponse('MerriageRecord - count', { dataValues: countMerriageRecords });
+                return countMerriageRecords;
+            } catch (error) {
+                logger.logError('MerriageRecord - count', error);
+                throw error;
+            } finally {
+                logger.logEnd('MerriageRecord - count');
+            }
+        }
+    },
+    MerriageRecordMutation: {
+        create: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
+            logger.logStart('MerriageRecord - create');
+            logger.logUser('MerriageRecord - create', context.user);
+            logger.logArgs('MerriageRecord - create', args);
+            validateContext(context.user, 'MerriageRecord');
+            try {
+                const response = await createMerriageRecord(args.merriageRecord);
+                logger.logResponse('MerriageRecord - create', response);
+                return {
+                    code: 201,
+                    message: 'MerriageRecord created successfully',
+                }
+            } catch (error) {
+                logger.logError('MerriageRecord - create', error);
+                throw error;
+            } finally {
+                logger.logEnd('MerriageRecord - create');
+            }
+        },
+    },
+};
+
+export default resolversMerriageRecord;
