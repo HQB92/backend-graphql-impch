@@ -7,14 +7,16 @@ const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT, NODE_ENV, PGSSL } = proc
 const isLocalhost = PGHOST === 'localhost' || PGHOST === '127.0.0.1' || !PGHOST;
 
 // Permitir control explícito mediante variable de entorno PGSSL
-// Si PGSSL está definido, usar ese valor, sino determinar automáticamente
+// Por defecto, NO usar SSL a menos que se especifique explícitamente
 let useSSL = false;
 if (PGSSL !== undefined) {
     // Si PGSSL está definido, usar su valor (true/false como string)
     useSSL = PGSSL === 'true' || PGSSL === '1';
 } else {
-    // Comportamiento por defecto: solo usar SSL en producción y si no es localhost
-    useSSL = NODE_ENV === 'production' && !isLocalhost;
+    // Comportamiento por defecto: NO usar SSL a menos que se especifique explícitamente
+    // Esto evita errores cuando el servidor PostgreSQL no soporta SSL
+    useSSL = false;
+    console.log('[Database Config] PGSSL no está definido, SSL deshabilitado por defecto');
 }
 
 console.log('[Database Config] SSL Configuration:', {

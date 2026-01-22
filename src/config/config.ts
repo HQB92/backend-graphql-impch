@@ -4,11 +4,13 @@ import 'dotenv/config';
 const isLocalhost = process.env.PGHOST === 'localhost' || process.env.PGHOST === '127.0.0.1' || !process.env.PGHOST;
 
 // Permitir control explícito mediante variable de entorno PGSSL
+// Por defecto, NO usar SSL a menos que se especifique explícitamente
 let useSSL = false;
 if (process.env.PGSSL !== undefined) {
     useSSL = process.env.PGSSL === 'true' || process.env.PGSSL === '1';
 } else {
-    useSSL = process.env.NODE_ENV === 'production' && !isLocalhost;
+    // Comportamiento por defecto: NO usar SSL
+    useSSL = false;
 }
 
 interface DatabaseConfig {
