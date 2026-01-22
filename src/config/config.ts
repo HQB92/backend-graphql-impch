@@ -2,7 +2,14 @@ import 'dotenv/config';
 
 // Determinar si se debe usar SSL basado en el entorno y si es una conexión local
 const isLocalhost = process.env.PGHOST === 'localhost' || process.env.PGHOST === '127.0.0.1' || !process.env.PGHOST;
-const useSSL = process.env.NODE_ENV === 'production' && !isLocalhost;
+
+// Permitir control explícito mediante variable de entorno PGSSL
+let useSSL = false;
+if (process.env.PGSSL !== undefined) {
+    useSSL = process.env.PGSSL === 'true' || process.env.PGSSL === '1';
+} else {
+    useSSL = process.env.NODE_ENV === 'production' && !isLocalhost;
+}
 
 interface DatabaseConfig {
     username: string | undefined;
@@ -65,12 +72,14 @@ const config: { [key: string]: DatabaseConfig } = {
         host: process.env.PGHOST || 'localhost',
         port: process.env.PGPORT || 5432,
         dialect: 'postgres',
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false,
+        ...(useSSL && {
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false,
+                },
             },
-        },
+        }),
         seederStorage: 'sequelize',
         seederStorageTableName: 'SequelizeData',
     },
