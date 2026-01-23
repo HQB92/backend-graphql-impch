@@ -24,7 +24,11 @@ export interface ServiceResponse {
 
 const getAllBaptismRecords = async (): Promise<BaptismRecordService[]> => {
     try {
-        return await BaptismRecordService.findAll({ order: [['baptismDate', 'DESC']] });
+        return await BaptismRecordService.findAll({ 
+            order: [
+                ['createdAt', 'DESC'],
+            ]
+        });
     } catch (error) {
         logger.logError('BaptismRecord - getAllBaptismRecords', error);
         throw error;
@@ -82,7 +86,7 @@ const createBaptismRecord = async (baptismRecordData: BaptismRecordData): Promis
         logger.logResponse('BaptismRecord - createBaptismRecord', newRecord);
 
         return {
-            code: 200,
+            code: 201,
             message: 'Registro de bautizo creado exitosamente',
             data: newRecord
         };

@@ -56,13 +56,20 @@ const resolversBaptismRecord = {
     },
 
     BaptismRecordMutation: {
-        create: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
+        create: async (parent: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('BaptismRecord - create')
             logger.logUser('BaptismRecord - create', context.user);
             logger.logArgs('BaptismRecord - create', args);
             validateContext(context.user, 'BaptismRecord');
             try {
-                const response = await baptismRecordService.createBaptismRecord(args.baptismRecord);
+                // Los datos están en parent.baptismRecord (resultado del resolver padre)
+                const baptismRecordData = parent?.baptismRecord || args?.baptismRecord;
+                
+                if (!baptismRecordData || !baptismRecordData.childRUT) {
+                    throw new Error('baptismRecord is required');
+                }
+                
+                const response = await baptismRecordService.createBaptismRecord(baptismRecordData);
                 logger.logResponse('BaptismRecord - create', response);
                 return response;
             } catch (error) {
