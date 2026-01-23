@@ -43,13 +43,20 @@ const resolversMerriageRecord = {
         }
     },
     MerriageRecordMutation: {
-        create: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
+        create: async (parent: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('MerriageRecord - create');
             logger.logUser('MerriageRecord - create', context.user);
             logger.logArgs('MerriageRecord - create', args);
             validateContext(context.user, 'MerriageRecord');
             try {
-                const response = await createMerriageRecord(args.merriageRecord);
+                // Los datos están en parent.merriageRecord (resultado del resolver padre)
+                const merriageRecordData = parent?.merriageRecord || args?.merriageRecord;
+                
+                if (!merriageRecordData || !merriageRecordData.husbandId) {
+                    throw new Error('merriageRecord is required');
+                }
+                
+                const response = await createMerriageRecord(merriageRecordData);
                 logger.logResponse('MerriageRecord - create', response);
                 return {
                     code: 201,
