@@ -12,7 +12,9 @@ interface MerriageRecordData {
 }
 
 const getAllMerriageRecords = async (): Promise<MerriageRecordService[]> => {
-    return await MerriageRecordService.findAll();
+    return await MerriageRecordService.findAll({
+        order: [['id', 'DESC']]
+    });
 }
 
 const count = async (): Promise<number> => {
