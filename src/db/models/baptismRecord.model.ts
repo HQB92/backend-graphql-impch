@@ -13,9 +13,10 @@ interface BaptismRecordAttributes {
     baptismDate: Date;
     registrationNumber: string;
     registrationDate: Date;
+    deleted: boolean;
 }
 
-interface BaptismRecordCreationAttributes extends Optional<BaptismRecordAttributes, 'fatherRUT' | 'fatherFullName'> {}
+interface BaptismRecordCreationAttributes extends Optional<BaptismRecordAttributes, 'fatherRUT' | 'fatherFullName' | 'deleted'> {}
 
 class BaptismRecord extends Model<BaptismRecordAttributes, BaptismRecordCreationAttributes> implements BaptismRecordAttributes {
     public childRUT!: string;
@@ -29,6 +30,7 @@ class BaptismRecord extends Model<BaptismRecordAttributes, BaptismRecordCreation
     public baptismDate!: Date;
     public registrationNumber!: string;
     public registrationDate!: Date;
+    public deleted!: boolean;
 }
 
 BaptismRecord.init({
@@ -77,6 +79,11 @@ BaptismRecord.init({
     registrationDate: {
         type: DataTypes.DATEONLY,
         allowNull: false
+    },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     sequelize,

@@ -11,9 +11,10 @@ interface MerriageRecordAttributes {
     civilDate: Date;
     civilPlace: string;
     religiousDate: Date;
+    deleted: boolean;
 }
 
-interface MerriageRecordCreationAttributes extends Optional<MerriageRecordAttributes, 'id'> {}
+interface MerriageRecordCreationAttributes extends Optional<MerriageRecordAttributes, 'id' | 'deleted'> {}
 
 class MerriageRecord extends Model<MerriageRecordAttributes, MerriageRecordCreationAttributes> implements MerriageRecordAttributes {
     public id!: number;
@@ -25,6 +26,7 @@ class MerriageRecord extends Model<MerriageRecordAttributes, MerriageRecordCreat
     public civilDate!: Date;
     public civilPlace!: string;
     public religiousDate!: Date;
+    public deleted!: boolean;
 }
 
 MerriageRecord.init({
@@ -65,6 +67,11 @@ MerriageRecord.init({
     religiousDate: {
         type: DataTypes.DATEONLY,
         allowNull: false,
+    },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     }
 }, {
     sequelize,

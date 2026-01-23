@@ -95,13 +95,19 @@ const resolversBaptismRecord = {
                 logger.logEnd('BaptismRecord - update');
             }
         },
-        delete: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
+        delete: async (parent: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('BaptismRecord - delete')
             logger.logUser('BaptismRecord - delete', context.user);
             logger.logArgs('BaptismRecord - delete', args);
             validateContext(context.user, 'BaptismRecord');
             try {
-                const response = await baptismRecordService.deleteBaptismRecord(args.childRUT!);
+                // Los argumentos pueden estar en parent o en args
+                const childRUT = parent?.childRUT || args?.childRUT;
+                
+                if (!childRUT) {
+                    throw new Error('childRUT is required');
+                }
+                const response = await baptismRecordService.deleteBaptismRecord(childRUT);
                 logger.logResponse('BaptismRecord - delete', response);
                 return response;
             } catch (error) {

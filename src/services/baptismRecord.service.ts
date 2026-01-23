@@ -25,6 +25,7 @@ export interface ServiceResponse {
 const getAllBaptismRecords = async (): Promise<BaptismRecordService[]> => {
     try {
         return await BaptismRecordService.findAll({ 
+            where: { deleted: false },
             order: [
                 ['createdAt', 'DESC'],
             ]
@@ -37,7 +38,9 @@ const getAllBaptismRecords = async (): Promise<BaptismRecordService[]> => {
 
 const getBaptismRecordById = async (id: string): Promise<BaptismRecordService | null> => {
     try {
-        return await BaptismRecordService.findByPk(id);
+        return await BaptismRecordService.findOne({ 
+            where: { childRUT: id, deleted: false } 
+        });
     } catch (error) {
         logger.logError('BaptismRecord - getBaptismRecordById', error);
         throw error;
@@ -46,7 +49,7 @@ const getBaptismRecordById = async (id: string): Promise<BaptismRecordService | 
 
 const getBaptismRecordByChildRUT = async (childRUT: string): Promise<BaptismRecordService | null> => {
     try {
-        return await BaptismRecordService.findOne({ where: { childRUT } });
+        return await BaptismRecordService.findOne({ where: { childRUT, deleted: false } });
     } catch (error) {
         logger.logError('BaptismRecord - getBaptismRecordByChildRUT', error);
         throw error;
@@ -71,7 +74,7 @@ const createBaptismRecord = async (baptismRecordData: BaptismRecordData): Promis
         }
 
         const existingRecord = await BaptismRecordService.findOne({
-            where: { childRUT: baptismRecordData.childRUT }
+            where: { childRUT: baptismRecordData.childRUT, deleted: false }
         });
 
         if (existingRecord) {
@@ -151,11 +154,12 @@ const deleteBaptismRecord = async (childRUT: string): Promise<ServiceResponse> =
             };
         }
 
-        const result = await BaptismRecordService.destroy({
-            where: { childRUT }
-        });
+        const [updatedRows] = await BaptismRecordService.update(
+            { deleted: true },
+            { where: { childRUT, deleted: false } }
+        );
 
-        if (result === 0) {
+        if (updatedRows === 0) {
             return {
                 code: 404,
                 message: 'Registro de bautizo no encontrado',
