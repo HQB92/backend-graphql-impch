@@ -60,7 +60,7 @@ const resolversMerriageRecord = {
                 logger.logResponse('MerriageRecord - create', response);
                 return {
                     code: 201,
-                    message: 'MerriageRecord created successfully',
+                    message: 'Certificado de Matrimonio creado exitosamente',
                 }
             } catch (error) {
                 logger.logError('MerriageRecord - create', error);
