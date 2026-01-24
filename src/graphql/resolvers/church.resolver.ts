@@ -49,6 +49,12 @@ const resolversChurch = {
                 const response = await churchService.createChurch({
                     name: args.name as string,
                     address: args.address as string,
+                    distanceToMotherTemple: args.distanceToMotherTemple as string | undefined,
+                    pastor: args.pastor as string | undefined,
+                    landlinePhone: args.landlinePhone as string | undefined,
+                    mobilePhone: args.mobilePhone as string | undefined,
+                    capacity: args.capacity as string | undefined,
+                    sectorNumber: args.sectorNumber as string | undefined,
                 });
                 logger.logResponse('Church - create', response);
                 return response;
@@ -68,6 +74,12 @@ const resolversChurch = {
                 const updateData: any = { id: Number(args.id) };
                 if (args.name !== undefined) updateData.name = args.name as string;
                 if (args.address !== undefined) updateData.address = args.address as string;
+                if (args.distanceToMotherTemple !== undefined) updateData.distanceToMotherTemple = args.distanceToMotherTemple as string;
+                if (args.pastor !== undefined) updateData.pastor = args.pastor as string;
+                if (args.landlinePhone !== undefined) updateData.landlinePhone = args.landlinePhone as string;
+                if (args.mobilePhone !== undefined) updateData.mobilePhone = args.mobilePhone as string;
+                if (args.capacity !== undefined) updateData.capacity = args.capacity as string;
+                if (args.sectorNumber !== undefined) updateData.sectorNumber = args.sectorNumber as string;
                 
                 const response = await churchService.updateChurch(updateData);
                 logger.logResponse('Church - update', response);

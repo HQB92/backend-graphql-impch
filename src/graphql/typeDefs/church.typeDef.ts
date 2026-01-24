@@ -7,14 +7,20 @@ const dataTypesChurch = gql`
     getByName(name: String!): Church
   }
   type ChurchMutation {
-    create(name: String!, address: String!): Response
-    update(id: ID!, name: String, address: String): Response
+    create(name: String!, address: String, distanceToMotherTemple: String, pastor: String, landlinePhone: String, mobilePhone: String, capacity: String, sectorNumber: String): Response
+    update(id: ID!, name: String, address: String, distanceToMotherTemple: String, pastor: String, landlinePhone: String, mobilePhone: String, capacity: String, sectorNumber: String): Response
     delete(id: ID!): Response
   }
   type Church {
     id: ID
     name: String
     address: String
+    distanceToMotherTemple: String
+    pastor: String
+    landlinePhone: String
+    mobilePhone: String
+    capacity: String
+    sectorNumber: String
   }
 `;
 

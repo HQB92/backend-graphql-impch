@@ -4,6 +4,12 @@ interface ChurchData {
     id?: number;
     name: string;
     address?: string;
+    distanceToMotherTemple?: string;
+    pastor?: string;
+    landlinePhone?: string;
+    mobilePhone?: string;
+    capacity?: string;
+    sectorNumber?: string;
 }
 
 export interface ServiceResponse {

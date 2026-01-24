@@ -7,6 +7,7 @@ import resolverBaptismRecord from './resolvers/baptismRecord.resolver';
 import resolverOffering from './resolvers/offering.resolver';
 import resolverMerriageRecord from './resolvers/merriageRecord.resolver';
 import resolverBank from './resolvers/bank.resolver';
+import resolverInventory from './resolvers/inventory.resolver';
 
 // Helper function to bind context to nested resolvers
 const bindContextToResolvers = (resolverObject: any, context: any) => {
@@ -15,9 +16,17 @@ const bindContextToResolvers = (resolverObject: any, context: any) => {
         const resolver = resolverObject[key];
         if (typeof resolver === 'function') {
             // Bind context to resolver function
-            boundResolvers[key] = (parent: any, args: any, _context: any) => {
+            boundResolvers[key] = (parent: any, _args: any, _context: any) => {
+                // Los argumentos reales de GraphQL están en _context.variableValues
+                // Necesitamos obtener los argumentos reales de la query GraphQL
+                const graphQLArgs = _context?.variableValues || {};
+                // Combinar los argumentos de GraphQL con el contexto del usuario
+                const combinedArgs = {
+                    ...graphQLArgs,
+                    user: context.user,
+                };
                 // Use the context from the parent resolver, not the GraphQL internal context
-                return resolver(parent, args, context);
+                return resolver(parent, combinedArgs, context);
             };
         } else {
             boundResolvers[key] = resolver;
@@ -53,6 +62,9 @@ const resolvers = {
         Bank: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverBank.BankQuery, context);
         },
+        Inventory: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverInventory.InventoryQuery, context);
+        },
     },
     Mutation: {
         User: (_: any, __: any, context: any) => {
@@ -78,6 +90,9 @@ const resolvers = {
         },
         Bank: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverBank.BankMutation, context);
+        },
+        Inventory: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverInventory.InventoryMutation, context);
         },
     },
 };

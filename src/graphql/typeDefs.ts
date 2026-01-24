@@ -7,6 +7,7 @@ import datatypesBaptismRecord from './typeDefs/baptismRecord.typeDef';
 import datatypesOffering from './typeDefs/offering.typeDef';
 import dataTypesMerriageRecord from './typeDefs/merriageRecord.typeDef';
 import dataTypesBank from './typeDefs/bank.typeDef';
+import dataTypesInventory from './typeDefs/inventory.typeDef';
 
 const typeDefs = gql`
     scalar Date
@@ -19,6 +20,7 @@ const typeDefs = gql`
     ${datatypesOffering}
     ${dataTypesMerriageRecord}
     ${dataTypesBank}
+    ${dataTypesInventory}
     
     type Query {
         User: UserQuery
@@ -29,6 +31,7 @@ const typeDefs = gql`
         Offering: OfferingQuery
         MerriageRecord: MerriageRecordQuery
         Bank: BankQuery
+        Inventory: InventoryQuery
     }
     
     type Mutation {
@@ -40,6 +43,7 @@ const typeDefs = gql`
         Offering: OfferingMutation
         MerriageRecord: MerriageRecordMutation
         Bank: BankMutation
+        Inventory: InventoryMutation
     }
     
     type Response {
