@@ -11,6 +11,10 @@
     "db:down": "docker-compose down",
     "db:logs": "docker-compose logs -f postgres",
     "db:reset": "docker-compose down -v && docker-compose up -d postgres",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all",
+    "db:migrate:status": "sequelize-cli db:migrate:status",
     "bump-patch": "npm version patch -m \"Bump version to %s\" && git push && git push --tags",
     "bump-minor": "npm version minor -m \"Bump version to %s\" && git push && git push --tags",
     "bump-major": "npm version major -m \"Bump version to %s\" && git push && git push --tags"
