@@ -8,6 +8,8 @@ import resolverOffering from './resolvers/offering.resolver';
 import resolverMerriageRecord from './resolvers/merriageRecord.resolver';
 import resolverBank from './resolvers/bank.resolver';
 import resolverInventory from './resolvers/inventory.resolver';
+import resolverRehearsal from './resolvers/rehearsal.resolver';
+import resolverAttendance from './resolvers/attendance.resolver';
 
 // Helper function to bind context to nested resolvers
 const bindContextToResolvers = (resolverObject: any, context: any) => {
@@ -65,6 +67,12 @@ const resolvers = {
         Inventory: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverInventory.InventoryQuery, context);
         },
+        Rehearsal: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverRehearsal.RehearsalQuery, context);
+        },
+        Attendance: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverAttendance.AttendanceQuery, context);
+        },
     },
     Mutation: {
         User: (_: any, __: any, context: any) => {
@@ -93,6 +101,12 @@ const resolvers = {
         },
         Inventory: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverInventory.InventoryMutation, context);
+        },
+        Rehearsal: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverRehearsal.RehearsalMutation, context);
+        },
+        Attendance: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverAttendance.AttendanceMutation, context);
         },
     },
 };

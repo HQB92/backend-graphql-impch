@@ -20,6 +20,7 @@ interface MemberAttributes {
     statusId?: number | null;
     userId?: number | null;
     sexo: string;
+    isCorosUnidos?: boolean | null;
 }
 
 interface MemberCreationAttributes extends Optional<MemberAttributes, 'probationStartDate' | 'fullMembershipDate' | 'churchId' | 'statusId' | 'userId'> {}
@@ -41,6 +42,7 @@ class Member extends Model<MemberAttributes, MemberCreationAttributes> implement
     public statusId?: number | null;
     public userId?: number | null;
     public sexo!: string;
+    public isCorosUnidos?: boolean | null;
 }
 
 Member.init({
@@ -121,6 +123,11 @@ Member.init({
     sexo: {
         type: DataTypes.STRING(10),
         allowNull: false,
+    },
+    isCorosUnidos: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
     },
 }, {
     sequelize,

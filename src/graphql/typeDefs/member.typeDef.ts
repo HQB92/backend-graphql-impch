@@ -29,6 +29,7 @@ const dataTypesMember = gql`
     statusId: String!
     userId: ID
     sexo: String
+    isCorosUnidos: Boolean
   }
 
   input MemberInput {
@@ -48,6 +49,7 @@ const dataTypesMember = gql`
     statusId: ID
     userId: ID
     sexo: String
+    isCorosUnidos: Boolean
   }
 `;
 

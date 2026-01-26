@@ -23,6 +23,7 @@ interface MemberData {
     statusId?: number | null;
     userId?: number | null;
     sexo?: string;
+    isCorosUnidos?: boolean | null;
 }
 
 export interface ServiceResponse {
@@ -80,7 +81,12 @@ const createMember = async (memberData: MemberData): Promise<ServiceResponse> =>
         };
     }
     try {
-        await MemberService.create(memberData as any);
+        // Si isCorosUnidos no se especifica, establecerlo en false por defecto
+        const memberToCreate = {
+            ...memberData,
+            isCorosUnidos: memberData.isCorosUnidos !== undefined ? memberData.isCorosUnidos : false,
+        };
+        await MemberService.create(memberToCreate as any);
         return {
             code: 200,
             message: 'Miembro creado Exitosamente',
