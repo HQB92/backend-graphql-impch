@@ -49,7 +49,6 @@ Member.init({
     rut: {
         type: DataTypes.STRING(12),
         allowNull: false,
-        unique: true,
         primaryKey: true,
     },
     names: {
@@ -65,7 +64,7 @@ Member.init({
         allowNull: false,
     },
     dateOfBirth: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
     },
     address: {

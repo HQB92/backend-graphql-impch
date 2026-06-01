@@ -11,9 +11,10 @@ interface BankAttributes {
     userId: number;
     state: boolean;
     comment: string;
+    deleted: boolean;
 }
 
-interface BankCreationAttributes extends Optional<BankAttributes, 'id' | 'type'> {}
+interface BankCreationAttributes extends Optional<BankAttributes, 'id' | 'type' | 'deleted'> {}
 
 class Bank extends Model<BankAttributes, BankCreationAttributes> implements BankAttributes {
     public id!: number;
@@ -24,6 +25,7 @@ class Bank extends Model<BankAttributes, BankCreationAttributes> implements Bank
     public userId!: number;
     public state!: boolean;
     public comment!: string;
+    public deleted!: boolean;
 }
 
 Bank.init({
@@ -68,6 +70,11 @@ Bank.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
 }, {
     sequelize,
     modelName: 'Bank',
@@ -75,6 +82,6 @@ Bank.init({
 });
 
 Bank.belongsTo(Church, { foreignKey: 'churchId', as: 'church' });
-Church.hasMany(Bank, { foreignKey: 'id', as: 'Banks' });
+Church.hasMany(Bank, { foreignKey: 'churchId', as: 'Banks' });
 
 export default Bank;

@@ -10,6 +10,7 @@ import resolverBank from './resolvers/bank.resolver';
 import resolverInventory from './resolvers/inventory.resolver';
 import resolverRehearsal from './resolvers/rehearsal.resolver';
 import resolverAttendance from './resolvers/attendance.resolver';
+import resolverExpense from './resolvers/expense.resolver';
 
 // Helper function to bind context to nested resolvers
 const bindContextToResolvers = (resolverObject: any, context: any) => {
@@ -73,6 +74,9 @@ const resolvers = {
         Attendance: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverAttendance.AttendanceQuery, context);
         },
+        Expense: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverExpense.ExpenseQuery, context);
+        },
     },
     Mutation: {
         User: (_: any, __: any, context: any) => {
@@ -107,6 +111,9 @@ const resolvers = {
         },
         Attendance: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverAttendance.AttendanceMutation, context);
+        },
+        Expense: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverExpense.ExpenseMutation, context);
         },
     },
 };

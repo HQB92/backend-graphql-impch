@@ -1,5 +1,11 @@
 import Bank from '../db/models/bank.model';
-import { Op, fn, col, literal } from 'sequelize';
+import { Op, fn, col } from 'sequelize';
+import { monthRange } from '../utils/dateRange';
+
+const toInt = (v: unknown): number | undefined => {
+    const n = Number(v);
+    return Number.isInteger(n) && n !== 0 ? n : undefined;
+};
 
 interface BankData {
     amount: number;
@@ -17,21 +23,18 @@ export interface ServiceResponse {
 }
 
 const getAllBanks = async (churchId?: number, month?: number, year?: number): Promise<Bank[]> => {
-    let whereClause: any = {};
-    
-    if (churchId && churchId !== 0) {
-        whereClause.churchId = churchId;
+    const conditions: any[] = [{ deleted: false }];
+
+    const cid = toInt(churchId);
+    if (cid) conditions.push({ churchId: cid });
+
+    const range = monthRange(month, year);
+    if (range) {
+        conditions.push({ date: { [Op.gte]: range.start, [Op.lt]: range.end } });
     }
-    
-    if (month && year) {
-        whereClause[Op.and] = [
-            literal(`EXTRACT(MONTH FROM "date") = ${month}`),
-            literal(`EXTRACT(YEAR FROM "date") = ${year}`)
-        ];
-    }
-    
+
     return await Bank.findAll({
-        where: whereClause,
+        where: { [Op.and]: conditions },
         order: [['date', 'DESC'], ['id', 'DESC']]
     });
 };
@@ -79,8 +82,8 @@ const updateBank = async (id: number, bankData: Partial<BankData>): Promise<Serv
 
 const deleteBank = async (id: number): Promise<ServiceResponse> => {
     try {
-        const result = await Bank.destroy({ where: { id } });
-        if (result === 0) {
+        const result = await Bank.update({ deleted: true }, { where: { id } });
+        if (result[0] === 0) {
             return {
                 code: 404,
                 message: 'Movimiento bancario no encontrado',
@@ -98,7 +101,11 @@ const deleteBank = async (id: number): Promise<ServiceResponse> => {
     }
 };
 
-const getSummaryBank = async (month: number | string, year: number): Promise<any> => {
+const getSummaryBank = async (month: number, year: number): Promise<any> => {
+    const range = monthRange(month, year);
+    if (!range) {
+        return { code: 400, message: 'Mes y año son requeridos' };
+    }
     try {
         const results = await Bank.findAll({
             attributes: [
@@ -108,8 +115,8 @@ const getSummaryBank = async (month: number | string, year: number): Promise<any
             ],
             where: {
                 [Op.and]: [
-                    literal(`EXTRACT(MONTH FROM "date") = ${month}`),
-                    literal(`EXTRACT(YEAR FROM "date") = ${year}`)
+                    { deleted: false },
+                    { date: { [Op.gte]: range.start, [Op.lt]: range.end } }
                 ]
             },
             group: ['churchId']

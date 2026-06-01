@@ -8,6 +8,7 @@ import BuildingDetails from './buildingDetails.model';
 import InventoryItem from './inventoryItem.model';
 import Rehearsal from './rehearsal.model';
 import Attendance from './attendance.model';
+import Expense from './expense.model';
 
 // Definir relaciones adicionales después de importar todos los modelos
 Inventory.hasOne(BuildingDetails, { foreignKey: 'inventoryId', as: 'buildingDetails' });
@@ -23,5 +24,6 @@ export {
     BuildingDetails,
     InventoryItem,
     Rehearsal,
-    Attendance
+    Attendance,
+    Expense
 };
