@@ -138,25 +138,26 @@ const deleteOffering = async (id: number): Promise<ServiceResponse> => {
     }
 }
 
+const toInt = (v: unknown): number | undefined => {
+    const n = Number(v);
+    return Number.isInteger(n) && n !== 0 ? n : undefined;
+};
+
 const getAllOfferings = async (user?: number, church?: number, mes?: number, anio?: number): Promise<Offering[]> => {
-    let mesStr: string | number | undefined = mes;
     const conditions: any[] = [];
 
-    if (user && user !== 0) {
-        conditions.push({ userId: user });
-    }
+    const userId = toInt(user);
+    if (userId) conditions.push({ userId });
 
-    if (church && church !== 0) {
-        conditions.push({ churchId: church });
-    }
+    const churchId = toInt(church);
+    if (churchId) conditions.push({ churchId });
 
-    if (mesStr && typeof mesStr === 'number' && mesStr < 10) {
-        mesStr = '0' + mesStr;
-    }
-
-    if (mesStr && anio) {
+    const mesNum = toInt(mes);
+    const anioNum = toInt(anio);
+    if (mesNum && anioNum) {
+        const mesStr = mesNum < 10 ? `0${mesNum}` : `${mesNum}`;
         conditions.push(literal(`EXTRACT(MONTH FROM "date") = ${mesStr}`));
-        conditions.push(literal(`EXTRACT(YEAR FROM "date") = ${anio}`));
+        conditions.push(literal(`EXTRACT(YEAR FROM "date") = ${anioNum}`));
     }
 
     return await Offering.findAll({
