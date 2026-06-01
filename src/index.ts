@@ -91,9 +91,18 @@ app.use((err: Error, _req: Request, res: Response, next: NextFunction): void => 
     next(err);
 });
 
+const readRawBody = (req: Request): Promise<string> =>
+    new Promise((resolve, reject) => {
+        if (req.method === 'GET' || req.method === 'HEAD') return resolve('');
+        let data = '';
+        req.on('data', (chunk: Buffer) => { data += chunk.toString('utf-8'); });
+        req.on('end', () => resolve(data));
+        req.on('error', reject);
+    });
+
 server.start().then(() => {
-    app.use('/graphql', express.text({ type: ['application/json', 'application/graphql-response+json', 'application/graphql'] }), async (req: Request, res: Response) => {
-        const rawBody = typeof req.body === 'string' ? req.body : '';
+    app.use('/graphql', async (req: Request, res: Response) => {
+        const rawBody = await readRawBody(req);
         const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
             httpGraphQLRequest: {
                 method: req.method.toUpperCase(),
