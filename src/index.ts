@@ -92,7 +92,7 @@ server.start().then(() => {
                             Array.isArray(value) ? value.join(', ') : (value ?? ''),
                         ])
                     ),
-                    body: { kind: 'parsed', parsedBody: req.body ?? {} },
+                    body: req.body,
                     search: req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '',
                 },
                 context: () => authMiddleware({ req }),
