@@ -138,43 +138,31 @@ const deleteOffering = async (id: number): Promise<ServiceResponse> => {
     }
 }
 
-const getAllOfferings = async (user?: number, church?: number, mes?: number, anio?: number): Promise<Offering[] | ServiceResponse> => {
-    let filterUser: any = {};
-    let filterChurch: any = {};
+const getAllOfferings = async (user?: number, church?: number, mes?: number, anio?: number): Promise<Offering[]> => {
     let mesStr: string | number | undefined = mes;
-    
+    const conditions: any[] = [];
+
     if (user && user !== 0) {
-        filterUser = { userId: user };
+        conditions.push({ userId: user });
     }
 
     if (church && church !== 0) {
-        filterChurch = { churchId: church };
+        conditions.push({ churchId: church });
     }
 
     if (mesStr && typeof mesStr === 'number' && mesStr < 10) {
         mesStr = '0' + mesStr;
     }
 
-    try {
-        const conditions: any[] = [filterUser, filterChurch];
-        
-        if (mesStr && anio) {
-            conditions.push(literal(`EXTRACT(MONTH FROM "date") = ${mesStr}`));
-            conditions.push(literal(`EXTRACT(YEAR FROM "date") = ${anio}`));
-        }
-
-        return await Offering.findAll({
-            where: {
-                [Op.and]: conditions
-            },
-            order: [['id', 'ASC']]
-        });
-    } catch (e) {
-        return {
-            code: 500,
-            message: 'Error interno del servidor',
-        }
+    if (mesStr && anio) {
+        conditions.push(literal(`EXTRACT(MONTH FROM "date") = ${mesStr}`));
+        conditions.push(literal(`EXTRACT(YEAR FROM "date") = ${anio}`));
     }
+
+    return await Offering.findAll({
+        where: conditions.length ? { [Op.and]: conditions } : {},
+        order: [['id', 'ASC']]
+    });
 }
 
 export {
