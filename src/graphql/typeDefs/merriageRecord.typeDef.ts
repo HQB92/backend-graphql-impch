@@ -8,7 +8,7 @@ const dataTypesMerriageRecord = gql`
     
     type MerriageRecordMutation {
         create(merriageRecord: MerriageRecordInput!): Response
-        #update(merriageRecord: MerriageRecordInput): Response
+        update(id: ID!, merriageRecord: MerriageRecordInput!): Response
         delete(id: ID!): Response
     }
     

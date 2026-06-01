@@ -9,7 +9,7 @@ const dataTypesOffering = gql`
     
     type OfferingMutation {
         create(offering: OfferingInput!): Response
-        update(offering: OfferingInput): Response
+        update(id: Int!, offering: OfferingInput!): Response
         delete(id: Int!): Response
     }
 

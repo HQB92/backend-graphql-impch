@@ -26,6 +26,21 @@ const createMerriageRecord = async (merriageRecord: MerriageRecordData): Promise
     return await MerriageRecordService.create(merriageRecord);
 }
 
+const updateMerriageRecord = async (id: string, data: Partial<MerriageRecordData>): Promise<{ code: number; message: string }> => {
+    try {
+        const [updatedRows] = await MerriageRecordService.update(
+            data,
+            { where: { id: parseInt(id), deleted: false } }
+        );
+        if (updatedRows === 0) {
+            return { code: 404, message: 'Registro de matrimonio no encontrado' };
+        }
+        return { code: 200, message: 'Registro de matrimonio actualizado exitosamente' };
+    } catch (error: any) {
+        return { code: 500, message: 'Error interno al actualizar el registro de matrimonio' };
+    }
+}
+
 const deleteMerriageRecord = async (id: string): Promise<{ code: number; message: string }> => {
     try {
         const [updatedRows] = await MerriageRecordService.update(
@@ -56,5 +71,6 @@ export {
     getAllMerriageRecords,
     count,
     createMerriageRecord,
+    updateMerriageRecord,
     deleteMerriageRecord
 }

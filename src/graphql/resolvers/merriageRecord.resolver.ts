@@ -2,6 +2,7 @@ import {
     getAllMerriageRecords,
     count,
     createMerriageRecord,
+    updateMerriageRecord,
     deleteMerriageRecord,
 } from '../../services/merriageRecord.service';
 import { validateContext } from '../../utils/tokensLogs';
@@ -68,6 +69,25 @@ const resolversMerriageRecord = {
                 throw error;
             } finally {
                 logger.logEnd('MerriageRecord - create');
+            }
+        },
+        update: async (parent: any, args: GraphQLArgs, context: GraphQLContext) => {
+            logger.logStart('MerriageRecord - update');
+            logger.logUser('MerriageRecord - update', context.user);
+            logger.logArgs('MerriageRecord - update', args);
+            validateContext(context.user, 'MerriageRecord');
+            try {
+                const id = parent?.id || args?.id;
+                const data = parent?.merriageRecord || args?.merriageRecord;
+                if (!id) throw new Error('id is required');
+                const response = await updateMerriageRecord(id, data);
+                logger.logResponse('MerriageRecord - update', response);
+                return response;
+            } catch (error) {
+                logger.logError('MerriageRecord - update', error);
+                throw error;
+            } finally {
+                logger.logEnd('MerriageRecord - update');
             }
         },
         delete: async (parent: any, args: GraphQLArgs, context: GraphQLContext) => {
