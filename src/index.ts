@@ -92,7 +92,8 @@ app.use((err: Error, _req: Request, res: Response, next: NextFunction): void => 
 });
 
 server.start().then(() => {
-    app.use('/graphql', express.json(), async (req: Request, res: Response) => {
+    app.use('/graphql', express.text({ type: ['application/json', 'application/graphql-response+json', 'application/graphql'] }), async (req: Request, res: Response) => {
+        const rawBody = typeof req.body === 'string' ? req.body : '';
         const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
             httpGraphQLRequest: {
                 method: req.method.toUpperCase(),
@@ -102,7 +103,9 @@ server.start().then(() => {
                         Array.isArray(value) ? value.join(', ') : (value ?? ''),
                     ])
                 ),
-                body: { kind: 'parsed', parsedBody: req.body },
+                body: rawBody
+                    ? { kind: 'raw', rawBody }
+                    : { kind: 'parsed', parsedBody: {} },
                 search: req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '',
             },
             context: () => authMiddleware({ req }),
