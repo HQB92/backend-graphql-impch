@@ -93,7 +93,15 @@ const resolversOffering = {
             validateContext(context.user, 'Offering');
             try {
                 const churchId = effectiveChurchId(context.user, args.offering?.churchId);
-                const offeringData = await offeringService.createOffering({ ...args.offering, churchId });
+                if (!churchId) {
+                    return { code: 400, message: 'churchId es requerido' };
+                }
+                const offeringData = await offeringService.createOffering({
+                    ...args.offering,
+                    churchId,
+                    userId: context.user!.userId,
+                    state: args.offering?.state ?? true,
+                });
                 logger.logResponse('Offering - create', offeringData);
                 return offeringData;
             } catch (error) {
