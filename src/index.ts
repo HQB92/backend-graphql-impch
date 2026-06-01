@@ -35,8 +35,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use('/auth', express.json({ limit: '10mb' }));
-app.use('/auth', express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 app.use('/auth', authRouter);
 
 interface GraphQLContext {
@@ -80,7 +81,7 @@ const server = new ApolloServer<GraphQLContext>({
 });
 
 server.start().then(() => {
-    app.use('/graphql', express.json({ limit: '10mb' }), async (req: Request, res: Response, next: NextFunction) => {
+    app.use('/graphql', async (req: Request, res: Response, next: NextFunction) => {
         try {
             const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
                 httpGraphQLRequest: {
