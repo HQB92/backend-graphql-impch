@@ -79,59 +79,39 @@ const server = new ApolloServer<GraphQLContext>({
     introspection: process.env.NODE_ENV !== 'production',
 });
 
-app.use((err: Error, _req: Request, res: Response, next: NextFunction): void => {
-    if (err instanceof SyntaxError && 'status' in err && (err as any).status === 400 && 'body' in err) {
-        res.status(400).json({ error: 'Invalid JSON in request body' });
-        return;
-    }
-    if (err && err.message && err.message.includes('stream is not readable')) {
-        res.status(400).json({ error: 'Request body already consumed' });
-        return;
-    }
-    next(err);
-});
-
-const readRawBody = (req: Request): Promise<string> =>
-    new Promise((resolve, reject) => {
-        if (req.method === 'GET' || req.method === 'HEAD') return resolve('');
-        let data = '';
-        req.on('data', (chunk: Buffer) => { data += chunk.toString('utf-8'); });
-        req.on('end', () => resolve(data));
-        req.on('error', reject);
-    });
-
 server.start().then(() => {
-    app.use('/graphql', async (req: Request, res: Response) => {
-        const rawBody = await readRawBody(req);
-        const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
-            httpGraphQLRequest: {
-                method: req.method.toUpperCase(),
-                headers: new HeaderMap(
-                    Object.entries(req.headers).map(([key, value]) => [
-                        key,
-                        Array.isArray(value) ? value.join(', ') : (value ?? ''),
-                    ])
-                ),
-                body: rawBody
-                    ? { kind: 'raw', rawBody }
-                    : { kind: 'parsed', parsedBody: {} },
-                search: req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '',
-            },
-            context: () => authMiddleware({ req }),
-        });
+    app.use('/graphql', express.json({ limit: '10mb' }), async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
+                httpGraphQLRequest: {
+                    method: req.method.toUpperCase(),
+                    headers: new HeaderMap(
+                        Object.entries(req.headers).map(([key, value]) => [
+                            key,
+                            Array.isArray(value) ? value.join(', ') : (value ?? ''),
+                        ])
+                    ),
+                    body: { kind: 'parsed', parsedBody: req.body ?? {} },
+                    search: req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '',
+                },
+                context: () => authMiddleware({ req }),
+            });
 
-        for (const [key, value] of httpGraphQLResponse.headers) {
-            res.setHeader(key, value);
-        }
-        res.status(httpGraphQLResponse.status ?? 200);
-
-        if (httpGraphQLResponse.body.kind === 'complete') {
-            res.send(httpGraphQLResponse.body.string);
-        } else {
-            for await (const chunk of httpGraphQLResponse.body.asyncIterator) {
-                res.write(chunk);
+            for (const [key, value] of httpGraphQLResponse.headers) {
+                res.setHeader(key, value);
             }
-            res.end();
+            res.status(httpGraphQLResponse.status ?? 200);
+
+            if (httpGraphQLResponse.body.kind === 'complete') {
+                res.send(httpGraphQLResponse.body.string);
+            } else {
+                for await (const chunk of httpGraphQLResponse.body.asyncIterator) {
+                    res.write(chunk);
+                }
+                res.end();
+            }
+        } catch (err) {
+            next(err);
         }
     });
 
