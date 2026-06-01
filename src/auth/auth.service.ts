@@ -1,7 +1,8 @@
 import { generateToken } from '../utils/auth';
-import { userLogs, passwordLogs } from '../utils/tokensLogs';
+import { passwordLogs } from '../utils/tokensLogs';
 import logger from '../utils/logger';
 import { findUserByUsername } from '../services/users.service';
+import { getMemberByRut } from '../services/member.service';
 
 const login = async (username: string, password: string): Promise<string> => {
     const operation = 'Auth - Login';
@@ -15,11 +16,13 @@ const login = async (username: string, password: string): Promise<string> => {
         if (!user) {
             throw new Error('Usuario no encontrado');
         }
-        
-        userLogs(user);
+
         passwordLogs(password, user);
-        
-        const token = generateToken(user.id, username, user.email, user.rut, user.roles);
+
+        const member = await getMemberByRut(user.rut);
+        const churchId = member?.churchId ?? null;
+
+        const token = generateToken(user.id, username, user.email, user.rut, user.roles, churchId);
         logger.logToken(operation, token);
         logger.logEnd(operation);
         return token;

@@ -1,4 +1,7 @@
 packages: []
 
-ignoredBuiltDependencies:
+allowBuilds:
+  '@apollo/protobufjs': true
+
+onlyBuiltDependencies:
   - '@apollo/protobufjs'

@@ -67,8 +67,9 @@ const getAllMemberProbation = async (): Promise<MemberService[]> => {
     return await MemberService.findAll({ where: { probationStartDate: '2024-06-23 00:00:00+00' } });
 };
 
-const countMembers = async (): Promise<number> => {
-    return await MemberService.count();
+const countMembers = async (churchId?: number): Promise<number> => {
+    const where = churchId ? { churchId } : {};
+    return await MemberService.count({ where });
 };
 
 const createMember = async (memberData: MemberData): Promise<ServiceResponse> => {

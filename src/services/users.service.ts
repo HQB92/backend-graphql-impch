@@ -20,8 +20,12 @@ export interface ServiceResponse {
     message: string;
 }
 
+const generateTempPassword = (): string => {
+    return Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10).toUpperCase();
+};
+
 const createUser = async (args: UserData): Promise<ServiceResponse> => {
-    args.password = bcrypt.hashSync("123456", 10);
+    args.password = bcrypt.hashSync(generateTempPassword(), 10);
     const transaction = await sequelize.transaction();
     try {
         const { id, ...userData } = args;

@@ -1,5 +1,5 @@
 import * as memberService from '../../services/member.service';
-import { validateContext } from '../../utils/tokensLogs';
+import { validateContext, effectiveChurchId } from '../../utils/tokensLogs';
 import logger from '../../utils/logger';
 import { GraphQLContext, GraphQLArgs } from '../types';
 
@@ -11,7 +11,10 @@ const resolversMember = {
             logger.logArgs('Member - getAll', args);
             validateContext(context.user, 'Member');
             try {
-                const members = await memberService.getAllMembers(args);
+                const members = await memberService.getAllMembers({
+                    ...args,
+                    churchId: effectiveChurchId(context.user, args.churchId),
+                });
                 logger.logResponses('Member - getAll', members);
                 return members;
             } catch (error) {
@@ -43,7 +46,9 @@ const resolversMember = {
             logger.logArgs('Member - count', args);
             validateContext(context.user, 'Member');
             try {
-                const count = await memberService.countMembers();
+                const count = await memberService.countMembers(
+                    effectiveChurchId(context.user, args.churchId)
+                );
                 let data = {
                     dataValues: count
                 }

@@ -1,6 +1,6 @@
 import * as offeringService from '../../services/offering.service';
 import * as bankService from '../../services/bank.service';
-import { validateContext } from '../../utils/tokensLogs';
+import { validateContext, effectiveChurchId, isAdmin } from '../../utils/tokensLogs';
 import logger from '../../utils/logger';
 import { GraphQLContext, GraphQLArgs } from '../types';
 
@@ -12,7 +12,7 @@ const resolversOffering = {
             logger.logArgs('Offering - getAll', args);
             validateContext(context.user, 'Offering');
             try {
-                const offerings = await offeringService.getAllOfferings(args.user, args.churchId, args.mes, args.anio);
+                const offerings = await offeringService.getAllOfferings(args.user, effectiveChurchId(context.user, args.churchId), args.mes, args.anio);
                 if (Array.isArray(offerings)) {
                     logger.logResponses('Offering - getAll', offerings);
                 } else {
@@ -34,7 +34,8 @@ const resolversOffering = {
             validateContext(context.user, 'Offering');
 
             try {
-                let summary = await offeringService.getSummaryAll(args.mes!, args.anio!, args.churchId);
+                const churchFilter = effectiveChurchId(context.user, args.churchId);
+                let summary = await offeringService.getSummaryAll(args.mes!, args.anio!, churchFilter);
                 logger.logResponses('Offering - getSummaryAll', summary);
 
                 if (!summary) {
@@ -49,9 +50,6 @@ const resolversOffering = {
                     summary = [];
                 }
 
-                const response = await bankService.getSummaryBank(args.mes!, args.anio!);
-                logger.logResponses('Offering - getSummaryBank', response);
-
                 let result: any[] = [];
                 if (!summary.length) {
                     summary = [];
@@ -64,14 +62,18 @@ const resolversOffering = {
                     }));
                 }
 
-                console.log("response", response);
-                if (response.code !== 404) {
-                    result.push({
-                        churchId: 1,
-                        name: "Banco",
-                        total: response[0]?.dataValues?.total,
-                        count: response[0]?.dataValues?.count
-                    });
+                // Solo admin ve resumen de banco (es global, no por local)
+                if (isAdmin(context.user)) {
+                    const response = await bankService.getSummaryBank(args.mes!, args.anio!);
+                    logger.logResponses('Offering - getSummaryBank', response);
+                    if (response.code !== 404) {
+                        result.push({
+                            churchId: 1,
+                            name: "Banco",
+                            total: response[0]?.dataValues?.total,
+                            count: response[0]?.dataValues?.count
+                        });
+                    }
                 }
                 return result;
 
@@ -90,7 +92,8 @@ const resolversOffering = {
             logger.logArgs('Offering - create', args);
             validateContext(context.user, 'Offering');
             try {
-                const offeringData = await offeringService.createOffering(args.offering);
+                const churchId = effectiveChurchId(context.user, args.offering?.churchId);
+                const offeringData = await offeringService.createOffering({ ...args.offering, churchId });
                 logger.logResponse('Offering - create', offeringData);
                 return offeringData;
             } catch (error) {

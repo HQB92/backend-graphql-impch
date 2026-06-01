@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from 'graphql-tag';
 import dataTypesUser from './typeDefs/user.typeDef';
 import dataTypesIglesia from './typeDefs/church.typeDef';
 import dataTypesMember from './typeDefs/member.typeDef';

@@ -1,5 +1,5 @@
 import * as inventoryService from '../../services/inventory.service';
-import { validateContext } from '../../utils/tokensLogs';
+import { validateContext, isAdmin } from '../../utils/tokensLogs';
 import logger from '../../utils/logger';
 import { GraphQLContext, GraphQLArgs } from '../types';
 
@@ -11,7 +11,9 @@ const resolversInventory = {
             logger.logArgs('Inventory - getAll', args);
             validateContext(context.user, 'Inventory');
             try {
-                const inventories = await inventoryService.getAllInventories();
+                const inventories = isAdmin(context.user)
+                    ? await inventoryService.getAllInventories()
+                    : await inventoryService.getInventoriesByChurch(context.user.churchId);
                 logger.logResponses('Inventory - getAll', inventories);
                 return inventories;
             } catch (error) {
@@ -25,21 +27,11 @@ const resolversInventory = {
             logger.logStart('Inventory - getById');
             logger.logUser('Inventory - getById', context.user);
             logger.logArgs('Inventory - getById', args);
-            console.log('Inventory getById - Full args object:', JSON.stringify(args, null, 2));
-            console.log('Inventory getById - args.id:', args.id, 'type:', typeof args.id);
-            console.log('Inventory getById - args keys:', Object.keys(args || {}));
             validateContext(context.user, 'Inventory');
             try {
-                if (!args || !args.id) {
-                    console.error('Inventory getById - args o args.id es undefined. Full args:', args);
-                    throw new Error('ID es requerido');
-                }
-                // El ID puede venir como string o number desde GraphQL
+                if (!args?.id) throw new Error('ID es requerido');
                 const id = typeof args.id === 'string' ? parseInt(args.id, 10) : Number(args.id);
-                console.log('Inventory getById - parsed id:', id, 'from args.id:', args.id);
                 if (isNaN(id) || id <= 0) {
-                    console.error('Inventory getById - ID parseado inválido:', id, 'original:', args.id);
-                    logger.logError('Inventory - getById', new Error(`ID inválido: ${args.id}`));
                     throw new Error(`ID inválido: ${args.id}`);
                 }
                 const inventory = await inventoryService.getInventoryById(id);

@@ -7,11 +7,12 @@ export interface TokenPayload {
     email: string;
     rut: string;
     roles: string[];
+    churchId?: number | null;
     exp?: number;
 }
 
-export const generateToken = (userId: number, username: string, email: string, rut: string, roles: string[]): string => {
-    return jwt.sign({ userId, username, email, rut, roles }, process.env.SECRET_KEY as string, { expiresIn: '3h' });
+export const generateToken = (userId: number, username: string, email: string, rut: string, roles: string[], churchId?: number | null): string => {
+    return jwt.sign({ userId, username, email, rut, roles, churchId }, process.env.SECRET_KEY as string, { expiresIn: '3h' });
 };
 
 export const verifyToken = (token: string): TokenPayload => {

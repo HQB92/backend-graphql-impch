@@ -1,5 +1,16 @@
 import bcrypt from "bcryptjs";
 
+const ADMIN_ROLE = 'Administrador';
+
+export const isAdmin = (user: any): boolean => {
+    return Array.isArray(user?.roles) && user.roles.includes(ADMIN_ROLE);
+};
+
+export const effectiveChurchId = (user: any, requestedChurchId?: number | null): number | undefined => {
+    if (isAdmin(user)) return requestedChurchId ?? undefined;
+    return user?.churchId ?? undefined;
+};
+
 export const validateContext = (user: any, patchService: string): void => {
   if (!user) {
     console.log(patchService, ' - getAll - Error: You are not authenticated!');

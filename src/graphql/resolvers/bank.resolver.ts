@@ -1,5 +1,5 @@
 import * as bankService from '../../services/bank.service';
-import { validateContext } from '../../utils/tokensLogs';
+import { validateContext, effectiveChurchId } from '../../utils/tokensLogs';
 import logger from '../../utils/logger';
 import { GraphQLContext, GraphQLArgs } from '../types';
 
@@ -12,7 +12,7 @@ const resolversBank = {
             validateContext(context.user, 'Bank');
             try {
                 const banks = await bankService.getAllBanks(
-                    args.churchId as number | undefined,
+                    effectiveChurchId(context.user, args.churchId as number | undefined),
                     args.mes as number | undefined,
                     args.anio as number | undefined
                 );
@@ -71,7 +71,7 @@ const resolversBank = {
                     amount: bankData.amount,
                     date: bankData.date,
                     type: bankData.type || null,
-                    churchId: Number(bankData.churchId),
+                    churchId: effectiveChurchId(context.user, Number(bankData.churchId)) ?? Number(bankData.churchId),
                     userId: context.user!.userId,
                     state: bankData.state !== undefined ? bankData.state : true,
                     comment: bankData.comment || '',
