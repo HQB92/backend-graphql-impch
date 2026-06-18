@@ -1,4 +1,5 @@
 import { GraphQLJSON } from 'graphql-type-json';
+import { GraphQLScalarType, Kind } from 'graphql';
 import resolverUser from './resolvers/user.resolver';
 import resolverChurch from './resolvers/church.resolver';
 import resolverMember from './resolvers/member.resolver';
@@ -38,7 +39,37 @@ const bindContextToResolvers = (resolverObject: any, context: any) => {
     return boundResolvers;
 };
 
+// Serialize dates as YYYY-MM-DD to avoid UTC timezone offset shifting the day
+const DateScalar = new GraphQLScalarType({
+    name: 'Date',
+    serialize(value: unknown) {
+        if (value instanceof Date) {
+            return value.toISOString().slice(0, 10);
+        }
+        if (typeof value === 'string') {
+            return value.slice(0, 10);
+        }
+        return null;
+    },
+    parseValue(value: unknown) {
+        if (typeof value === 'string') {
+            // Parse as local date (T12:00:00 avoids DST edge cases)
+            const d = new Date(`${value.slice(0, 10)}T12:00:00`);
+            return isNaN(d.getTime()) ? null : d;
+        }
+        return null;
+    },
+    parseLiteral(ast) {
+        if (ast.kind === Kind.STRING) {
+            const d = new Date(`${ast.value.slice(0, 10)}T12:00:00`);
+            return isNaN(d.getTime()) ? null : d;
+        }
+        return null;
+    },
+});
+
 const resolvers = {
+    Date: DateScalar,
     JSON: GraphQLJSON,
     Query: {
         User: (_: any, __: any, context: any) => {
