@@ -13,6 +13,7 @@ import resolverRehearsal from './resolvers/rehearsal.resolver';
 import resolverAttendance from './resolvers/attendance.resolver';
 import resolverExpense from './resolvers/expense.resolver';
 import resolverSectorChurch from './resolvers/sectorChurch.resolver';
+import resolverSectorBaptismRecord from './resolvers/sectorBaptismRecord.resolver';
 
 // Helper function to bind context to nested resolvers
 const bindContextToResolvers = (resolverObject: any, context: any) => {
@@ -112,6 +113,9 @@ const resolvers = {
         SectorChurch: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverSectorChurch.SectorChurchQuery, context);
         },
+        SectorBaptismRecord: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverSectorBaptismRecord.SectorBaptismRecordQuery, context);
+        },
     },
     Mutation: {
         User: (_: any, __: any, context: any) => {
@@ -152,6 +156,9 @@ const resolvers = {
         },
         SectorChurch: (_: any, __: any, context: any) => {
             return bindContextToResolvers(resolverSectorChurch.SectorChurchMutation, context);
+        },
+        SectorBaptismRecord: (_: any, __: any, context: any) => {
+            return bindContextToResolvers(resolverSectorBaptismRecord.SectorBaptismRecordMutation, context);
         },
     },
 };

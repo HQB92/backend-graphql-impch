@@ -12,6 +12,7 @@ import dataTypesRehearsal from './typeDefs/rehearsal.typeDef';
 import dataTypesAttendance from './typeDefs/attendance.typeDef';
 import dataTypesExpense from './typeDefs/expense.typeDef';
 import dataTypesSectorChurch from './typeDefs/sectorChurch.typeDef';
+import dataTypesSectorBaptismRecord from './typeDefs/sectorBaptismRecord.typeDef';
 
 const typeDefs = gql`
     scalar Date
@@ -29,6 +30,7 @@ const typeDefs = gql`
     ${dataTypesAttendance}
     ${dataTypesExpense}
     ${dataTypesSectorChurch}
+    ${dataTypesSectorBaptismRecord}
 
     type Query {
         User: UserQuery
@@ -44,6 +46,7 @@ const typeDefs = gql`
         Attendance: AttendanceQuery
         Expense: ExpenseQuery
         SectorChurch: SectorChurchQuery
+        SectorBaptismRecord: SectorBaptismRecordQuery
     }
     
     type Mutation {
@@ -60,6 +63,7 @@ const typeDefs = gql`
         Attendance: AttendanceMutation
         Expense: ExpenseMutation
         SectorChurch: SectorChurchMutation
+        SectorBaptismRecord: SectorBaptismRecordMutation
     }
     
     type Response {
