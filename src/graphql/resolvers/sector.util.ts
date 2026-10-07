@@ -1,6 +1,7 @@
 import { validateContext } from '../../utils/tokensLogs';
 import logger from '../../utils/logger';
 import { GraphQLContext } from '../types';
+import { errorMessage } from '../../services/sector.util';
 
 // Envuelve un resolver de sector: registra inicio y fin, valida el acceso al
 // servicio y propaga los errores. No registra los argumentos porque pueden
@@ -17,7 +18,7 @@ export const runSector = async <T>(
         validateContext(context.user, service);
         return await fn();
     } catch (error) {
-        logger.logError(operation, error);
+        logger.logError(operation, errorMessage(error));
         throw error;
     } finally {
         logger.logEnd(operation);

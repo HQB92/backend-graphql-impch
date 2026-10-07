@@ -1,11 +1,6 @@
 import SectorMerriageRecord from '../db/models/sectorMerriageRecord.model';
-import SectorChurch from '../db/models/sectorChurch.model';
 import logger from '../utils/logger';
-
-export interface ServiceResponse {
-    code: number;
-    message: string;
-}
+import { ServiceResponse, NOT_FOUND, churchInclude, scopedWhere, toId, text, errorMessage } from './sector.util';
 
 interface MerriageFields {
     husbandId: string;
@@ -23,22 +18,7 @@ const REQUIRED_FIELDS: (keyof MerriageFields)[] = [
     'civilCode', 'civilDate', 'civilPlace', 'religiousDate',
 ];
 
-const NOT_FOUND: ServiceResponse = { code: 404, message: 'Registro no encontrado' };
 
-const churchInclude = { model: SectorChurch, as: 'sectorChurch', attributes: ['name'] };
-
-const scopedWhere = (scopeId: number | undefined) => ({
-    deleted: false,
-    ...(scopeId !== undefined ? { sectorChurchId: scopeId } : {}),
-});
-
-const toId = (id: unknown): number | null => {
-    if (typeof id !== 'number' && typeof id !== 'string') return null;
-    const n = Number(id);
-    return Number.isInteger(n) && n > 0 ? n : null;
-};
-
-const text = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
 
 // 0 si no es un entero positivo, para que la validación de requeridos lo rechace.
 const positiveInt = (value: unknown): number => {
@@ -102,7 +82,7 @@ const createSectorMerriage = async (data: any, sectorChurchId: number): Promise<
         await SectorMerriageRecord.create({ ...fields, sectorChurchId });
         return { code: 201, message: 'Certificado de Matrimonio creado exitosamente' };
     } catch (error: any) {
-        logger.logError('SectorMerriageRecord - create', error);
+        logger.logError('SectorMerriageRecord - create', errorMessage(error));
         return { code: 500, message: 'Error interno del servidor al crear el registro de matrimonio' };
     }
 };
@@ -126,7 +106,7 @@ const updateSectorMerriage = async (id: unknown, data: any, scopeId: number | un
 
         return { code: 200, message: 'Registro de matrimonio actualizado exitosamente' };
     } catch (error: any) {
-        logger.logError('SectorMerriageRecord - update', error);
+        logger.logError('SectorMerriageRecord - update', errorMessage(error));
         return { code: 500, message: 'Error interno al actualizar el registro de matrimonio' };
     }
 };
@@ -144,7 +124,7 @@ const deleteSectorMerriage = async (id: unknown, scopeId: number | undefined): P
 
         return { code: 200, message: 'Registro de matrimonio eliminado exitosamente' };
     } catch (error: any) {
-        logger.logError('SectorMerriageRecord - delete', error);
+        logger.logError('SectorMerriageRecord - delete', errorMessage(error));
         return { code: 500, message: 'Error interno del servidor al eliminar el registro de matrimonio' };
     }
 };

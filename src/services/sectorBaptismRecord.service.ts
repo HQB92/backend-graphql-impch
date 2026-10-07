@@ -1,12 +1,7 @@
 import { Op } from 'sequelize';
 import SectorBaptismRecord from '../db/models/sectorBaptismRecord.model';
-import SectorChurch from '../db/models/sectorChurch.model';
 import logger from '../utils/logger';
-
-export interface ServiceResponse {
-    code: number;
-    message: string;
-}
+import { ServiceResponse, NOT_FOUND, churchInclude, scopedWhere, toId, text, errorMessage } from './sector.util';
 
 interface BaptismFields {
     childRUT: string;
@@ -28,23 +23,8 @@ const REQUIRED_FIELDS: (keyof BaptismFields)[] = [
     'baptismDate', 'registrationNumber', 'registrationDate',
 ];
 
-const NOT_FOUND: ServiceResponse = { code: 404, message: 'Registro no encontrado' };
 const DUPLICATE: ServiceResponse = { code: 400, message: 'Registro de bautizo ya existe para este RUT' };
 
-const churchInclude = { model: SectorChurch, as: 'sectorChurch', attributes: ['name'] };
-
-const scopedWhere = (scopeId: number | undefined) => ({
-    deleted: false,
-    ...(scopeId !== undefined ? { sectorChurchId: scopeId } : {}),
-});
-
-const toId = (id: unknown): number | null => {
-    if (typeof id !== 'number' && typeof id !== 'string') return null;
-    const n = Number(id);
-    return Number.isInteger(n) && n > 0 ? n : null;
-};
-
-const text = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
 const optionalText = (value: unknown): string | null => text(value) || null;
 
 // Copia solo los campos del bautizo. Lo que no está aquí (id, deleted,
@@ -115,7 +95,7 @@ const createSectorBaptism = async (data: any, sectorChurchId: number): Promise<S
         return { code: 201, message: 'Registro de bautizo creado exitosamente' };
     } catch (error: any) {
         if (isUniqueViolation(error)) return DUPLICATE;
-        logger.logError('SectorBaptismRecord - create', error);
+        logger.logError('SectorBaptismRecord - create', errorMessage(error));
         return { code: 500, message: 'Error interno del servidor al crear el registro de bautizo' };
     }
 };
@@ -147,7 +127,7 @@ const updateSectorBaptism = async (id: unknown, data: any, scopeId: number | und
         return { code: 200, message: 'Registro de bautizo actualizado exitosamente' };
     } catch (error: any) {
         if (isUniqueViolation(error)) return DUPLICATE;
-        logger.logError('SectorBaptismRecord - update', error);
+        logger.logError('SectorBaptismRecord - update', errorMessage(error));
         return { code: 500, message: 'Error interno del servidor al actualizar el registro de bautizo' };
     }
 };
@@ -165,7 +145,7 @@ const deleteSectorBaptism = async (id: unknown, scopeId: number | undefined): Pr
 
         return { code: 200, message: 'Registro de bautizo eliminado exitosamente' };
     } catch (error: any) {
-        logger.logError('SectorBaptismRecord - delete', error);
+        logger.logError('SectorBaptismRecord - delete', errorMessage(error));
         return { code: 500, message: 'Error interno del servidor al eliminar el registro de bautizo' };
     }
 };

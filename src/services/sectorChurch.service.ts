@@ -1,10 +1,6 @@
 import bcrypt from 'bcryptjs';
 import SectorChurch from '../db/models/sectorChurch.model';
-
-export interface ServiceResponse {
-    code: number;
-    message: string;
-}
+import { ServiceResponse } from './sector.util';
 
 const MIN_PASSWORD_LENGTH = 8;
 const MAX_FIELD_LENGTH = 255;

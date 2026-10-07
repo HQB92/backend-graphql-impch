@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import SectorChurch from '../db/models/sectorChurch.model';
 import { generateSectorToken } from '../utils/auth';
 import logger from '../utils/logger';
+import { errorMessage } from '../services/sector.util';
 
 const INVALID_CREDENTIALS = 'Credenciales inválidas';
 
@@ -37,7 +38,7 @@ const loginSector = async (sectorChurchId: unknown, password: unknown): Promise<
         logger.logAuthUsername(operation, church.name);
         return generateSectorToken(church.id, church.name);
     } catch (error: any) {
-        logger.logError(operation, error.message || error);
+        logger.logError(operation, errorMessage(error));
         throw error;
     } finally {
         logger.logEnd(operation);
