@@ -26,7 +26,9 @@ export const runSector = async <T>(
 };
 
 // bindContextToResolvers entrega los argumentos del campo en `parent` y las
-// variables de la operación en `args`. Se prefieren los del campo.
+// variables de la operación en `args`. Un argumento del campo presente (aunque
+// sea null) gana; solo si falta la clave se usa la variable de la operación.
 export const arg = (parent: any, args: any, name: string): any => {
-    return parent?.[name] ?? args?.[name];
+    if (parent != null && typeof parent === 'object' && name in parent) return parent[name];
+    return args?.[name];
 };
