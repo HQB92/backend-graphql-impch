@@ -74,3 +74,12 @@ pnpm start
 
 El servidor estará disponible en `http://localhost:4000`
 GraphQL Playground: `http://localhost:4000/graphql`
+
+## Despliegue: acceso de pastores del sector
+
+1. Ejecutar `pnpm db:migrate:status` contra producción y confirmar que SOLO están pendientes las tres migraciones `20261007…`. Si también aparecen pendientes migraciones anteriores, detenerse: las tablas de producción no se crearon a partir de estas migraciones.
+2. Ejecutar `pnpm db:migrate`.
+3. Ejecutar `pnpm db:seed:sector`. Nunca `db:seed:all`, porque también correría los seeders antiguos de usuarios, miembros e iglesias.
+4. Desplegar el código.
+5. Si hay un proxy delante del backend que lista las rutas de forma explícita, permitir `GET /auth/sector-churches` y `POST /auth/sector-login`.
+6. Las claves iniciales están en un archivo fuera de los repositorios, generado con `node scripts/generate-sector-seed.js`: entregar cada una a su pastor y borrar el archivo.
