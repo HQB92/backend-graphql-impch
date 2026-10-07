@@ -25,3 +25,17 @@ export const text = (value: unknown): string => (typeof value === 'string' ? val
 // Solo el mensaje: un error de Sequelize trae el SQL y sus parámetros (RUT,
 // nombres, hashes) y no debe llegar a los logs.
 export const errorMessage = (error: unknown): string => (error instanceof Error ? error.message : String(error));
+
+// Primer campo de texto que excede el largo de su columna, para responder 400
+// en vez de dejar que Postgres falle con un 500.
+export const tooLongField = (fields: object, maxLengths: Record<string, number>): string | undefined => {
+    return Object.keys(maxLengths).find((name) => {
+        const value = (fields as Record<string, unknown>)[name];
+        return typeof value === 'string' && value.length > maxLengths[name];
+    });
+};
+
+export const tooLongResponse = (field: string): ServiceResponse => ({
+    code: 400,
+    message: `Campo demasiado largo: ${field}`,
+});

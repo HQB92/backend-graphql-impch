@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { errorMessage, scopedWhere, toId } from './sector.util';
+import { errorMessage, scopedWhere, toId, tooLongField } from './sector.util';
 
 test('scopedWhere sin alcance no incluye sectorChurchId', () => {
     assert.deepEqual(scopedWhere(undefined), { deleted: false });
@@ -31,4 +31,10 @@ test('errorMessage devuelve solo el mensaje, sin sql ni parámetros', () => {
     assert.equal(out.includes('INSERT'), false);
     assert.equal(out.includes('15.111'), false);
     assert.equal(errorMessage('texto'), 'texto');
+});
+
+test('tooLongField devuelve el primer campo que excede su largo', () => {
+    const limits = { a: 3, b: 2 };
+    assert.equal(tooLongField({ a: 'abc', b: 'xyz' }, limits), 'b');
+    assert.equal(tooLongField({ a: 'abc', b: null, c: 'z'.repeat(99) }, limits), undefined);
 });

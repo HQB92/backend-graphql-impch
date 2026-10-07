@@ -1,6 +1,6 @@
 import SectorMerriageRecord from '../db/models/sectorMerriageRecord.model';
 import logger from '../utils/logger';
-import { ServiceResponse, NOT_FOUND, churchInclude, scopedWhere, toId, text, errorMessage } from './sector.util';
+import { ServiceResponse, NOT_FOUND, churchInclude, scopedWhere, toId, text, errorMessage, tooLongField, tooLongResponse } from './sector.util';
 
 interface MerriageFields {
     husbandId: string;
@@ -17,8 +17,12 @@ const REQUIRED_FIELDS: (keyof MerriageFields)[] = [
     'husbandId', 'fullNameHusband', 'wifeId', 'fullNameWife',
     'civilCode', 'civilDate', 'civilPlace', 'religiousDate',
 ];
-
-
+// Largo máximo de cada columna de texto.
+const MAX_LENGTHS: Partial<Record<keyof MerriageFields, number>> = {
+    husbandId: 12, fullNameHusband: 150,
+    wifeId: 12, fullNameWife: 150,
+    civilPlace: 150,
+};
 
 // 0 si no es un entero positivo, para que la validación de requeridos lo rechace.
 const positiveInt = (value: unknown): number => {
@@ -78,6 +82,8 @@ const createSectorMerriage = async (data: any, sectorChurchId: number): Promise<
         if (missing) {
             return { code: 400, message: `Campo requerido faltante: ${missing}` };
         }
+        const tooLong = tooLongField(fields, MAX_LENGTHS);
+        if (tooLong) return tooLongResponse(tooLong);
 
         await SectorMerriageRecord.create({ ...fields, sectorChurchId });
         return { code: 201, message: 'Certificado de Matrimonio creado exitosamente' };
@@ -97,6 +103,8 @@ const updateSectorMerriage = async (id: unknown, data: any, scopeId: number | un
         if (missing) {
             return { code: 400, message: `Campo requerido faltante: ${missing}` };
         }
+        const tooLong = tooLongField(fields, MAX_LENGTHS);
+        if (tooLong) return tooLongResponse(tooLong);
 
         const [updatedRows] = await SectorMerriageRecord.update(
             fields,

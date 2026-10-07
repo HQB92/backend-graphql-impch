@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 import SectorBaptismRecord from '../db/models/sectorBaptismRecord.model';
 import logger from '../utils/logger';
-import { ServiceResponse, NOT_FOUND, churchInclude, scopedWhere, toId, text, errorMessage } from './sector.util';
+import { ServiceResponse, NOT_FOUND, churchInclude, scopedWhere, toId, text, errorMessage, tooLongField, tooLongResponse } from './sector.util';
 
 interface BaptismFields {
     childRUT: string;
@@ -22,6 +22,14 @@ const REQUIRED_FIELDS: (keyof BaptismFields)[] = [
     'motherRUT', 'motherFullName', 'placeOfRegistration',
     'baptismDate', 'registrationNumber', 'registrationDate',
 ];
+
+// Largo máximo de cada columna de texto (STRING sin largo = 255).
+const MAX_LENGTHS: Partial<Record<keyof BaptismFields, number>> = {
+    childRUT: 12, childFullName: 255,
+    fatherRUT: 12, fatherFullName: 255,
+    motherRUT: 12, motherFullName: 255,
+    placeOfRegistration: 255, registrationNumber: 255,
+};
 
 const DUPLICATE: ServiceResponse = { code: 400, message: 'Registro de bautizo ya existe para este RUT' };
 
@@ -85,6 +93,8 @@ const createSectorBaptism = async (data: any, sectorChurchId: number): Promise<S
         if (missing) {
             return { code: 400, message: `Campo requerido faltante: ${missing}` };
         }
+        const tooLong = tooLongField(fields, MAX_LENGTHS);
+        if (tooLong) return tooLongResponse(tooLong);
 
         const existing = await SectorBaptismRecord.findOne({
             where: { childRUT: fields.childRUT, deleted: false },
@@ -110,6 +120,8 @@ const updateSectorBaptism = async (id: unknown, data: any, scopeId: number | und
         if (missing) {
             return { code: 400, message: `Campo requerido faltante: ${missing}` };
         }
+        const tooLong = tooLongField(fields, MAX_LENGTHS);
+        if (tooLong) return tooLongResponse(tooLong);
 
         const record = await SectorBaptismRecord.findOne({
             where: { id: recordId, ...scopedWhere(scopeId) },

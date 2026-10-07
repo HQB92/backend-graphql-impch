@@ -165,3 +165,38 @@ test('editar un registro propio lo actualiza sin cambiar su iglesia', async () =
     assert.equal(saved.childFullName, 'Ana Soto Díaz');
     assert.equal('sectorChurchId' in saved, false);
 });
+
+test('un RUT demasiado largo al crear devuelve 400 y no inserta', async () => {
+    const create = mock.method(SectorBaptismRecord, 'create', async () => ({}) as any);
+    const findOne = mock.method(SectorBaptismRecord, 'findOne', async () => null);
+
+    const response = await createSectorBaptism({ ...valid(), childRUT: '1'.repeat(13) }, 3);
+
+    assert.deepEqual(response, { code: 400, message: 'Campo demasiado largo: childRUT' });
+    assert.equal(create.mock.callCount(), 0);
+    assert.equal(findOne.mock.callCount(), 0);
+});
+
+test('un nombre demasiado largo al editar devuelve 400 y no actualiza', async () => {
+    const record: any = { id: 5, childRUT: '25.111.222-3', update: mock.fn(async () => undefined) };
+    const findOne = mock.method(SectorBaptismRecord, 'findOne', async () => record);
+
+    const response = await updateSectorBaptism(5, { ...valid(), motherFullName: 'a'.repeat(256) }, 3);
+
+    assert.deepEqual(response, { code: 400, message: 'Campo demasiado largo: motherFullName' });
+    assert.equal(record.update.mock.callCount(), 0);
+    assert.equal(findOne.mock.callCount(), 0);
+});
+
+test('valores justo en el largo máximo se aceptan', async () => {
+    const create = mock.method(SectorBaptismRecord, 'create', async () => ({}) as any);
+    mock.method(SectorBaptismRecord, 'findOne', async () => null);
+
+    const response = await createSectorBaptism(
+        { ...valid(), childRUT: '1'.repeat(12), childFullName: 'a'.repeat(255) },
+        3
+    );
+
+    assert.equal(response.code, 201);
+    assert.equal(create.mock.callCount(), 1);
+});
