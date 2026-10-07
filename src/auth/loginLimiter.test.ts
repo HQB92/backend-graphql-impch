@@ -1,7 +1,7 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-    MAX_KEYS, WINDOW_MS, clearFailures, isBlocked, pruneExpired, recordFailure, reset, retryAfterSeconds, size,
+    MAX_KEYS, WINDOW_MS, clearFailures, isBlocked, pruneExpired, recordFailure, reserve, reset, retryAfterSeconds, size,
 } from './loginLimiter';
 
 beforeEach(() => reset());
@@ -67,4 +67,34 @@ test('el tope de claves descarta las más antiguas', () => {
     fail('k0', 9, 0);
     assert.equal(isBlocked('k0', 0), false);
     assert.equal(isBlocked(`k${MAX_KEYS + 4}`, 0), false);
+});
+
+test('reserve: 10 reservas seguidas sin esperar y la 11 queda bloqueada', () => {
+    for (let i = 0; i < 10; i++) assert.equal(reserve('k', 0).blocked, false);
+    const eleventh = reserve('k', 0);
+    assert.equal(eleventh.blocked, true);
+    assert.equal(eleventh.retryAfterSeconds, 900);
+});
+
+test('reserve: una reserva liberada no cuenta', () => {
+    const held: ReturnType<typeof reserve>[] = [];
+    for (let i = 0; i < 10; i++) held.push(reserve('k', 0));
+    held[3].release();
+    held[3].release();
+    assert.equal(reserve('k', 0).blocked, false);
+    assert.equal(reserve('k', 0).blocked, true);
+});
+
+test('reserve: un éxito borra las reservas de la clave', () => {
+    for (let i = 0; i < 9; i++) reserve('k', 0);
+    clearFailures('k');
+    for (let i = 0; i < 10; i++) assert.equal(reserve('k', 0).blocked, false);
+    assert.equal(reserve('k', 0).blocked, true);
+});
+
+test('el tope descarta primero las claves no bloqueadas', () => {
+    fail('bloqueada', 10, 0);
+    for (let i = 0; i < MAX_KEYS + 5; i++) recordFailure(`k${i}`, 1);
+    assert.equal(size(), MAX_KEYS);
+    assert.equal(isBlocked('bloqueada', 1), true);
 });

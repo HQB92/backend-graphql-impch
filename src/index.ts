@@ -7,9 +7,15 @@ import typeDefs from './graphql/typeDefs';
 import resolvers from './graphql/resolvers';
 import cors from 'cors';
 import logger from './utils/logger';
+import { parseTrustProxy } from './utils/trustProxy';
 import 'dotenv/config';
 
 const app = express();
+
+const trustProxy = parseTrustProxy(process.env.TRUST_PROXY);
+if (trustProxy !== undefined) {
+    app.set('trust proxy', trustProxy);
+}
 
 const allowedOrigins = [
     'https://impchzanartu.cl',

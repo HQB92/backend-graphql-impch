@@ -36,16 +36,58 @@ const retryAfterSeconds = (key: string, now: number = Date.now()): number => {
 
 const isBlocked = (key: string, now: number = Date.now()): boolean => retryAfterSeconds(key, now) > 0;
 
+// Al superar el tope se descartan primero las claves que no están bloqueadas
+// (las más antiguas antes) y solo después las bloqueadas, para que provocar
+// muchas claves no sirva para borrar un bloqueo vigente.
+const enforceCap = (keep: string, now: number): void => {
+    if (failures.size <= MAX_KEYS) return;
+    for (const key of failures.keys()) {
+        if (failures.size <= MAX_KEYS) return;
+        if (key !== keep && !isBlocked(key, now)) failures.delete(key);
+    }
+    for (const key of failures.keys()) {
+        if (failures.size <= MAX_KEYS) return;
+        if (key !== keep) failures.delete(key);
+    }
+};
+
 const recordFailure = (key: string, now: number = Date.now()): void => {
     const kept = live(failures.get(key) ?? [], now);
     kept.push(now);
     failures.delete(key);
     failures.set(key, kept);
-    while (failures.size > MAX_KEYS) {
-        const oldest = failures.keys().next().value;
-        if (oldest === undefined) break;
-        failures.delete(oldest);
-    }
+    enforceCap(key, now);
+};
+
+interface Reservation {
+    blocked: boolean;
+    retryAfterSeconds: number;
+    release: () => void;
+}
+
+// Reserva un intento de forma síncrona, antes de llamar al servicio de login,
+// para que una ráfaga de peticiones paralelas no supere el límite. La reserva
+// cuenta como fallo: si el login resulta correcto se llama a clearFailures; si
+// falla por credenciales se deja contada; si falla por otra causa se libera.
+const reserve = (key: string, now: number = Date.now()): Reservation => {
+    const wait = retryAfterSeconds(key, now);
+    if (wait > 0) return { blocked: true, retryAfterSeconds: wait, release: () => {} };
+    recordFailure(key, now);
+    let released = false;
+    return {
+        blocked: false,
+        retryAfterSeconds: 0,
+        release: () => {
+            if (released) return;
+            released = true;
+            const timestamps = failures.get(key);
+            if (!timestamps) return;
+            const index = timestamps.indexOf(now);
+            if (index === -1) return;
+            timestamps.splice(index, 1);
+            if (timestamps.length === 0) failures.delete(key);
+        },
+    };
 };
 
 const clearFailures = (key: string): void => {
@@ -68,6 +110,7 @@ export {
     retryAfterSeconds,
     isBlocked,
     recordFailure,
+    reserve,
     clearFailures,
     pruneExpired,
     size,
