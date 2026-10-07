@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import User from '../db/models/user.model';
 import sequelize from '../config/database';
+import { SECTOR_ROLE } from '../utils/tokensLogs';
 
 interface UserData {
     id?: number;
@@ -24,7 +25,16 @@ const generateTempPassword = (): string => {
     return Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10).toUpperCase();
 };
 
+const forbiddenRole = (roles?: string[]): ServiceResponse | null => {
+    if (Array.isArray(roles) && roles.includes(SECTOR_ROLE)) {
+        return { code: 400, message: `Rol no permitido: ${SECTOR_ROLE}` };
+    }
+    return null;
+};
+
 const createUser = async (args: UserData): Promise<ServiceResponse> => {
+    const rejected = forbiddenRole(args.roles);
+    if (rejected) return rejected;
     args.password = bcrypt.hashSync(generateTempPassword(), 10);
     const transaction = await sequelize.transaction();
     try {
@@ -58,6 +68,8 @@ const findAllUsers = async (): Promise<User[]> => {
 
 const updateUser = async (args: UpdateUserArgs): Promise<ServiceResponse> => {
     const { user } = args;
+    const rejected = forbiddenRole(user.roles);
+    if (rejected) return rejected;
 
     const transaction = await sequelize.transaction();
 

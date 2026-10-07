@@ -1,7 +1,34 @@
 import * as Users from '../../services/users.service';
-import { validateContext } from '../../utils/tokensLogs';
+import { validateContext, isAdmin } from '../../utils/tokensLogs';
 import logger from '../../utils/logger';
 import { GraphQLContext, GraphQLArgs } from '../types';
+
+const UNAUTHORIZED = 'No autorizado';
+
+// Solo un Administrador gestiona usuarios. Con allowSelfId, cualquier usuario
+// autenticado puede actuar además sobre su propio id (cambio de clave).
+const authorizeUserMutation = (user: any, targetId?: unknown, allowSelf = false): void => {
+    if (isAdmin(user)) return;
+    if (allowSelf) {
+        const target = Number(targetId);
+        const own = Number(user?.userId);
+        if (targetId !== undefined && targetId !== null && targetId !== '' && Number.isFinite(target) && target === own) return;
+    }
+    throw new Error(UNAUTHORIZED);
+};
+
+// Quita cualquier campo "password" (a cualquier profundidad) antes de registrar.
+const withoutPassword = (value: any): any => {
+    if (Array.isArray(value)) return value.map(withoutPassword);
+    if (value && typeof value === 'object') {
+        const clean: any = {};
+        for (const key of Object.keys(value)) {
+            if (key !== 'password') clean[key] = withoutPassword(value[key]);
+        }
+        return clean;
+    }
+    return value;
+};
 
 const resolversUser = {
     UserQuery: {
@@ -63,8 +90,9 @@ const resolversUser = {
         create: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('User - create')
             logger.logUser('User - create', context.user);
-            logger.logArgs('User - create', args);
+            logger.logArgs('User - create', withoutPassword(args));
             validateContext(context.user, 'User');
+            authorizeUserMutation(context.user);
             try {
                 const user = await Users.createUser(args.user);
                 logger.logResponse('User - create', user);
@@ -82,8 +110,9 @@ const resolversUser = {
         update: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('User - update')
             logger.logUser('User - update', context.user);
-            logger.logArgs('User - update', args);
+            logger.logArgs('User - update', withoutPassword(args));
             validateContext(context.user, 'User');
+            authorizeUserMutation(context.user);
             try {
                 const user = await Users.updateUser({ user: args.user! });
                 logger.logResponse('User - update', user);
@@ -98,8 +127,9 @@ const resolversUser = {
         delete: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('User - delete')
             logger.logUser('User - delete', context.user);
-            logger.logArgs('User - delete', args);
+            logger.logArgs('User - delete', withoutPassword(args));
             validateContext(context.user, 'User');
+            authorizeUserMutation(context.user);
             try {
                 const user = await Users.deleteUser(args.id!);
                 logger.logResponse('User - delete', user);
@@ -114,8 +144,9 @@ const resolversUser = {
         changePassword: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('User - changePassword')
             logger.logUser('User - changePassword', context.user);
-            logger.logArgs('User - changePassword', args);
+            logger.logArgs('User - changePassword', { id: args.id });
             validateContext(context.user, 'User');
+            authorizeUserMutation(context.user, args.id, true);
             try {
                 const response = await Users.changePassword(args.id!, args.password!);
                 logger.logResponse('User - changePassword', response);
@@ -130,8 +161,9 @@ const resolversUser = {
         resetPassword: async (_: any, args: GraphQLArgs, context: GraphQLContext) => {
             logger.logStart('User - resetPassword')
             logger.logUser('User -  resetPassword', context.user);
-            logger.logArgs('User - resetPassword', args);
+            logger.logArgs('User - resetPassword', withoutPassword(args));
             validateContext(context.user, 'User');
+            authorizeUserMutation(context.user);
             try {
                 const response = await Users.resetPassword(args.id!);
                 logger.logResponse('User - resetPassword', response);
