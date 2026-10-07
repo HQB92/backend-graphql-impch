@@ -2,17 +2,26 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 export interface TokenPayload {
-    userId: number;
+    userId?: number;
     username: string;
-    email: string;
-    rut: string;
+    email?: string;
+    rut?: string;
     roles: string[];
     churchId?: number | null;
+    sectorChurchId?: number;
     exp?: number;
 }
 
 export const generateToken = (userId: number, username: string, email: string, rut: string, roles: string[], churchId?: number | null): string => {
     return jwt.sign({ userId, username, email, rut, roles, churchId }, process.env.SECRET_KEY as string, { expiresIn: '3h' });
+};
+
+export const generateSectorToken = (sectorChurchId: number, name: string): string => {
+    return jwt.sign(
+        { sectorChurchId, username: name, roles: ['PastorSector'] },
+        process.env.SECRET_KEY as string,
+        { expiresIn: '3h' }
+    );
 };
 
 export const verifyToken = (token: string): TokenPayload => {
