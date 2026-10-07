@@ -9,6 +9,9 @@ import InventoryItem from './inventoryItem.model';
 import Rehearsal from './rehearsal.model';
 import Attendance from './attendance.model';
 import Expense from './expense.model';
+import SectorChurch from './sectorChurch.model';
+import SectorBaptismRecord from './sectorBaptismRecord.model';
+import SectorMerriageRecord from './sectorMerriageRecord.model';
 
 // Definir relaciones adicionales después de importar todos los modelos
 Inventory.hasOne(BuildingDetails, { foreignKey: 'inventoryId', as: 'buildingDetails' });
@@ -25,5 +28,8 @@ export {
     InventoryItem,
     Rehearsal,
     Attendance,
-    Expense
+    Expense,
+    SectorChurch,
+    SectorBaptismRecord,
+    SectorMerriageRecord
 };
