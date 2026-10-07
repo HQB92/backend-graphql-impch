@@ -30,7 +30,7 @@ const loginSector = async (sectorChurchId: unknown, password: unknown): Promise<
         }
 
         const church = await SectorChurch.findByPk(id);
-        const valid = bcrypt.compareSync(password, church?.password ?? DUMMY_HASH);
+        const valid = await bcrypt.compare(password, church?.password ?? DUMMY_HASH);
         if (!church || !valid) {
             throw new Error(INVALID_CREDENTIALS);
         }

@@ -83,3 +83,6 @@ GraphQL Playground: `http://localhost:4000/graphql`
 4. Desplegar el código.
 5. Si hay un proxy delante del backend que lista las rutas de forma explícita, permitir `GET /auth/sector-churches` y `POST /auth/sector-login`.
 6. Las claves iniciales están en un archivo fuera de los repositorios, generado con `node scripts/generate-sector-seed.js`: entregar cada una a su pastor y borrar el archivo.
+
+- Las mutaciones de gestión de usuarios (crear, actualizar, eliminar, resetear clave) ahora exigen el rol Administrador; el cambio de clave lo puede hacer un Administrador o el propio usuario sobre su cuenta.
+- Los inicios de sesión (`/auth/login` y `/auth/sector-login`) se limitan a 10 intentos fallidos cada 15 minutos por cuenta e IP. El contador vive en memoria: se reinicia al reiniciar el servidor y es por instancia.
